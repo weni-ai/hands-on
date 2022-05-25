@@ -1,0 +1,290 @@
+{
+  "version": "13",
+  "site": "https://new.push.al",
+  "flows": [
+    {
+      "_ui": {
+        "nodes": {
+          "16df3dc1-89c4-49e0-9e10-b1f31a861a6b": {
+            "position": {
+              "left": 120,
+              "top": 760
+            },
+            "type": "execute_actions"
+          },
+          "21c0f5df-4edc-47e4-adef-b0c560076cf4": {
+            "config": {
+              "cases": {}
+            },
+            "position": {
+              "left": 400,
+              "top": 120
+            },
+            "type": "split_by_expression"
+          },
+          "3a48177f-78cc-443c-96b6-0c930bc593d7": {
+            "config": {
+              "cases": {}
+            },
+            "position": {
+              "left": 240,
+              "top": 480
+            },
+            "type": "split_by_expression"
+          },
+          "8b48e308-69f9-4c13-9819-df361759c602": {
+            "position": {
+              "left": 400,
+              "top": 0
+            },
+            "type": "execute_actions"
+          },
+          "9a02eb5a-7e54-4086-8be0-118f190a326f": {
+            "config": {},
+            "position": {
+              "left": 360,
+              "top": 240
+            },
+            "type": "split_by_webhook"
+          },
+          "db646b7d-6f0f-4bf8-9125-d9ec60409508": {
+            "config": {
+              "cases": {}
+            },
+            "position": {
+              "left": 180,
+              "top": 620
+            },
+            "type": "split_by_expression"
+          }
+        },
+        "stickies": {}
+      },
+      "expire_after_minutes": 10080,
+      "language": "base",
+      "localization": {},
+      "metadata": {
+        "expires": 10080
+      },
+      "name": "[Fun\u00e7\u00e3o] Extrator de Informa\u00e7\u00e3o",
+      "nodes": [
+        {
+          "actions": [
+            {
+              "category": "",
+              "name": "Resposta",
+              "type": "set_run_result",
+              "uuid": "b8d6f00a-e012-4fc5-83a2-388d2f5fe9ab",
+              "value": ""
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "21c0f5df-4edc-47e4-adef-b0c560076cf4",
+              "uuid": "80c2d6ee-90d4-4487-8df8-05ea99719e9f"
+            }
+          ],
+          "uuid": "8b48e308-69f9-4c13-9819-df361759c602"
+        },
+        {
+          "actions": [],
+          "exits": [
+            {
+              "destination_uuid": "9a02eb5a-7e54-4086-8be0-118f190a326f",
+              "uuid": "f2aec8c2-9a52-46c8-995a-925559e4a61c"
+            },
+            {
+              "destination_uuid": null,
+              "uuid": "e0e8dc1f-df45-4ef8-9f45-855e612d85f2"
+            }
+          ],
+          "router": {
+            "cases": [
+              {
+                "arguments": [],
+                "category_uuid": "9532e850-2a0d-47ab-9e3b-6ca5a0015bd8",
+                "type": "has_text",
+                "uuid": "dd390126-80d8-4cd6-a5d1-65ed28650e95"
+              }
+            ],
+            "categories": [
+              {
+                "exit_uuid": "f2aec8c2-9a52-46c8-995a-925559e4a61c",
+                "name": "Pergunta v\u00e1lida",
+                "uuid": "9532e850-2a0d-47ab-9e3b-6ca5a0015bd8"
+              },
+              {
+                "exit_uuid": "e0e8dc1f-df45-4ef8-9f45-855e612d85f2",
+                "name": "Other",
+                "uuid": "d1f80962-6403-414b-9de6-27da82af4274"
+              }
+            ],
+            "default_category_uuid": "d1f80962-6403-414b-9de6-27da82af4274",
+            "operand": "@input.text",
+            "type": "switch"
+          },
+          "uuid": "21c0f5df-4edc-47e4-adef-b0c560076cf4"
+        },
+        {
+          "actions": [
+            {
+              "body": "@(json(object(\n  \"language\", \"pt_br\", \n  \"knowledge_base_id\", parent.results.id_base_de_conhecimento.value,\n  \"question\", input.text\n)))",
+              "headers": {
+                "Accept": "application/json",
+                "Authorization": "@parent.results.access_token",
+                "Content-Type": "application/json"
+              },
+              "method": "POST",
+              "result_name": "Extrai Informacao",
+              "type": "call_webhook",
+              "url": "https://nlp.bothub.it/v2/question-answering/",
+              "uuid": "4999ec4f-0b96-409c-920d-3701c03f9dd3"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "3a48177f-78cc-443c-96b6-0c930bc593d7",
+              "uuid": "f5bf19bb-a7c0-40d2-bc7a-3ff209d876ff"
+            },
+            {
+              "destination_uuid": null,
+              "uuid": "8b77fe61-e890-42bc-9d2c-3a8c14ec35c0"
+            }
+          ],
+          "router": {
+            "cases": [
+              {
+                "arguments": [
+                  "Success"
+                ],
+                "category_uuid": "dc5418ba-3096-4115-b1bb-aa65e566cb2b",
+                "type": "has_only_text",
+                "uuid": "b620e32e-ffbd-479b-b03e-b3cd4fa5ec6e"
+              }
+            ],
+            "categories": [
+              {
+                "exit_uuid": "f5bf19bb-a7c0-40d2-bc7a-3ff209d876ff",
+                "name": "Success",
+                "uuid": "dc5418ba-3096-4115-b1bb-aa65e566cb2b"
+              },
+              {
+                "exit_uuid": "8b77fe61-e890-42bc-9d2c-3a8c14ec35c0",
+                "name": "Failure",
+                "uuid": "65f3c32c-9aee-4226-a8ad-c6ee5bacf703"
+              }
+            ],
+            "default_category_uuid": "65f3c32c-9aee-4226-a8ad-c6ee5bacf703",
+            "operand": "@results.extrai_informacao.category",
+            "type": "switch"
+          },
+          "uuid": "9a02eb5a-7e54-4086-8be0-118f190a326f"
+        },
+        {
+          "actions": [],
+          "exits": [
+            {
+              "destination_uuid": "db646b7d-6f0f-4bf8-9125-d9ec60409508",
+              "uuid": "b449c0f4-e2ac-4587-b5a0-fe0fa31846c1"
+            },
+            {
+              "uuid": "8c24d8d7-040e-49b5-8932-2fc2b0e2f18e"
+            }
+          ],
+          "router": {
+            "cases": [
+              {
+                "arguments": [
+                  "@parent.results.confianca"
+                ],
+                "category_uuid": "870a98ab-efc9-48a0-bb29-4b9f0f8fd4c1",
+                "type": "has_number_gte",
+                "uuid": "b87ce3fd-2309-41e5-84ef-7ab61fa9a838"
+              }
+            ],
+            "categories": [
+              {
+                "exit_uuid": "b449c0f4-e2ac-4587-b5a0-fe0fa31846c1",
+                "name": "Possui resposta confi\u00e1vel",
+                "uuid": "870a98ab-efc9-48a0-bb29-4b9f0f8fd4c1"
+              },
+              {
+                "exit_uuid": "8c24d8d7-040e-49b5-8932-2fc2b0e2f18e",
+                "name": "Other",
+                "uuid": "040c5000-8416-48d1-9326-b2d44063e381"
+              }
+            ],
+            "default_category_uuid": "040c5000-8416-48d1-9326-b2d44063e381",
+            "operand": "@(webhook.answers.0.confidence * 100)",
+            "type": "switch"
+          },
+          "uuid": "3a48177f-78cc-443c-96b6-0c930bc593d7"
+        },
+        {
+          "actions": [],
+          "exits": [
+            {
+              "destination_uuid": "16df3dc1-89c4-49e0-9e10-b1f31a861a6b",
+              "uuid": "271f4e61-4bd3-4fac-a3de-0bee3c05081e"
+            },
+            {
+              "uuid": "986315b5-4164-49f2-9ec5-cf7d8568edc5"
+            }
+          ],
+          "router": {
+            "cases": [
+              {
+                "arguments": [],
+                "category_uuid": "de66b290-3b63-4be2-b85a-0f3fe51c5be3",
+                "type": "has_text",
+                "uuid": "4ed76493-dff5-45a5-8aef-d5593ad4bb33"
+              }
+            ],
+            "categories": [
+              {
+                "exit_uuid": "271f4e61-4bd3-4fac-a3de-0bee3c05081e",
+                "name": "Possui resposta v\u00e1lida",
+                "uuid": "de66b290-3b63-4be2-b85a-0f3fe51c5be3"
+              },
+              {
+                "exit_uuid": "986315b5-4164-49f2-9ec5-cf7d8568edc5",
+                "name": "Other",
+                "uuid": "773afb52-51c8-4153-a690-4972f9f3bb4e"
+              }
+            ],
+            "default_category_uuid": "773afb52-51c8-4153-a690-4972f9f3bb4e",
+            "operand": "@(webhook.answers.0.text)",
+            "type": "switch"
+          },
+          "uuid": "db646b7d-6f0f-4bf8-9125-d9ec60409508"
+        },
+        {
+          "actions": [
+            {
+              "category": "",
+              "name": "Resposta",
+              "type": "set_run_result",
+              "uuid": "3bc82cf8-f0ca-48ba-b5f8-9c4fe6eec583",
+              "value": "@webhook.answers.0.text"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": null,
+              "uuid": "bea7aed3-e047-4e13-8de8-3e5fd5dcbc53"
+            }
+          ],
+          "uuid": "16df3dc1-89c4-49e0-9e10-b1f31a861a6b"
+        }
+      ],
+      "spec_version": "13.1.0",
+      "type": "messaging",
+      "uuid": "22da0a14-0f27-489a-a28f-326043451ca3",
+      "revision": 1
+    }
+  ],
+  "campaigns": [],
+  "triggers": [],
+  "fields": [],
+  "groups": []
+}
