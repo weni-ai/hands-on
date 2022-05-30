@@ -3,6 +3,14 @@
 - **Nome do Fluxo**: [Função] Extrator de Informação.
 - **Objetivo**: Extrair informação de uma base de conhecimento do módulo de Inteligência Artificial da Plataforma Weni.
 
+## Vídeo
+
+<div align="left">
+      <a href="https://www.youtube.com/_ZDNlkbUKx0">
+         <img src="https://img.youtube.com/vi/_ZDNlkbUKx0/0.jpg" style="width:30%;">
+      </a>
+</div>
+
 ## Parâmetros
 
 Parâmetros que são recebidos por esse fluxo para executar o seu objetivo. Os parâmetros desse fluxo são:
