@@ -22,7 +22,8 @@ A contribuição nesse repositório é por meio de pull requests. Nós iremos re
 **Antes de submeter um pull request, garanta que você:**
 
 1.  Fork  [o repositório](https://github.com/weni-ai/hands-on) e crie uma branch a partir do `main`.
-2.  Se tudo estiver pronto, envie seu PR para a staging `main`.
+2.  Adicione o fluxo na pasta da sua respectiva categoria e sempre seguindo o [template de documentação](https://github.com/weni-ai/hands-on/blob/main/assets/templates/documentacao.md) para explicá-lo.
+3.  Se tudo estiver pronto, envie seu PR para a staging `main`.
 
 ## Licença
 
