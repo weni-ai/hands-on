@@ -3,6 +3,14 @@
 - **Nome do Fluxo**: Coloque aqui o nome do fluxo que está sendo documentado
 - **Objetivo**: Coloque aqui o objetivo do fluxo documentado.
 
+## Vídeo
+> Coloque aqui o link para o vídeo utilizando esse fluxo
+<div align="left">
+      <a href="https://www.youtube.com/_ZDNlkbUKx0">
+         <img src="https://img.youtube.com/vi/_ZDNlkbUKx0/0.jpg" style="width:30%;">
+      </a>
+</div>
+
 ## Parâmetros
 
 Parâmetros que são recebidos por esse fluxo para executar o seu objetivo. Os parâmetros desse fluxo são:
