@@ -1,6 +1,8 @@
 # Weni Hands-On
 > Fluxos utilizados nos vídeos do Weni Hands On, que podem ser importados na [Plataforma Weni](https://dash.weni.ai)
 
+<img src="https://github.com/weni-ai/hands-on/raw/main/assets/img/weni-396x129-color.png" data-canonical-src="https://github.com/weni-ai/hands-on/raw/main/assets/img/weni-396x129-color.png" width="396"/>
+
 ## Usando esse repositório
 
 O repositório está dividido em categorias com seus respectivos fluxos, dessa forma você pode escolher achar mais facilmente o que você precisa. Cada fluxo possui instruções claras sobre quais parâmetros e resultados são esperados.
