@@ -6,8 +6,8 @@
 ## Vídeo
 
 <div align="left">
-      <a href="https://www.youtube.com/watch?v=jYk0BWW5iUw">
-         <img src="https://www.youtube.com/vi/jYk0BWW5iUw/0.jpg" style="width:30%;">
+      <a href="https://www.youtube.com/jYk0BWW5iUw">
+         <img src="https://img.youtube.com/vi/jYk0BWW5iUw/0.jpg" style="width:30%;">
       </a>
 </div>
 
