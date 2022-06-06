@@ -35,3 +35,7 @@ Resultados são respostas obtidas a partir da execução do fluxo. As respostas 
 Para utilizar os seus resultados desse fluxo, você precisa utilizar a variável `@child.results.[NOME DO RESULTADO]`, substituindo `[NOME DO RESULTADO]` por um dos resultados acima e assim acessará o seu valor, como por exemplo:
 
 <img src="https://github.com/weni-ai/hands-on/blob/main/assets/img/resultados.png?raw=true" data-canonical-src="https://github.com/weni-ai/hands-on/blob/main/assets/img/resultados.png?raw=true"/>
+
+### Como configurar o token
+
+Para o fluxo funcionar é nescessario colocar o token do OpenAI na variável global `Openai Connect Api`.
