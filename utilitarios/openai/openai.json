@@ -1,0 +1,116 @@
+{
+  "version": "13",
+  "site": "https://new.push.al",
+  "flows": [
+    {
+      "_ui": {
+        "nodes": {
+          "32ceb5b6-5fe8-45d7-adf7-962512dfd188": {
+            "config": {},
+            "position": {
+              "left": 500,
+              "top": 40
+            },
+            "type": "split_by_webhook"
+          },
+          "eb65b067-d410-4736-9dfb-88255f62ce58": {
+            "position": {
+              "left": 340,
+              "top": 280
+            },
+            "type": "execute_actions"
+          }
+        }
+      },
+      "expire_after_minutes": 10080,
+      "language": "por",
+      "localization": {},
+      "metadata": {
+        "expires": 10080
+      },
+      "name": "[OpenAI] Text Completion",
+      "nodes": [
+        {
+          "actions": [
+            {
+              "body": "{ \n  \"prompt\":\"@parent.results.promt\",\n  \"temperature\":0.7,\n  \"max_tokens\":256,\n  \"top_p\":1,\n  \"frequency_penalty\":0,\n  \"presence_penalty\":0\n}",
+              "headers": {
+                "Authorization": "Bearer @globals.openai_connect_api",
+                "Content-Type": "application/json"
+              },
+              "method": "POST",
+              "result_name": "Result",
+              "type": "call_webhook",
+              "url": "https://api.openai.com/v1/engines/text-davinci-002/completions",
+              "uuid": "ab29700a-45e4-4eea-8b9f-67e7e494b11c"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "eb65b067-d410-4736-9dfb-88255f62ce58",
+              "uuid": "0804f7c2-6c7e-4fe5-ac33-dbdf3ca3e73c"
+            },
+            {
+              "destination_uuid": null,
+              "uuid": "455df5df-20c0-45eb-bbf5-360266e0f78f"
+            }
+          ],
+          "router": {
+            "cases": [
+              {
+                "arguments": [
+                  "Success"
+                ],
+                "category_uuid": "fa9bebfc-f645-4e6a-868d-17ee1953b329",
+                "type": "has_only_text",
+                "uuid": "5d07e5ae-05ad-43d1-85d8-e6e168dd2fbb"
+              }
+            ],
+            "categories": [
+              {
+                "exit_uuid": "0804f7c2-6c7e-4fe5-ac33-dbdf3ca3e73c",
+                "name": "Success",
+                "uuid": "fa9bebfc-f645-4e6a-868d-17ee1953b329"
+              },
+              {
+                "exit_uuid": "455df5df-20c0-45eb-bbf5-360266e0f78f",
+                "name": "Failure",
+                "uuid": "97e954c7-637d-40ac-abf2-8fe9c30bf396"
+              }
+            ],
+            "default_category_uuid": "97e954c7-637d-40ac-abf2-8fe9c30bf396",
+            "operand": "@results.result.category",
+            "type": "switch"
+          },
+          "uuid": "32ceb5b6-5fe8-45d7-adf7-962512dfd188"
+        },
+        {
+          "actions": [
+            {
+              "category": "",
+              "name": "data",
+              "type": "set_run_result",
+              "uuid": "bc281d21-22d4-4602-b4b2-ac9f5e1ef008",
+              "value": "@(results.Result.extra.choices[0].text)"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": null,
+              "uuid": "ab934ebe-0e5c-4fcd-ba7d-8503c52848ab"
+            }
+          ],
+          "uuid": "eb65b067-d410-4736-9dfb-88255f62ce58"
+        }
+      ],
+      "spec_version": "13.1.0",
+      "type": "messaging",
+      "uuid": "acb82f1e-8cd6-4249-ba89-6766c927a05e",
+      "revision": 1
+    }
+  ],
+  "campaigns": [],
+  "triggers": [],
+  "fields": [],
+  "groups": []
+}
