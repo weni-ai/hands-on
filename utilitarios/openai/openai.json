@@ -6,12 +6,12 @@
       "_ui": {
         "nodes": {
           "32ceb5b6-5fe8-45d7-adf7-962512dfd188": {
-            "config": {},
+            "type": "split_by_webhook",
             "position": {
               "left": 500,
               "top": 40
             },
-            "type": "split_by_webhook"
+            "config": {}
           },
           "eb65b067-d410-4736-9dfb-88255f62ce58": {
             "position": {
@@ -31,31 +31,24 @@
       "name": "[OpenAI] Text Completion",
       "nodes": [
         {
+          "uuid": "32ceb5b6-5fe8-45d7-adf7-962512dfd188",
           "actions": [
             {
-              "body": "{ \n  \"prompt\":\"@parent.results.promt\",\n  \"temperature\":0.7,\n  \"max_tokens\":256,\n  \"top_p\":1,\n  \"frequency_penalty\":0,\n  \"presence_penalty\":0\n}",
+              "uuid": "ab29700a-45e4-4eea-8b9f-67e7e494b11c",
               "headers": {
-                "Authorization": "Bearer @globals.openai_connect_api",
+                "Authorization": "Bearer @parent.results.token",
                 "Content-Type": "application/json"
               },
-              "method": "POST",
-              "result_name": "Result",
               "type": "call_webhook",
               "url": "https://api.openai.com/v1/engines/text-davinci-002/completions",
-              "uuid": "ab29700a-45e4-4eea-8b9f-67e7e494b11c"
-            }
-          ],
-          "exits": [
-            {
-              "destination_uuid": "eb65b067-d410-4736-9dfb-88255f62ce58",
-              "uuid": "0804f7c2-6c7e-4fe5-ac33-dbdf3ca3e73c"
-            },
-            {
-              "destination_uuid": null,
-              "uuid": "455df5df-20c0-45eb-bbf5-360266e0f78f"
+              "body": "{ \n  \"prompt\":\"@parent.results.prompt\",\n  \"temperature\":0.7,\n  \"max_tokens\":256,\n  \"top_p\":1,\n  \"frequency_penalty\":0,\n  \"presence_penalty\":0\n}",
+              "method": "POST",
+              "result_name": "Result"
             }
           ],
           "router": {
+            "type": "switch",
+            "operand": "@results.result.category",
             "cases": [
               {
                 "arguments": [
@@ -78,20 +71,27 @@
                 "uuid": "97e954c7-637d-40ac-abf2-8fe9c30bf396"
               }
             ],
-            "default_category_uuid": "97e954c7-637d-40ac-abf2-8fe9c30bf396",
-            "operand": "@results.result.category",
-            "type": "switch"
+            "default_category_uuid": "97e954c7-637d-40ac-abf2-8fe9c30bf396"
           },
-          "uuid": "32ceb5b6-5fe8-45d7-adf7-962512dfd188"
+          "exits": [
+            {
+              "destination_uuid": "eb65b067-d410-4736-9dfb-88255f62ce58",
+              "uuid": "0804f7c2-6c7e-4fe5-ac33-dbdf3ca3e73c"
+            },
+            {
+              "destination_uuid": null,
+              "uuid": "455df5df-20c0-45eb-bbf5-360266e0f78f"
+            }
+          ]
         },
         {
           "actions": [
             {
-              "category": "",
-              "name": "data",
               "type": "set_run_result",
-              "uuid": "bc281d21-22d4-4602-b4b2-ac9f5e1ef008",
-              "value": "@(results.Result.extra.choices[0].text)"
+              "name": "data",
+              "value": "@(results.Result.extra.choices[0].text)",
+              "category": "",
+              "uuid": "bc281d21-22d4-4602-b4b2-ac9f5e1ef008"
             }
           ],
           "exits": [
@@ -106,7 +106,7 @@
       "spec_version": "13.1.0",
       "type": "messaging",
       "uuid": "acb82f1e-8cd6-4249-ba89-6766c927a05e",
-      "revision": 1
+      "revision": 6
     }
   ],
   "campaigns": [],
