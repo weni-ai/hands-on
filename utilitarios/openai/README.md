@@ -13,7 +13,7 @@ Parâmetros que são recebidos por esse fluxo para executar o seu objetivo. Os p
 
 | Parâmetro               | Descrição                                                                                                                                                                                                                   |
 |-------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| promt            | Comando a ser enviado para a API do OpenAI                                                 |
+| prompt            | Comando a ser enviado para a API do OpenAI                                                 |
 | token            | Chave API do OpenAI - Você pode criar uma neste link https://beta.openai.com/account/api-keys                                                 |
 
 
