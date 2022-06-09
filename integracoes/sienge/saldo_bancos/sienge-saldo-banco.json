@@ -1,0 +1,123 @@
+{
+  "version": "13",
+  "site": "https://new.push.al",
+  "flows": [
+    {
+      "name": "[Sienge] Consulta Saldos dos Bancos",
+      "uuid": "81fcfae8-7b52-4d82-8c49-2e90a797dd67",
+      "spec_version": "13.1.0",
+      "language": "base",
+      "type": "messaging",
+      "nodes": [
+        {
+          "uuid": "0ca4f2a3-000d-4aef-b869-21e54c98f4ff",
+          "actions": [
+            {
+              "uuid": "991c6904-dc38-43e2-8747-803c72ad1cf4",
+              "headers": {
+                "Accept": "application/json",
+                "Authorization": "@globals.sienge_authorization"
+              },
+              "type": "call_webhook",
+              "url": "@(globals.sienge_api_url & \"accounts-balances?companyId=\" & parent.results.cod_empresa & \"&balanceDate=\" & parent.results.data & \"&accountNumber=\" & parent.results.numero_da_conta)",
+              "body": "",
+              "method": "GET",
+              "result_name": "Resposta"
+            }
+          ],
+          "router": {
+            "type": "switch",
+            "operand": "@results.resposta.category",
+            "cases": [
+              {
+                "uuid": "b43228da-8c59-446c-825c-db0de2673cfb",
+                "type": "has_only_text",
+                "arguments": [
+                  "Success"
+                ],
+                "category_uuid": "16dbabda-c1d0-45be-9c15-576e2daf96da"
+              }
+            ],
+            "categories": [
+              {
+                "uuid": "16dbabda-c1d0-45be-9c15-576e2daf96da",
+                "name": "Success",
+                "exit_uuid": "59e37b7f-7526-4d91-aaf4-a2096405f2c3"
+              },
+              {
+                "uuid": "8d064b72-1842-4c5f-97e7-6eb7f2ba9bc5",
+                "name": "Failure",
+                "exit_uuid": "404ba145-63ef-4ff7-916f-43222d70fd15"
+              }
+            ],
+            "default_category_uuid": "8d064b72-1842-4c5f-97e7-6eb7f2ba9bc5"
+          },
+          "exits": [
+            {
+              "uuid": "59e37b7f-7526-4d91-aaf4-a2096405f2c3",
+              "destination_uuid": "20df3bf1-270e-45f3-9115-0edaca625335"
+            },
+            {
+              "uuid": "404ba145-63ef-4ff7-916f-43222d70fd15",
+              "destination_uuid": null
+            }
+          ]
+        },
+        {
+          "uuid": "20df3bf1-270e-45f3-9115-0edaca625335",
+          "actions": [
+            {
+              "type": "set_run_result",
+              "name": "Saldo",
+              "value": "R$ @(format_number(results.resposta.extra.results[0].amount, 2))",
+              "category": "",
+              "uuid": "d72cfeb5-2dcd-4bdb-a530-7ec370226fd8"
+            },
+            {
+              "type": "set_run_result",
+              "name": "Conta Corrente",
+              "value": "@(results.resposta.extra.results[0].accountNumber)",
+              "category": "",
+              "uuid": "56f3e937-11e1-46e6-b823-52ede1c1312c"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "004aa39f-63cb-4345-8b7c-604d8a3c44d8",
+              "destination_uuid": null
+            }
+          ]
+        }
+      ],
+      "_ui": {
+        "nodes": {
+          "0ca4f2a3-000d-4aef-b869-21e54c98f4ff": {
+            "type": "split_by_webhook",
+            "position": {
+              "left": 0,
+              "top": 0
+            },
+            "config": {}
+          },
+          "20df3bf1-270e-45f3-9115-0edaca625335": {
+            "position": {
+              "left": 0,
+              "top": 340
+            },
+            "type": "execute_actions"
+          }
+        }
+      },
+      "revision": 11,
+      "expire_after_minutes": 10080,
+      "metadata": {
+        "expires": 10080
+      },
+      "localization": {}
+    }
+  ],
+  "campaigns": [],
+  "triggers": [],
+  "fields": [],
+  "groups": []
+}
