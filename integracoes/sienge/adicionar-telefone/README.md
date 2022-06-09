@@ -23,7 +23,7 @@ Resultados são respostas obtidas a partir da execução do fluxo. As respostas 
 
 | Resultado               | Descrição                   |
 |-------------------------|-----------------------------|
-| resposta                | Os dados completos do cliente, o formato dessa variável segue exatamente o mesmo retornado [pela API](https://api.sienge.com.br/docs/#/customers-v1) GET Customers. Acessível usando `@child.results.resposta.extra.[A PARTIR DAQUI É O RESULTADO DA API]`|
+| resposta                | Os dados completos do cliente, o formato dessa variável segue exatamente o mesmo retornado [pela API](https://api.sienge.com.br/docs/#/customers-v1) GET /customers. Acessível usando `@child.results.resposta.extra.[A PARTIR DAQUI É O RESULTADO DA API]`|
 
 ### Como utilizar os resultados?
 
