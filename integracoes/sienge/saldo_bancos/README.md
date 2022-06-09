@@ -10,7 +10,7 @@ Parâmetros que são recebidos por esse fluxo para executar o seu objetivo. Os p
 | Parâmetro        | Descrição                                                                                                                                                             |
 |------------------|-----------------------------------------------------------|
 | cod_empresa      | Código da empresa que possui conta corrente cadastrada    |
-| data             | Data da movimentação bancára no formato YYYY-MM-DD        |
+| data             | Data da movimentação bancária no formato YYYY-MM-DD        |
 | numero_da_conta  | Número da conta corrente. Exemplo: 0000014123             |
 
 ### Como configurar os parâmetros?
