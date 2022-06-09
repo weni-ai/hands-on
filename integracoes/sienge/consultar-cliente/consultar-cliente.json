@@ -1,0 +1,178 @@
+{
+  "version": "13",
+  "site": "https://new.push.al",
+  "flows": [
+    {
+      "_ui": {
+        "nodes": {
+          "c36cad60-e17a-40fe-8203-1016f5e345b6": {
+            "type": "split_by_webhook",
+            "position": {
+              "left": 0,
+              "top": 0
+            },
+            "config": {}
+          },
+          "92f43786-a1e5-4c77-a76e-71435cfdf59d": {
+            "config": {
+              "cases": {}
+            },
+            "position": {
+              "left": 0,
+              "top": 260
+            },
+            "type": "split_by_expression"
+          },
+          "ce2788f5-b507-4419-8555-c8cf85a37c21": {
+            "position": {
+              "left": 260,
+              "top": 260
+            },
+            "type": "execute_actions"
+          }
+        },
+        "stickies": {
+          "a01aecad-26cc-40e1-9a16-c0d0e9e761d6": {
+            "position": {
+              "left": 320,
+              "top": 60
+            },
+            "title": "Nova Nota",
+            "body": "@(globals.sienge_api_url & \"customers?cpf=\" & parent.results.cpf)",
+            "color": "yellow"
+          }
+        }
+      },
+      "expire_after_minutes": 10080,
+      "language": "base",
+      "localization": {},
+      "metadata": {
+        "expires": 10080
+      },
+      "name": "[Sienge] Buscar Cliente",
+      "nodes": [
+        {
+          "uuid": "c36cad60-e17a-40fe-8203-1016f5e345b6",
+          "actions": [
+            {
+              "uuid": "bf574569-174f-49e7-8fd7-f2b8e22c893c",
+              "headers": {
+                "Accept": "application/json",
+                "Authorization": "@(globals.sienge_authorization)"
+              },
+              "type": "call_webhook",
+              "url": "@(globals.sienge_api_url & \"customers?cpf=\" & parent.results.cpf)",
+              "body": "",
+              "method": "GET",
+              "result_name": "Resposta"
+            }
+          ],
+          "router": {
+            "type": "switch",
+            "operand": "@results.resposta.category",
+            "cases": [
+              {
+                "arguments": [
+                  "Success"
+                ],
+                "category_uuid": "f1ff49f2-446b-42ed-b6b5-02a26c297210",
+                "type": "has_only_text",
+                "uuid": "0a017a8a-f2df-4bcc-be5d-4464bf027446"
+              }
+            ],
+            "categories": [
+              {
+                "exit_uuid": "e18ff167-b416-4354-b32a-ac7723d12996",
+                "name": "Success",
+                "uuid": "f1ff49f2-446b-42ed-b6b5-02a26c297210"
+              },
+              {
+                "exit_uuid": "8c73435d-cd8b-45d6-8f87-6a54be40b646",
+                "name": "Failure",
+                "uuid": "a2ad3a15-abc6-4560-af41-415f99acfa24"
+              }
+            ],
+            "default_category_uuid": "a2ad3a15-abc6-4560-af41-415f99acfa24"
+          },
+          "exits": [
+            {
+              "destination_uuid": "92f43786-a1e5-4c77-a76e-71435cfdf59d",
+              "uuid": "e18ff167-b416-4354-b32a-ac7723d12996"
+            },
+            {
+              "destination_uuid": "ce2788f5-b507-4419-8555-c8cf85a37c21",
+              "uuid": "8c73435d-cd8b-45d6-8f87-6a54be40b646"
+            }
+          ]
+        },
+        {
+          "actions": [],
+          "exits": [
+            {
+              "destination_uuid": null,
+              "uuid": "0ff51e6e-1f22-41d8-880f-f400929dd363"
+            },
+            {
+              "destination_uuid": "ce2788f5-b507-4419-8555-c8cf85a37c21",
+              "uuid": "24704d92-e2dd-4278-93e9-529ff68be7c3"
+            }
+          ],
+          "router": {
+            "cases": [
+              {
+                "arguments": [
+                  "0"
+                ],
+                "category_uuid": "276ba403-b948-4d3d-8bf6-0c1a085709db",
+                "type": "has_number_gt",
+                "uuid": "8f239d04-0fab-44b1-9ded-46f3bc9c1895"
+              }
+            ],
+            "categories": [
+              {
+                "exit_uuid": "0ff51e6e-1f22-41d8-880f-f400929dd363",
+                "name": "Cliente Encontrado",
+                "uuid": "276ba403-b948-4d3d-8bf6-0c1a085709db"
+              },
+              {
+                "exit_uuid": "24704d92-e2dd-4278-93e9-529ff68be7c3",
+                "name": "Other",
+                "uuid": "c9bcd898-9926-4511-af4e-261c0d350501"
+              }
+            ],
+            "default_category_uuid": "c9bcd898-9926-4511-af4e-261c0d350501",
+            "operand": "@(count(results.resposta.extra.results))",
+            "type": "switch"
+          },
+          "uuid": "92f43786-a1e5-4c77-a76e-71435cfdf59d"
+        },
+        {
+          "actions": [
+            {
+              "type": "set_run_result",
+              "name": "Resposta",
+              "value": "",
+              "category": "",
+              "uuid": "371a37e6-20fb-4fa6-b084-69d1f503743a"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": null,
+              "uuid": "ef19f895-d6b2-44ea-8f04-f23d2e057404"
+            }
+          ],
+          "uuid": "ce2788f5-b507-4419-8555-c8cf85a37c21"
+        }
+      ],
+      "spec_version": "13.1.0",
+      "type": "messaging",
+      "uuid": "1eff813f-f8c5-4cc8-8e93-9f189154e994",
+      "revision": 40
+    }
+  ],
+  "campaigns": [],
+  "triggers": [],
+  "fields": [],
+  "groups": []
+}

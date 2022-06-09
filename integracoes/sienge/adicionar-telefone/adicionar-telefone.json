@@ -1,0 +1,362 @@
+{
+  "version": "13",
+  "site": "https://new.push.al",
+  "flows": [
+    {
+      "_ui": {
+        "nodes": {
+          "1443d10e-c48b-4fde-8e04-28b9ab25554f": {
+            "type": "split_by_webhook",
+            "position": {
+              "left": 40,
+              "top": 0
+            },
+            "config": {}
+          },
+          "179a6261-1a39-4744-8fe8-3729f8572156": {
+            "config": {
+              "cases": {}
+            },
+            "position": {
+              "left": 0,
+              "top": 260
+            },
+            "type": "split_by_expression"
+          },
+          "d0be820d-97cd-4600-9824-bb7b347870b7": {
+            "position": {
+              "left": 260,
+              "top": 280
+            },
+            "type": "execute_actions"
+          },
+          "013570f6-af98-48dc-b9d8-7b71145ab6dd": {
+            "position": {
+              "left": 40,
+              "top": 440
+            },
+            "type": "execute_actions"
+          },
+          "1647446d-4ef5-4419-b8ba-1182324043a2": {
+            "type": "split_by_webhook",
+            "position": {
+              "left": 120,
+              "top": 1300
+            },
+            "config": {}
+          },
+          "3a412ecd-aa26-4839-b10f-aacee5194835": {
+            "position": {
+              "left": 40,
+              "top": 1580
+            },
+            "type": "execute_actions"
+          },
+          "cc73d572-eb23-4ce9-a3ff-84147ab204c3": {
+            "position": {
+              "left": 260,
+              "top": 1580
+            },
+            "type": "execute_actions"
+          }
+        },
+        "stickies": {
+          "f0664f34-b223-4309-92b1-f19fd96972e4": {
+            "position": {
+              "left": 280,
+              "top": 40
+            },
+            "title": "Nova Nota",
+            "body": "@(globals.sienge_api_url & \"customers?cpf=\" & parent.results.cpf)",
+            "color": "yellow"
+          },
+          "15aa2986-92b8-4346-8901-49935608cd64": {
+            "position": {
+              "left": 480,
+              "top": 40,
+              "right": null,
+              "bottom": null
+            },
+            "title": "Nova Nota",
+            "body": "@(globals.sienge_api_url & \"customers?cpf=56475251720\")",
+            "color": "yellow"
+          }
+        }
+      },
+      "expire_after_minutes": 10080,
+      "language": "base",
+      "localization": {},
+      "metadata": {
+        "expires": 10080
+      },
+      "name": "[Sienge] Adicionar telefone",
+      "nodes": [
+        {
+          "uuid": "1443d10e-c48b-4fde-8e04-28b9ab25554f",
+          "actions": [
+            {
+              "uuid": "59ca0011-12e4-4ef5-93ae-0118f12f695a",
+              "headers": {
+                "Accept": "application/json",
+                "Authorization": "@(globals.sienge_authorization)"
+              },
+              "type": "call_webhook",
+              "url": "@(globals.sienge_api_url & \"customers?cpf=\" & parent.results.cpf)",
+              "body": "",
+              "method": "GET",
+              "result_name": "Resposta"
+            }
+          ],
+          "router": {
+            "type": "switch",
+            "operand": "@results.resposta.category",
+            "cases": [
+              {
+                "arguments": [
+                  "Success"
+                ],
+                "category_uuid": "c7bcfdd2-d0cd-49e8-b67c-722b247907cb",
+                "type": "has_only_text",
+                "uuid": "6c82bbf5-5a8d-489c-b767-a30dd7966eb6"
+              }
+            ],
+            "categories": [
+              {
+                "exit_uuid": "674ace5b-9826-4991-9bf5-193263d53ee1",
+                "name": "Success",
+                "uuid": "c7bcfdd2-d0cd-49e8-b67c-722b247907cb"
+              },
+              {
+                "exit_uuid": "c0d82ee0-57e1-4672-a41b-9e2d80c80357",
+                "name": "Failure",
+                "uuid": "59cde973-32f8-43ee-9252-c59fa8fead10"
+              }
+            ],
+            "default_category_uuid": "59cde973-32f8-43ee-9252-c59fa8fead10"
+          },
+          "exits": [
+            {
+              "destination_uuid": "179a6261-1a39-4744-8fe8-3729f8572156",
+              "uuid": "674ace5b-9826-4991-9bf5-193263d53ee1"
+            },
+            {
+              "destination_uuid": "d0be820d-97cd-4600-9824-bb7b347870b7",
+              "uuid": "c0d82ee0-57e1-4672-a41b-9e2d80c80357"
+            }
+          ]
+        },
+        {
+          "actions": [],
+          "exits": [
+            {
+              "destination_uuid": "013570f6-af98-48dc-b9d8-7b71145ab6dd",
+              "uuid": "7cd6b566-ca61-4c84-aa9e-a9bab3b02320"
+            },
+            {
+              "destination_uuid": "d0be820d-97cd-4600-9824-bb7b347870b7",
+              "uuid": "57fae98a-7925-4649-90c4-98cb28bf667c"
+            }
+          ],
+          "router": {
+            "cases": [
+              {
+                "arguments": [
+                  "0"
+                ],
+                "category_uuid": "55ae724b-266b-4fdd-aec7-5035aeafe29c",
+                "type": "has_number_gt",
+                "uuid": "dc773d7c-9aad-459d-943c-eec85c60e295"
+              }
+            ],
+            "categories": [
+              {
+                "exit_uuid": "7cd6b566-ca61-4c84-aa9e-a9bab3b02320",
+                "name": "Cliente Encontrado",
+                "uuid": "55ae724b-266b-4fdd-aec7-5035aeafe29c"
+              },
+              {
+                "exit_uuid": "57fae98a-7925-4649-90c4-98cb28bf667c",
+                "name": "Other",
+                "uuid": "f2ae7287-510a-4ffd-ba27-3f1ef8869a06"
+              }
+            ],
+            "default_category_uuid": "f2ae7287-510a-4ffd-ba27-3f1ef8869a06",
+            "operand": "@(count(results.resposta.extra.results))",
+            "type": "switch"
+          },
+          "uuid": "179a6261-1a39-4744-8fe8-3729f8572156"
+        },
+        {
+          "actions": [
+            {
+              "category": "",
+              "name": "Resposta",
+              "type": "set_run_result",
+              "uuid": "f96e4476-7523-4002-b0f5-b25af271025e",
+              "value": ""
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": null,
+              "uuid": "c9e06e01-46b7-46e6-a4e1-8a7e04c916b3"
+            }
+          ],
+          "uuid": "d0be820d-97cd-4600-9824-bb7b347870b7"
+        },
+        {
+          "uuid": "013570f6-af98-48dc-b9d8-7b71145ab6dd",
+          "actions": [
+            {
+              "type": "set_run_result",
+              "name": "Telefones Atuais",
+              "value": "@(trim_right(trim_left(json(results.resposta.extra.results.0.phones), \"[\"), \"]\"))",
+              "category": "",
+              "uuid": "ae385cb3-3b34-4ac3-9906-cc36d1bd0731"
+            },
+            {
+              "type": "set_run_result",
+              "name": "Telefones Atuais",
+              "value": "@(replace(replace(replace(replace(replace(replace(results.telefones_atuais, \"Celular\", \"CE\"), \"Whatsapp Comercial\", \"CO\"), \"Whatsapp Pessoal\", \"CE\"), \"Rural\", \"CE\"), \"Residencial\", \"RE\"), \"Comercial\", \"CO\"))",
+              "category": "",
+              "uuid": "e3d9388f-5fd8-4616-9661-4c624ad77ab2"
+            },
+            {
+              "type": "set_run_result",
+              "name": "Telefones Atuais",
+              "value": "@(replace(replace(results.telefones_atuais, \"(\", \"\"), \")\", \"\"))",
+              "category": "",
+              "uuid": "9e37c08f-597f-4013-9390-28fdee7fad1d"
+            },
+            {
+              "type": "set_run_result",
+              "name": "Telefone Tratado",
+              "value": "@(\"0\" & trim_left(parent.results.telefone.value, \"55\"))",
+              "category": "",
+              "uuid": "aef287ad-e521-41ed-896f-a243d8d946a6"
+            },
+            {
+              "type": "set_run_result",
+              "name": "Telefone Principal",
+              "value": "@(if(results.telefones_atuais.value != \"\", false, true))",
+              "category": "",
+              "uuid": "5a3cff52-04e6-4418-a09d-a3ae4b3ae678"
+            },
+            {
+              "type": "set_run_result",
+              "name": "Objeto Telefone",
+              "value": "@(json(object(\"type\", \"CE\", \"number\", results.telefone_tratado.value, \"main\", results.telefone_principal.value)))",
+              "category": "",
+              "uuid": "1dddaadd-4274-48a4-b2a8-0b6eb1796492"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "3eaa7ab6-c0d4-470b-ae53-b35095939207",
+              "destination_uuid": "1647446d-4ef5-4419-b8ba-1182324043a2"
+            }
+          ]
+        },
+        {
+          "uuid": "1647446d-4ef5-4419-b8ba-1182324043a2",
+          "actions": [
+            {
+              "uuid": "4dac1e86-0f94-46e3-83d2-d1b441ee8fa4",
+              "headers": {
+                "Accept": "application/json",
+                "Authorization": "@globals.sienge_authorization",
+                "Content-Type": "application/json"
+              },
+              "type": "call_webhook",
+              "url": "@(globals.sienge_api_url & \"customers/\" & results.resposta.extra.results.0.id & \"/phones\")",
+              "body": "{\n  \"phones\": [\n    @(if(results.telefones_atuais.value != \"\", results.telefones_atuais.value & \",\", \"\"))\n    @results.objeto_telefone.value\n  ]\n}",
+              "method": "PUT",
+              "result_name": "Result"
+            }
+          ],
+          "router": {
+            "type": "switch",
+            "operand": "@results.result.category",
+            "cases": [
+              {
+                "uuid": "c886dcb6-4bcb-492f-9367-23c3dba813f0",
+                "type": "has_only_text",
+                "arguments": [
+                  "Success"
+                ],
+                "category_uuid": "4d1e241a-1f3f-4240-820d-5fb2172715c7"
+              }
+            ],
+            "categories": [
+              {
+                "uuid": "4d1e241a-1f3f-4240-820d-5fb2172715c7",
+                "name": "Success",
+                "exit_uuid": "46008a66-f3a2-4def-8374-53081c255035"
+              },
+              {
+                "uuid": "223e3bd7-0d39-49ae-9b17-e6c03d935b20",
+                "name": "Failure",
+                "exit_uuid": "3fc15a0d-63e5-435c-a69d-b08253eb2adc"
+              }
+            ],
+            "default_category_uuid": "223e3bd7-0d39-49ae-9b17-e6c03d935b20"
+          },
+          "exits": [
+            {
+              "uuid": "46008a66-f3a2-4def-8374-53081c255035",
+              "destination_uuid": "3a412ecd-aa26-4839-b10f-aacee5194835"
+            },
+            {
+              "uuid": "3fc15a0d-63e5-435c-a69d-b08253eb2adc",
+              "destination_uuid": "cc73d572-eb23-4ce9-a3ff-84147ab204c3"
+            }
+          ]
+        },
+        {
+          "uuid": "3a412ecd-aa26-4839-b10f-aacee5194835",
+          "actions": [
+            {
+              "type": "set_run_result",
+              "name": "Status",
+              "value": "sucesso",
+              "category": "",
+              "uuid": "948fe317-4b69-4e82-a8de-827428fdf1f1"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "883f9876-f44f-44cd-a911-ec0d00e60edd",
+              "destination_uuid": null
+            }
+          ]
+        },
+        {
+          "uuid": "cc73d572-eb23-4ce9-a3ff-84147ab204c3",
+          "actions": [
+            {
+              "type": "set_run_result",
+              "name": "Status",
+              "value": "falha",
+              "category": "",
+              "uuid": "5e07f21b-2cc5-4fc8-9387-b1fb0e8cf52a"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "b867c505-f725-4253-8901-b1791d47f280",
+              "destination_uuid": null
+            }
+          ]
+        }
+      ],
+      "spec_version": "13.1.0",
+      "type": "messaging",
+      "uuid": "406d326c-e810-438a-9397-30f9ff76378a",
+      "revision": 157
+    }
+  ],
+  "campaigns": [],
+  "triggers": [],
+  "fields": [],
+  "groups": []
+}
