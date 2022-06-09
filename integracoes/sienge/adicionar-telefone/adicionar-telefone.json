@@ -40,10 +40,24 @@
           "1647446d-4ef5-4419-b8ba-1182324043a2": {
             "type": "split_by_webhook",
             "position": {
-              "left": 40,
+              "left": 120,
               "top": 1300
             },
             "config": {}
+          },
+          "3a412ecd-aa26-4839-b10f-aacee5194835": {
+            "position": {
+              "left": 40,
+              "top": 1580
+            },
+            "type": "execute_actions"
+          },
+          "cc73d572-eb23-4ce9-a3ff-84147ab204c3": {
+            "position": {
+              "left": 260,
+              "top": 1580
+            },
+            "type": "execute_actions"
           }
         },
         "stickies": {
@@ -290,10 +304,46 @@
           "exits": [
             {
               "uuid": "46008a66-f3a2-4def-8374-53081c255035",
-              "destination_uuid": null
+              "destination_uuid": "3a412ecd-aa26-4839-b10f-aacee5194835"
             },
             {
               "uuid": "3fc15a0d-63e5-435c-a69d-b08253eb2adc",
+              "destination_uuid": "cc73d572-eb23-4ce9-a3ff-84147ab204c3"
+            }
+          ]
+        },
+        {
+          "uuid": "3a412ecd-aa26-4839-b10f-aacee5194835",
+          "actions": [
+            {
+              "type": "set_run_result",
+              "name": "Status",
+              "value": "sucesso",
+              "category": "",
+              "uuid": "948fe317-4b69-4e82-a8de-827428fdf1f1"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "883f9876-f44f-44cd-a911-ec0d00e60edd",
+              "destination_uuid": null
+            }
+          ]
+        },
+        {
+          "uuid": "cc73d572-eb23-4ce9-a3ff-84147ab204c3",
+          "actions": [
+            {
+              "type": "set_run_result",
+              "name": "Status",
+              "value": "falha",
+              "category": "",
+              "uuid": "5e07f21b-2cc5-4fc8-9387-b1fb0e8cf52a"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "b867c505-f725-4253-8901-b1791d47f280",
               "destination_uuid": null
             }
           ]
@@ -302,7 +352,7 @@
       "spec_version": "13.1.0",
       "type": "messaging",
       "uuid": "406d326c-e810-438a-9397-30f9ff76378a",
-      "revision": 153
+      "revision": 157
     }
   ],
   "campaigns": [],

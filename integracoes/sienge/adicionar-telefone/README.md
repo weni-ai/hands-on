@@ -1,15 +1,16 @@
 # Informações
 
 - **Nome do Fluxo**: [Sienge] Adicionar telefone
-- **Objetivo**: Esse fluxo tem como principal objetivo consultar os dados de um determinado cliente a partir do seu CPF
+- **Objetivo**: Esse fluxo tem como principal adicionar um novo telefone a um cadastro de um cliente, os telefones existentes permanecem e um novo é adicionado.
 
 ## Parâmetros
 
 Parâmetros que são recebidos por esse fluxo para executar o seu objetivo. Os parâmetros desse fluxo são:
 
-| Parâmetro               | Descrição                                              |
-|-------------------------|--------------------------------------------------------|
-| cpf                     | CPF do cliente sem pontuação, por exemplo: 12365478912 |
+| Parâmetro               | Descrição                                                                   |
+|-------------------------|-----------------------------------------------------------------------------|
+| cpf                     | CPF do cliente sem pontuação, por exemplo: 12365478912                      |
+| telefone                | Telefone do cliente com DDI, DDD e sem pontuação, por exemplo: 558299999999 |
 
 ### Como configurar os parâmetros?
 
@@ -23,7 +24,7 @@ Resultados são respostas obtidas a partir da execução do fluxo. As respostas 
 
 | Resultado               | Descrição                   |
 |-------------------------|-----------------------------|
-| resposta                | Os dados completos do cliente, o formato dessa variável segue exatamente o mesmo retornado [pela API](https://api.sienge.com.br/docs/#/customers-v1) GET /customers. Acessível usando `@child.results.resposta.extra.[A PARTIR DAQUI É O RESULTADO DA API]`|
+| status                  | Resultado da transação de adicionar telefone, Caso a adição do telefone seja bem sucedida, o status será `sucesso` e caso algum problema ocorra será `falha` |
 
 ### Como utilizar os resultados?
 
