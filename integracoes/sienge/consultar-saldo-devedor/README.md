@@ -26,7 +26,9 @@ Resultados são respostas obtidas a partir da execução do fluxo. As respostas 
 | resposta                | Os dados completos do cliente, o formato dessa variável segue exatamente o mesmo retornado [pela API]. Acessível usando `@child.results.resposta.extra.[A PARTIR DAQUI É O RESULTADO DA API]` |
 
 Documentação API Sienge
-(https://api.sienge.com.br/docs/#/total-current-debit-balance-v1) GET /total-current-debit-balance/
+(https://api.sienge.com.br/docs/#/total-current-debit-balance-v1) 
+
+GET /total-current-debit-balance/
 
 ### Como utilizar os resultados?
 
