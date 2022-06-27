@@ -1,0 +1,92 @@
+{
+  "version": "13",
+  "site": "https://new.push.al",
+  "flows": [
+    {
+      "_ui": {
+        "nodes": {
+          "80ff7e9e-ff68-4fc6-bc74-702f8a5b22b3": {
+            "config": {},
+            "position": {
+              "left": 380,
+              "top": 100
+            },
+            "type": "split_by_webhook"
+          }
+        }
+      },
+      "expire_after_minutes": 10080,
+      "language": "base",
+      "localization": {},
+      "metadata": {
+        "expires": 10080
+      },
+      "name": "[Sienge] Consultar Saldo Devedor",
+      "nodes": [
+        {
+          "actions": [
+            {
+              "body": "",
+              "headers": {
+                "Accept": "application/json",
+                "Authorization": "@(globals.sienge_authorization)",
+                "Content-Type": "application/json"
+              },
+              "method": "GET",
+              "result_name": "resposta",
+              "type": "call_webhook",
+              "url": "@(globals.sienge_api_url & \"total-current-debit-balance\")?cpf=@parent.results.cpf",
+              "uuid": "d3f8f67c-eb3e-4e72-b0e3-e8566c6611cf"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": null,
+              "uuid": "1bb890eb-28e8-42f4-8780-3cddcbe6976b"
+            },
+            {
+              "destination_uuid": null,
+              "uuid": "0020c818-8137-4eca-9c1e-e9791cde54aa"
+            }
+          ],
+          "router": {
+            "cases": [
+              {
+                "arguments": [
+                  "Success"
+                ],
+                "category_uuid": "b0d6367b-2efd-492c-8c42-f22c3181f56e",
+                "type": "has_only_text",
+                "uuid": "32c77222-56f7-44bc-bbeb-59eb4cea9ae4"
+              }
+            ],
+            "categories": [
+              {
+                "exit_uuid": "1bb890eb-28e8-42f4-8780-3cddcbe6976b",
+                "name": "Success",
+                "uuid": "b0d6367b-2efd-492c-8c42-f22c3181f56e"
+              },
+              {
+                "exit_uuid": "0020c818-8137-4eca-9c1e-e9791cde54aa",
+                "name": "Failure",
+                "uuid": "15fd0644-9e2a-4f68-817a-723289117abf"
+              }
+            ],
+            "default_category_uuid": "15fd0644-9e2a-4f68-817a-723289117abf",
+            "operand": "@results.resposta.category",
+            "type": "switch"
+          },
+          "uuid": "80ff7e9e-ff68-4fc6-bc74-702f8a5b22b3"
+        }
+      ],
+      "spec_version": "13.1.0",
+      "type": "messaging",
+      "uuid": "1683e796-7993-4eaa-8df5-0ad68c6c3cd3",
+      "revision": 1
+    }
+  ],
+  "campaigns": [],
+  "triggers": [],
+  "fields": [],
+  "groups": []
+}
