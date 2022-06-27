@@ -1,6 +1,6 @@
 # Informações
 
-- **Nome do Fluxo**: [Sienge] Consultar Saldro Devedor
+- **Nome do Fluxo**: [Sienge] Consultar Saldo Devedor
 - **Objetivo**: Esse fluxo tem como principal objetivo consultar o saldo devedor do cliente a partir do seu CPF
 
 ## Parâmetros
@@ -23,8 +23,10 @@ Resultados são respostas obtidas a partir da execução do fluxo. As respostas 
 
 | Resultado               | Descrição                   |
 |-------------------------|-----------------------------|
-| resposta                | Os dados completos do cliente, o formato dessa variável segue exatamente o mesmo retornado [pela API](https://api.sienge.com.br/docs/#/total-current-debit-balance-v1) GET /total-current-debit-balance/
-. Acessível usando `@child.results.resposta.extra.[A PARTIR DAQUI É O RESULTADO DA API]` |
+| resposta                | Os dados completos do cliente, o formato dessa variável segue exatamente o mesmo retornado [pela API]. Acessível usando `@child.results.resposta.extra.[A PARTIR DAQUI É O RESULTADO DA API]` |
+
+Documentação API Sienge
+(https://api.sienge.com.br/docs/#/total-current-debit-balance-v1) GET /total-current-debit-balance/
 
 ### Como utilizar os resultados?
 
