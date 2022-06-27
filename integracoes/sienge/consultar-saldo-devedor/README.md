@@ -1,6 +1,6 @@
 # Informações
 
-- **Nome do Fluxo**: [Sienge] Consultar cliente
+- **Nome do Fluxo**: [Sienge] Consultar Saldro Devedor
 - **Objetivo**: Esse fluxo tem como principal objetivo consultar o saldo devedor do cliente a partir do seu CPF
 
 ## Parâmetros
