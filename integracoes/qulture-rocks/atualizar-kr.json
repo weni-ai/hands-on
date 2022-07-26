@@ -1,0 +1,264 @@
+{
+  "version": "13",
+  "site": "https://flows.weni.ai",
+  "flows": [
+    {
+      "name": "[Fun\u00e7\u00e3o] Atualizar KR na Qulture",
+      "uuid": "949a0426-03b6-4980-9abe-4b76667b8079",
+      "spec_version": "13.1.0",
+      "language": "por",
+      "type": "messaging",
+      "nodes": [
+        {
+          "uuid": "a6d1e296-71ff-49c1-9a17-30ff6d1b27d5",
+          "actions": [
+            {
+              "type": "set_run_result",
+              "name": "ID Empresa",
+              "value": "@parent.results.id_empresa",
+              "category": "",
+              "uuid": "ad57fc4a-27d2-49cd-a929-c7fcd3c14f38"
+            },
+            {
+              "type": "set_run_result",
+              "name": "Key Result ID",
+              "value": "@parent.results.key_result_id",
+              "category": "",
+              "uuid": "1acea69b-1489-4b42-8468-e0e65f1d054d"
+            },
+            {
+              "type": "set_run_result",
+              "name": "Key Result Contribution ID",
+              "value": "@parent.results.key_results_contribution_id",
+              "category": "",
+              "uuid": "79d02fd7-ea10-466b-9cf7-0843fe5aa1e4"
+            },
+            {
+              "type": "set_run_result",
+              "name": "Valor KR",
+              "value": "@(number(parent.results.valor_kr))",
+              "category": "",
+              "uuid": "fca3186f-ef5c-4649-8e96-b49ca19bf378"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "1fe3732e-ac15-411d-95bc-d4d84afae0a3",
+              "destination_uuid": "84034eed-0fea-4d9a-ab50-eedfdbe2bae5"
+            }
+          ]
+        },
+        {
+          "uuid": "84034eed-0fea-4d9a-ab50-eedfdbe2bae5",
+          "actions": [],
+          "router": {
+            "type": "switch",
+            "default_category_uuid": "c581d274-5120-4249-88c6-8f9b12cc1456",
+            "categories": [
+              {
+                "uuid": "c61122de-99d3-40ed-ada6-cd00671689f6",
+                "name": "Possui data",
+                "exit_uuid": "5b1c8ab9-16ca-470c-9dca-bbaac608e086"
+              },
+              {
+                "uuid": "c581d274-5120-4249-88c6-8f9b12cc1456",
+                "name": "Other",
+                "exit_uuid": "cdb511af-05d5-48f9-8b9d-ed15c20b6db1"
+              }
+            ],
+            "cases": [
+              {
+                "arguments": [],
+                "type": "has_text",
+                "uuid": "255690e7-3926-4c70-98df-70be3ca24543",
+                "category_uuid": "c61122de-99d3-40ed-ada6-cd00671689f6"
+              }
+            ],
+            "operand": "@parent.results.data_kr"
+          },
+          "exits": [
+            {
+              "uuid": "5b1c8ab9-16ca-470c-9dca-bbaac608e086",
+              "destination_uuid": "98289ac9-206f-4bc1-b019-d6a1df7e46b8"
+            },
+            {
+              "uuid": "cdb511af-05d5-48f9-8b9d-ed15c20b6db1",
+              "destination_uuid": "c6f55323-ac14-4bab-a56e-fcfcc86a4996"
+            }
+          ]
+        },
+        {
+          "uuid": "98289ac9-206f-4bc1-b019-d6a1df7e46b8",
+          "actions": [
+            {
+              "type": "set_run_result",
+              "name": "Data KR",
+              "value": "@parent.results.data_kr",
+              "category": "",
+              "uuid": "e8ca6685-5a11-442f-8fb6-42c5365b2f4f"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "d4cf1d3b-0a1c-4b25-9797-b0984eb3993c",
+              "destination_uuid": "2b2c3b55-240c-4287-ab71-5f4c748d7d62"
+            }
+          ]
+        },
+        {
+          "uuid": "c6f55323-ac14-4bab-a56e-fcfcc86a4996",
+          "actions": [
+            {
+              "type": "set_run_result",
+              "name": "Data KR",
+              "value": "@(now())",
+              "category": "",
+              "uuid": "5207a5b5-c9f5-45f5-8a17-38d2c54f4da7"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "10079de8-789e-42e2-9ad5-8ba9e5686bd6",
+              "destination_uuid": "2b2c3b55-240c-4287-ab71-5f4c748d7d62"
+            }
+          ]
+        },
+        {
+          "uuid": "2b2c3b55-240c-4287-ab71-5f4c748d7d62",
+          "actions": [
+            {
+              "uuid": "d1dc0191-3a29-47a4-b745-876451c7b203",
+              "headers": {
+                "Accept": "application/json",
+                "Authorization": "@parent.results.token_qulture",
+                "Content-Type": "application/json"
+              },
+              "type": "call_webhook",
+              "url": "https://api.qulture.rocks/graphql/@results.id_empresa",
+              "body": "{\"query\":\"mutation CreateProgressStep($input: CreateProgressStepMutationInput!) { createProgressStep(input: $input) { keyResult { id progress name score { value } semaphoreHistory { id value } active baseValue contributions { id contributor { __typename } name objectiveContributionId responsible { id name nickname } } currentPartition { id scoreFloor scoreCeiling sourceFloor sourceCeiling type __typename } customScore description keyResultCyclePartitions { nodes { id accumulatedProgress accumulatedTarget startAt { defaultDate } endAt { defaultDate } progress } } objective { id name score { value } owner { __typename } } owner { __typename } responsible { id name nickname } target __typename } }}\",\"variables\":{\"input\":{\"keyResultId\":@results.key_result_id,\"keyResultContributionId\":@results.key_result_contribution_id,\"progressStepParams\":{\"comment\":\"Atualiza\u00e7\u00e3o autom\u00e1tica do bot @kubanto\",\"value\":@results.valor_kr,\"score\":9.5,\"progressUpdatedAt\":\"@results.data_kr\",\"contractId\":1},\"semaphoreHistoryParams\":{\"value\":\"NONE\"}}}}",
+              "method": "POST",
+              "result_name": "Request Atualiza KR"
+            }
+          ],
+          "router": {
+            "type": "switch",
+            "operand": "@results.request_atualiza_kr.category",
+            "cases": [
+              {
+                "uuid": "07a05416-bd9b-4a9f-91d5-394293ef54d3",
+                "type": "has_only_text",
+                "arguments": [
+                  "Success"
+                ],
+                "category_uuid": "63984326-3e3a-4c3c-9bf1-d5c7bbea7598"
+              }
+            ],
+            "categories": [
+              {
+                "uuid": "63984326-3e3a-4c3c-9bf1-d5c7bbea7598",
+                "name": "Success",
+                "exit_uuid": "bc3ad773-2514-4f80-9317-4b8b15d13bf2"
+              },
+              {
+                "uuid": "56d7c127-6ea4-403b-9863-ebb9fb3c3a7d",
+                "name": "Failure",
+                "exit_uuid": "acd97f4e-c1c8-4d9e-83a3-772903c07222"
+              }
+            ],
+            "default_category_uuid": "56d7c127-6ea4-403b-9863-ebb9fb3c3a7d"
+          },
+          "exits": [
+            {
+              "uuid": "bc3ad773-2514-4f80-9317-4b8b15d13bf2",
+              "destination_uuid": null
+            },
+            {
+              "uuid": "acd97f4e-c1c8-4d9e-83a3-772903c07222",
+              "destination_uuid": "7fa99708-22bf-4c90-a4dd-56d4ac565ae0"
+            }
+          ]
+        },
+        {
+          "uuid": "7fa99708-22bf-4c90-a4dd-56d4ac565ae0",
+          "actions": [
+            {
+              "addresses": [
+                "john.dalton@weni.ai"
+              ],
+              "subject": "Erro na sincroniza\u00e7\u00e3o de m\u00e9tricas",
+              "body": "Ocorreu um erro na sincroniza\u00e7\u00e3o do contato:\n\nUUID: @contact.uuid\nNome: @contact.name\nFluxo: @run.flow.name",
+              "type": "send_email",
+              "uuid": "c27b7eae-311e-4e54-aa6f-3099f41889a0"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "38d3e5ac-dc2a-4672-8756-ec3739764fcd",
+              "destination_uuid": null
+            }
+          ]
+        }
+      ],
+      "_ui": {
+        "nodes": {
+          "a6d1e296-71ff-49c1-9a17-30ff6d1b27d5": {
+            "position": {
+              "left": 360,
+              "top": 0
+            },
+            "type": "execute_actions"
+          },
+          "84034eed-0fea-4d9a-ab50-eedfdbe2bae5": {
+            "type": "split_by_expression",
+            "position": {
+              "left": 360,
+              "top": 480
+            },
+            "config": {
+              "cases": {}
+            }
+          },
+          "98289ac9-206f-4bc1-b019-d6a1df7e46b8": {
+            "position": {
+              "left": 260,
+              "top": 600
+            },
+            "type": "execute_actions"
+          },
+          "c6f55323-ac14-4bab-a56e-fcfcc86a4996": {
+            "position": {
+              "left": 500,
+              "top": 600
+            },
+            "type": "execute_actions"
+          },
+          "2b2c3b55-240c-4287-ab71-5f4c748d7d62": {
+            "type": "split_by_webhook",
+            "position": {
+              "left": 380,
+              "top": 740
+            },
+            "config": {}
+          },
+          "7fa99708-22bf-4c90-a4dd-56d4ac565ae0": {
+            "position": {
+              "left": 520,
+              "top": 960
+            },
+            "type": "execute_actions"
+          }
+        }
+      },
+      "revision": 55,
+      "expire_after_minutes": 10080,
+      "metadata": {
+        "expires": 10080
+      },
+      "localization": {}
+    }
+  ],
+  "campaigns": [],
+  "triggers": [],
+  "fields": [],
+  "groups": []
+}
