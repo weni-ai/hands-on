@@ -1,0 +1,332 @@
+{
+  "version": "13",
+  "site": "https://flows.weni.ai",
+  "flows": [
+    {
+      "name": "IA de conte\u00fado",
+      "uuid": "8112b3d8-f911-4083-b5f5-358250d020f7",
+      "spec_version": "13.1.0",
+      "language": "base",
+      "type": "messaging",
+      "nodes": [
+        {
+          "uuid": "8f7785b0-6e62-49fe-8c77-e26939a8a2d6",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "O que voc\u00ea quer me perguntar hoje?",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "d8724862-a20d-44e5-988a-9cb7bc8041fb"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "c61cde29-2558-4c65-8c49-996e732f6c2c",
+              "destination_uuid": "f2d61ed9-1d3c-4b3e-b3b5-90c464a83c77"
+            }
+          ]
+        },
+        {
+          "uuid": "f2d61ed9-1d3c-4b3e-b3b5-90c464a83c77",
+          "actions": [],
+          "router": {
+            "type": "switch",
+            "default_category_uuid": "86502589-0247-4948-be47-ff6cda1b532f",
+            "cases": [],
+            "categories": [
+              {
+                "uuid": "86502589-0247-4948-be47-ff6cda1b532f",
+                "name": "All Responses",
+                "exit_uuid": "92b9069b-b707-4c48-97e3-67b5099019d8"
+              }
+            ],
+            "operand": "@input.text",
+            "wait": {
+              "type": "msg"
+            },
+            "result_name": "perguntaUsuario"
+          },
+          "exits": [
+            {
+              "uuid": "92b9069b-b707-4c48-97e3-67b5099019d8",
+              "destination_uuid": "cdf50a03-7c0e-4fee-82c5-06f2d9698e1c"
+            }
+          ]
+        },
+        {
+          "uuid": "cdf50a03-7c0e-4fee-82c5-06f2d9698e1c",
+          "actions": [
+            {
+              "uuid": "63cdb22c-952f-4d43-9814-cef9d136729b",
+              "headers": {
+                "Accept": "application/json",
+                "Authorization": "Bearer 86f70c61-c064-4b3c-af98-0210628f67c6",
+                "Content-Type": "application/json"
+              },
+              "type": "call_webhook",
+              "url": "https://nlp.bothub.it/v2/question-answering/",
+              "body": "{\t\"language\": \"pt_br\",\t\"question\": \"@results.perguntausuario\",\t\"knowledge_base_id\": \"790\"}",
+              "method": "POST",
+              "result_name": "IaDeConteudo"
+            }
+          ],
+          "router": {
+            "type": "switch",
+            "operand": "@results.iadeconteudo.category",
+            "cases": [
+              {
+                "uuid": "fc2c1ab7-dadd-4cbc-a2f5-b9471ee3048b",
+                "type": "has_only_text",
+                "arguments": [
+                  "Success"
+                ],
+                "category_uuid": "3af77f02-077e-45d1-bb41-94ce68fcec70"
+              }
+            ],
+            "categories": [
+              {
+                "uuid": "3af77f02-077e-45d1-bb41-94ce68fcec70",
+                "name": "Success",
+                "exit_uuid": "1a5e3f30-adc5-4781-9395-4833a448d6c7"
+              },
+              {
+                "uuid": "7b412db6-9eee-49fb-8442-dcf1ce3a1ff7",
+                "name": "Failure",
+                "exit_uuid": "dd6d0453-141d-477f-afa5-29bce87019f5"
+              }
+            ],
+            "default_category_uuid": "7b412db6-9eee-49fb-8442-dcf1ce3a1ff7"
+          },
+          "exits": [
+            {
+              "uuid": "1a5e3f30-adc5-4781-9395-4833a448d6c7",
+              "destination_uuid": "90457380-be4e-4f78-a60a-1dc890f73cb4"
+            },
+            {
+              "uuid": "dd6d0453-141d-477f-afa5-29bce87019f5",
+              "destination_uuid": "84d3c878-c538-4f9e-a2d7-75e7e96a6cb1"
+            }
+          ]
+        },
+        {
+          "uuid": "90457380-be4e-4f78-a60a-1dc890f73cb4",
+          "actions": [],
+          "router": {
+            "type": "switch",
+            "default_category_uuid": "fb71ca3d-2010-4215-bacb-d88e32ef9bfe",
+            "categories": [
+              {
+                "uuid": "e775fd57-30f3-4c7f-b63a-aaf3437bf74e",
+                "name": "Vazio",
+                "exit_uuid": "17bcda17-180a-40d7-a3ab-e9c7aa61912b"
+              },
+              {
+                "uuid": "fb71ca3d-2010-4215-bacb-d88e32ef9bfe",
+                "name": "Other",
+                "exit_uuid": "7d1a3f71-4076-485e-bc7e-a3d641990963"
+              }
+            ],
+            "cases": [
+              {
+                "arguments": [
+                  "[]"
+                ],
+                "type": "has_only_phrase",
+                "uuid": "b365b7fd-c50d-413d-9179-6ee857f83654",
+                "category_uuid": "e775fd57-30f3-4c7f-b63a-aaf3437bf74e"
+              }
+            ],
+            "operand": "@results.iadeconteudo.extra.answers"
+          },
+          "exits": [
+            {
+              "uuid": "17bcda17-180a-40d7-a3ab-e9c7aa61912b",
+              "destination_uuid": "373420d7-0091-4496-b2e5-b84b72b891f2"
+            },
+            {
+              "uuid": "7d1a3f71-4076-485e-bc7e-a3d641990963",
+              "destination_uuid": "5cd90b90-2139-4ae7-96b2-4e9be9c1f478"
+            }
+          ]
+        },
+        {
+          "uuid": "84d3c878-c538-4f9e-a2d7-75e7e96a6cb1",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "Nosso servidor est\u00e1 indispon\u00edvel no momento!",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "57e35197-8479-414f-8747-b28ae5eb45d3"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "accc2631-1da7-4a13-bbe7-42729e892a9d",
+              "destination_uuid": null
+            }
+          ]
+        },
+        {
+          "uuid": "373420d7-0091-4496-b2e5-b84b72b891f2",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "Neste momento n\u00e3o sou capaz de responder sobre esse assunto, pergunte outra coisa:",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "2226d8f6-14c7-4309-b654-978343b59f67"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "e80da0c0-a6db-46f1-b784-1d6dddd782fb",
+              "destination_uuid": "f2d61ed9-1d3c-4b3e-b3b5-90c464a83c77"
+            }
+          ]
+        },
+        {
+          "uuid": "5cd90b90-2139-4ae7-96b2-4e9be9c1f478",
+          "actions": [],
+          "router": {
+            "type": "switch",
+            "default_category_uuid": "35fb25b7-43e6-4afd-9f4d-ca70fa61ce7a",
+            "categories": [
+              {
+                "uuid": "0623d95e-5408-4bc8-aebc-927da012a2fb",
+                "name": "Alta qualidade",
+                "exit_uuid": "f7d91c36-3142-4bc5-ba66-1756dc2ce673"
+              },
+              {
+                "uuid": "35fb25b7-43e6-4afd-9f4d-ca70fa61ce7a",
+                "name": "Other",
+                "exit_uuid": "3293ac6e-2612-40f2-839f-d4aa628ec9b7"
+              }
+            ],
+            "cases": [
+              {
+                "arguments": [
+                  "0.7"
+                ],
+                "type": "has_number_gte",
+                "uuid": "b7131fe8-dbb1-4a3c-baa8-075041202c5f",
+                "category_uuid": "0623d95e-5408-4bc8-aebc-927da012a2fb"
+              }
+            ],
+            "operand": "@results.iadeconteudo.extra.answers.0.confidence"
+          },
+          "exits": [
+            {
+              "uuid": "f7d91c36-3142-4bc5-ba66-1756dc2ce673",
+              "destination_uuid": "9808021e-5b64-4399-a934-667967aeb5fd"
+            },
+            {
+              "uuid": "3293ac6e-2612-40f2-839f-d4aa628ec9b7",
+              "destination_uuid": "373420d7-0091-4496-b2e5-b84b72b891f2"
+            }
+          ]
+        },
+        {
+          "uuid": "9808021e-5b64-4399-a934-667967aeb5fd",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "@results.iadeconteudo.extra.answers.0.text",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "7148fdef-b203-4549-90bd-4c14942e3370"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "98a0c0b8-260e-4569-9a71-9785b5e44939",
+              "destination_uuid": null
+            }
+          ]
+        }
+      ],
+      "_ui": {
+        "nodes": {
+          "8f7785b0-6e62-49fe-8c77-e26939a8a2d6": {
+            "position": {
+              "left": 520,
+              "top": 0
+            },
+            "type": "execute_actions"
+          },
+          "f2d61ed9-1d3c-4b3e-b3b5-90c464a83c77": {
+            "type": "wait_for_response",
+            "position": {
+              "left": 520,
+              "top": 160
+            },
+            "config": {
+              "cases": {}
+            }
+          },
+          "cdf50a03-7c0e-4fee-82c5-06f2d9698e1c": {
+            "type": "split_by_webhook",
+            "position": {
+              "left": 520,
+              "top": 340
+            },
+            "config": {}
+          },
+          "9808021e-5b64-4399-a934-667967aeb5fd": {
+            "position": {
+              "left": 520,
+              "top": 1020
+            },
+            "type": "execute_actions"
+          },
+          "84d3c878-c538-4f9e-a2d7-75e7e96a6cb1": {
+            "position": {
+              "left": 720,
+              "top": 640
+            },
+            "type": "execute_actions"
+          },
+          "90457380-be4e-4f78-a60a-1dc890f73cb4": {
+            "type": "split_by_expression",
+            "position": {
+              "left": 360,
+              "top": 600
+            },
+            "config": {
+              "cases": {}
+            }
+          },
+          "373420d7-0091-4496-b2e5-b84b72b891f2": {
+            "position": {
+              "left": 80,
+              "top": 740
+            },
+            "type": "execute_actions"
+          },
+          "5cd90b90-2139-4ae7-96b2-4e9be9c1f478": {
+            "type": "split_by_expression",
+            "position": {
+              "left": 680,
+              "top": 840
+            },
+            "config": {
+              "cases": {}
+            }
+          }
+        },
+        "stickies": {}
+      },
+      "revision": 59,
+      "expire_after_minutes": 10080,
+      "metadata": {
+        "expires": 10080
+      },
+      "localization": {}
+    }
+  ],
+  "campaigns": [],
+  "triggers": [],
+  "fields": [],
+  "groups": []
+}
