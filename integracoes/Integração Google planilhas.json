@@ -1,0 +1,202 @@
+{
+  "version": "13",
+  "site": "https://flows.weni.ai",
+  "flows": [
+    {
+      "_ui": {
+        "nodes": {
+          "5156dce2-4f72-48ad-8b26-54139df7ba47": {
+            "position": {
+              "left": 300,
+              "top": 0
+            },
+            "type": "execute_actions"
+          },
+          "bb5ccc0f-c143-40e9-ba4c-dd374da80ef3": {
+            "type": "wait_for_response",
+            "position": {
+              "left": 300,
+              "top": 160
+            },
+            "config": {
+              "cases": {}
+            }
+          },
+          "6da4d0ae-3cb5-4b49-b24f-aec9ff27f90e": {
+            "type": "split_by_webhook",
+            "position": {
+              "left": 320,
+              "top": 320
+            },
+            "config": {}
+          },
+          "f08a58ed-f4a4-4dfd-bf54-7342c081583b": {
+            "position": {
+              "left": 180,
+              "top": 780
+            },
+            "type": "execute_actions"
+          },
+          "f3700563-afca-4cc0-b9bc-a34834a79edc": {
+            "position": {
+              "left": 140,
+              "top": 620
+            },
+            "type": "execute_actions"
+          }
+        }
+      },
+      "expire_after_minutes": 10080,
+      "language": "base",
+      "localization": {},
+      "metadata": {
+        "expires": 10080
+      },
+      "name": "Teste visualiza\u00e7\u00e3o",
+      "nodes": [
+        {
+          "actions": [
+            {
+              "attachments": [],
+              "text": "Me informe a c\u00e9lula que deseja adicionar:\n(ex: A1, C3)",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "60658013-4aa2-4348-a86d-d697d967e827"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "bb5ccc0f-c143-40e9-ba4c-dd374da80ef3",
+              "uuid": "a2c2463b-67ef-4d04-8014-d6df2c5e8114"
+            }
+          ],
+          "uuid": "5156dce2-4f72-48ad-8b26-54139df7ba47"
+        },
+        {
+          "uuid": "bb5ccc0f-c143-40e9-ba4c-dd374da80ef3",
+          "actions": [],
+          "router": {
+            "type": "switch",
+            "default_category_uuid": "9153856f-9e72-41a7-8948-d14845a44b40",
+            "cases": [],
+            "categories": [
+              {
+                "exit_uuid": "be975b93-1175-4866-a469-408d950a4585",
+                "name": "All Responses",
+                "uuid": "9153856f-9e72-41a7-8948-d14845a44b40"
+              }
+            ],
+            "operand": "@input.text",
+            "wait": {
+              "type": "msg"
+            },
+            "result_name": "CelulaPLanilha"
+          },
+          "exits": [
+            {
+              "destination_uuid": "6da4d0ae-3cb5-4b49-b24f-aec9ff27f90e",
+              "uuid": "be975b93-1175-4866-a469-408d950a4585"
+            }
+          ]
+        },
+        {
+          "uuid": "6da4d0ae-3cb5-4b49-b24f-aec9ff27f90e",
+          "actions": [
+            {
+              "uuid": "d4ca2c9e-9612-4d45-a698-46a7514c9424",
+              "headers": {
+                "Accept": "application/json"
+              },
+              "type": "call_webhook",
+              "url": "https://sheets.googleapis.com/v4/spreadsheets/1DZTQwibdqHhpyZItF-psRb3dEWwoSCik0QJm7Do4PLw/values/@results.celulaplanilha?key=AIzaSyBbH9gfqLCmXe1aIZ9GYIImptRnwYG0XFs",
+              "body": "",
+              "method": "GET",
+              "result_name": "Result"
+            }
+          ],
+          "router": {
+            "type": "switch",
+            "operand": "@results.result.category",
+            "cases": [
+              {
+                "uuid": "ec997168-8d69-4fb7-8a38-31834e717268",
+                "type": "has_only_text",
+                "arguments": [
+                  "Success"
+                ],
+                "category_uuid": "eeb0571f-bdbb-4ffc-b15f-1b4ed68eb09a"
+              }
+            ],
+            "categories": [
+              {
+                "uuid": "eeb0571f-bdbb-4ffc-b15f-1b4ed68eb09a",
+                "name": "Success",
+                "exit_uuid": "997e0c8e-f509-4fe1-b14c-3160d0d5c54a"
+              },
+              {
+                "uuid": "31ede9de-1888-4eb7-8542-3c87a14d14c6",
+                "name": "Failure",
+                "exit_uuid": "6149b078-d894-40e5-8f38-7d242dab4abf"
+              }
+            ],
+            "default_category_uuid": "31ede9de-1888-4eb7-8542-3c87a14d14c6"
+          },
+          "exits": [
+            {
+              "uuid": "997e0c8e-f509-4fe1-b14c-3160d0d5c54a",
+              "destination_uuid": "f3700563-afca-4cc0-b9bc-a34834a79edc"
+            },
+            {
+              "uuid": "6149b078-d894-40e5-8f38-7d242dab4abf",
+              "destination_uuid": null
+            }
+          ]
+        },
+        {
+          "uuid": "f3700563-afca-4cc0-b9bc-a34834a79edc",
+          "actions": [
+            {
+              "type": "set_run_result",
+              "name": "textoeditado",
+              "value": "@(replace(webhook.values, \"[[\", \"\"))",
+              "category": "",
+              "uuid": "da420ca1-4cff-493b-b89d-90f73070c684"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "d6531e9a-7843-45d1-8453-794bbcd184a8",
+              "destination_uuid": "f08a58ed-f4a4-4dfd-bf54-7342c081583b"
+            }
+          ]
+        },
+        {
+          "uuid": "f08a58ed-f4a4-4dfd-bf54-7342c081583b",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "@(replace(results.textoeditado, \"]]\", \"\"))",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "dbf3273b-8b5d-4633-9d55-8c4f576c44d1"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "8da19701-b135-4433-8422-fbf97d28cc2d",
+              "destination_uuid": null
+            }
+          ]
+        }
+      ],
+      "spec_version": "13.1.0",
+      "type": "messaging",
+      "uuid": "e0fb7796-e866-4a64-b5a6-b3e5b7fd8f37",
+      "revision": 24
+    }
+  ],
+  "campaigns": [],
+  "triggers": [],
+  "fields": [],
+  "groups": []
+}
