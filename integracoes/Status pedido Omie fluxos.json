@@ -1,0 +1,4487 @@
+{
+  "version": "13",
+  "site": "https://flows.weni.ai",
+  "flows": [
+    {
+      "_ui": {
+        "nodes": {
+          "071137d8-6e48-436d-953d-dac2daa1372e": {
+            "position": {
+              "left": 380,
+              "top": 0
+            },
+            "type": "execute_actions"
+          },
+          "1af3f81a-9ad9-4b2a-bdc1-f24e96d11aa4": {
+            "position": {
+              "left": 380,
+              "top": 120
+            },
+            "type": "execute_actions"
+          },
+          "8e52bbb9-857b-47fe-9577-dd869dae1f9e": {
+            "position": {
+              "left": 380,
+              "top": 260
+            },
+            "type": "execute_actions"
+          },
+          "987020f0-7328-4a6b-b3a2-c1fac85780cc": {
+            "position": {
+              "left": 60,
+              "top": 0
+            },
+            "type": "execute_actions"
+          },
+          "fbd5bee2-df97-4f37-9cfb-afa87070ad6b": {
+            "position": {
+              "left": 660,
+              "top": 0
+            },
+            "type": "execute_actions"
+          }
+        }
+      },
+      "expire_after_minutes": 10080,
+      "language": "base",
+      "localization": {},
+      "metadata": {
+        "expires": 10080
+      },
+      "name": "Censurador de E-mail",
+      "nodes": [
+        {
+          "actions": [
+            {
+              "category": "",
+              "name": "email",
+              "type": "set_run_result",
+              "uuid": "1c901dc3-8ba9-41b3-9bb2-bc2f55e64b90",
+              "value": "@parent.results.email"
+            },
+            {
+              "category": "",
+              "name": "servidor do email",
+              "type": "set_run_result",
+              "uuid": "55aba8a5-e763-4473-b679-f0664b98e630",
+              "value": "@(\"@\"&field(results.email, 1, \"@\"))"
+            },
+            {
+              "category": "",
+              "name": "contador de caracteres",
+              "type": "set_run_result",
+              "uuid": "408f1ca4-3494-41bf-ae9c-15f7475afd84",
+              "value": "@(text_length(field(results.email, 0, \"@\")))"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "071137d8-6e48-436d-953d-dac2daa1372e",
+              "uuid": "bcd25886-71a9-46b6-811d-3822edf671ba"
+            }
+          ],
+          "uuid": "987020f0-7328-4a6b-b3a2-c1fac85780cc"
+        },
+        {
+          "actions": [
+            {
+              "category": "",
+              "name": "primeira parte email",
+              "type": "set_run_result",
+              "uuid": "f2727463-458b-4993-a6cc-89577ab9520b",
+              "value": "@(field(results.email, 0, \"@\"))"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "1af3f81a-9ad9-4b2a-bdc1-f24e96d11aa4",
+              "uuid": "fb063667-ddf1-4a22-b6be-34ce5c7b527f"
+            }
+          ],
+          "uuid": "071137d8-6e48-436d-953d-dac2daa1372e"
+        },
+        {
+          "actions": [
+            {
+              "category": "",
+              "name": "email_censurado",
+              "type": "set_run_result",
+              "uuid": "7a420745-371f-4d4e-b83a-c434e26c5abc",
+              "value": "@results.asteriscos@results.ultimos_caracteres_exibidos@results.servidor_do_email"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": null,
+              "uuid": "565bf301-8cb1-4300-9cf9-5aefc647d7fc"
+            }
+          ],
+          "uuid": "fbd5bee2-df97-4f37-9cfb-afa87070ad6b"
+        },
+        {
+          "actions": [
+            {
+              "category": "",
+              "name": "asteriscos",
+              "type": "set_run_result",
+              "uuid": "cd78fac6-e69c-4765-833b-f9a885659a82",
+              "value": "@(repeat(\"* \", ((results.contador_de_caracteres - 2))))"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "8e52bbb9-857b-47fe-9577-dd869dae1f9e",
+              "uuid": "9eb3238b-c60d-479b-add2-2a83d82eae5d"
+            }
+          ],
+          "uuid": "1af3f81a-9ad9-4b2a-bdc1-f24e96d11aa4"
+        },
+        {
+          "actions": [
+            {
+              "category": "",
+              "name": "ultimos caracteres exibidos",
+              "type": "set_run_result",
+              "uuid": "901edb70-479f-4817-8d1e-ffab942ea6a3",
+              "value": "@(text_slice(results.primeira_parte_email, -2))"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "fbd5bee2-df97-4f37-9cfb-afa87070ad6b",
+              "uuid": "1053c6b9-c1a5-43b4-99cd-35ab3e11fead"
+            }
+          ],
+          "uuid": "8e52bbb9-857b-47fe-9577-dd869dae1f9e"
+        }
+      ],
+      "spec_version": "13.1.0",
+      "type": "messaging",
+      "uuid": "ebe8a770-1018-4066-b46f-b932b46c9655",
+      "revision": 1
+    },
+    {
+      "name": "Consulta Status do Pedido de Venda Omie",
+      "uuid": "482970e6-177a-44eb-bea4-d865431ba7b4",
+      "spec_version": "13.1.0",
+      "language": "por",
+      "type": "messaging",
+      "nodes": [
+        {
+          "uuid": "049059ca-f72a-45fd-8e70-6bb7329bcf83",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "Seja bem vindo a nossa central de Pedidos! \ud83d\ude0a",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "1e6d4aa4-adc1-4758-98f9-45c8fed819ac"
+            },
+            {
+              "type": "remove_contact_groups",
+              "groups": [
+                {
+                  "uuid": "b7d9b65d-7f1f-4a0f-8b03-75e7d6ed0e6c",
+                  "name": "Satisfeito"
+                }
+              ],
+              "all_groups": false,
+              "uuid": "d12bc5b0-55b2-475c-9c5b-b0884c55d8c9"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "fb971858-f76f-4302-8d43-29088cb61004",
+              "destination_uuid": "5611e07d-2881-44fc-97e8-5ecc4844a00e"
+            }
+          ]
+        },
+        {
+          "uuid": "5611e07d-2881-44fc-97e8-5ecc4844a00e",
+          "actions": [
+            {
+              "uuid": "3a2ef8c3-c224-4ee9-9cc7-1048301cd158",
+              "type": "enter_flow",
+              "flow": {
+                "uuid": "ded9c184-8c33-41f0-a00c-4f2fc7a1cb59",
+                "name": "Vendas - Credenciamento"
+              }
+            }
+          ],
+          "router": {
+            "type": "switch",
+            "operand": "@child.status",
+            "cases": [
+              {
+                "uuid": "e3dd770d-b5fe-4dd3-816b-2b7a1c3ce747",
+                "type": "has_only_text",
+                "arguments": [
+                  "completed"
+                ],
+                "category_uuid": "abc424e3-6d3f-4f91-832d-4d1dc86c25d6"
+              },
+              {
+                "uuid": "5b22e721-b0d5-40ee-9ae4-7eba68764ce1",
+                "arguments": [
+                  "expired"
+                ],
+                "type": "has_only_text",
+                "category_uuid": "c3e896e3-b312-415b-b60c-38b4e8bef9d0"
+              }
+            ],
+            "categories": [
+              {
+                "uuid": "abc424e3-6d3f-4f91-832d-4d1dc86c25d6",
+                "name": "Complete",
+                "exit_uuid": "8be96199-041e-4594-8a7e-620605a0706c"
+              },
+              {
+                "uuid": "c3e896e3-b312-415b-b60c-38b4e8bef9d0",
+                "name": "Expired",
+                "exit_uuid": "6a29633a-ac13-492f-a56c-480b695f1d14"
+              }
+            ],
+            "default_category_uuid": "c3e896e3-b312-415b-b60c-38b4e8bef9d0"
+          },
+          "exits": [
+            {
+              "uuid": "8be96199-041e-4594-8a7e-620605a0706c",
+              "destination_uuid": "58d81164-5552-4f9e-9b1f-327c01cc00cc"
+            },
+            {
+              "uuid": "6a29633a-ac13-492f-a56c-480b695f1d14",
+              "destination_uuid": null
+            }
+          ]
+        },
+        {
+          "uuid": "58d81164-5552-4f9e-9b1f-327c01cc00cc",
+          "actions": [],
+          "router": {
+            "type": "switch",
+            "cases": [
+              {
+                "uuid": "4523c253-a53f-4587-9a1e-5dc60de6bbe5",
+                "type": "has_group",
+                "arguments": [
+                  "b7d9b65d-7f1f-4a0f-8b03-75e7d6ed0e6c",
+                  "Satisfeito"
+                ],
+                "category_uuid": "4f85a1c0-002d-44ae-a583-b8a725f6d11d"
+              }
+            ],
+            "categories": [
+              {
+                "uuid": "4f85a1c0-002d-44ae-a583-b8a725f6d11d",
+                "name": "Satisfeito",
+                "exit_uuid": "be1d8d37-64e2-4e01-9987-6794854d68f8"
+              },
+              {
+                "uuid": "0cad3d15-04e8-49f3-89a5-44b32c3eb164",
+                "name": "Other",
+                "exit_uuid": "583dc786-1aee-4d30-ab1f-87f32f9d3342"
+              }
+            ],
+            "default_category_uuid": "0cad3d15-04e8-49f3-89a5-44b32c3eb164",
+            "operand": "@contact.groups",
+            "result_name": ""
+          },
+          "exits": [
+            {
+              "uuid": "be1d8d37-64e2-4e01-9987-6794854d68f8"
+            },
+            {
+              "uuid": "583dc786-1aee-4d30-ab1f-87f32f9d3342",
+              "destination_uuid": "71c3d314-3e24-4601-93d6-3bd4e89c98da"
+            }
+          ]
+        },
+        {
+          "uuid": "71c3d314-3e24-4601-93d6-3bd4e89c98da",
+          "actions": [
+            {
+              "type": "set_run_result",
+              "name": "pagina",
+              "value": "1",
+              "category": "",
+              "uuid": "eefe4d3d-299b-453f-bce2-990ffc900580"
+            },
+            {
+              "type": "set_run_result",
+              "name": "rodada",
+              "value": "1",
+              "category": "",
+              "uuid": "268682d8-110a-4fd1-a606-b19dccd5d702"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "1ef31000-6422-4419-be60-1319ec7ed943",
+              "destination_uuid": "8a8bb1c2-c662-4299-8914-677b8b1a864d"
+            }
+          ]
+        },
+        {
+          "uuid": "6d2bc44e-6d94-4e0b-b7c5-9c91c1e558b5",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "Qual o n\u00famero do seu pedido?\n\n_Voc\u00ea recebeu o n\u00famero do seu pedido por email_",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "ed6f1253-0bd1-460a-858c-bcd644cf56e6"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "a492f6dd-7deb-4db2-92e7-b51b6bbf9084",
+              "destination_uuid": "7a4100a5-3fdd-4202-86d6-4bd4e5440f39"
+            }
+          ]
+        },
+        {
+          "uuid": "8a8bb1c2-c662-4299-8914-677b8b1a864d",
+          "actions": [
+            {
+              "uuid": "3483685c-0822-4de9-891e-36962cdec701",
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "type": "call_webhook",
+              "url": "https://app.omie.com.br/api/v1/produtos/pedido/",
+              "body": "{\n    \"call\": \"ListarPedidos\",\n    \"app_key\": \"@globals.appkey\",\n    \"app_secret\": \"@globals.appsecret\",\n    \"param\": [\n        {\n            \"pagina\": @results.pagina,\n            \"registros_por_pagina\": 5,\n            \"apenas_importado_api\": \"N\",\n            \"filtrar_por_cliente\": @fields.codigo_cliente_omie\n        }\n    ]\n}",
+              "method": "POST",
+              "result_name": "listar pedidos"
+            }
+          ],
+          "router": {
+            "type": "switch",
+            "operand": "@results.listar_pedidos.category",
+            "cases": [
+              {
+                "uuid": "08c0bd6c-1f2a-4126-9045-e028682064ac",
+                "type": "has_only_text",
+                "arguments": [
+                  "Success"
+                ],
+                "category_uuid": "a3d75aea-d832-4390-8e96-753db41837ba"
+              }
+            ],
+            "categories": [
+              {
+                "uuid": "a3d75aea-d832-4390-8e96-753db41837ba",
+                "name": "Success",
+                "exit_uuid": "bd222594-8ffc-46cb-887a-294fce19b753"
+              },
+              {
+                "uuid": "66793d3e-bd27-42d0-b1cc-383c95cddb7e",
+                "name": "Failure",
+                "exit_uuid": "acc89a5e-bed1-4b30-936d-d37e9d354466"
+              }
+            ],
+            "default_category_uuid": "66793d3e-bd27-42d0-b1cc-383c95cddb7e"
+          },
+          "exits": [
+            {
+              "uuid": "bd222594-8ffc-46cb-887a-294fce19b753",
+              "destination_uuid": "b10197ac-2f5c-48b7-9984-24acb870536e"
+            },
+            {
+              "uuid": "acc89a5e-bed1-4b30-936d-d37e9d354466",
+              "destination_uuid": null
+            }
+          ]
+        },
+        {
+          "uuid": "7a4100a5-3fdd-4202-86d6-4bd4e5440f39",
+          "actions": [],
+          "router": {
+            "type": "switch",
+            "default_category_uuid": "d1dd3f11-2b93-4bd3-8bba-e8d9fbcb7946",
+            "cases": [],
+            "categories": [
+              {
+                "uuid": "d1dd3f11-2b93-4bd3-8bba-e8d9fbcb7946",
+                "name": "All Responses",
+                "exit_uuid": "3be424ea-8656-4727-a386-ff99273205fb"
+              },
+              {
+                "uuid": "7476c45b-9df8-494d-9f1a-4ee44fcc9b71",
+                "name": "No Response",
+                "exit_uuid": "d9182f00-c6ac-4ca9-849b-da54424f5f08"
+              }
+            ],
+            "operand": "@input.text",
+            "wait": {
+              "type": "msg",
+              "timeout": {
+                "seconds": 3600,
+                "category_uuid": "7476c45b-9df8-494d-9f1a-4ee44fcc9b71"
+              }
+            },
+            "result_name": "numero pedido"
+          },
+          "exits": [
+            {
+              "uuid": "3be424ea-8656-4727-a386-ff99273205fb",
+              "destination_uuid": "29549ee9-1daf-465f-b342-b2162b6ad82c"
+            },
+            {
+              "uuid": "d9182f00-c6ac-4ca9-849b-da54424f5f08"
+            }
+          ]
+        },
+        {
+          "uuid": "b10197ac-2f5c-48b7-9984-24acb870536e",
+          "actions": [],
+          "router": {
+            "type": "switch",
+            "default_category_uuid": "f05bc0c0-2b1f-4d38-b2af-d042d640617f",
+            "categories": [
+              {
+                "uuid": "33bcc8d3-8d95-499b-b0f5-66f584aefad9",
+                "name": "Nenhum",
+                "exit_uuid": "268d167c-a7d3-43a9-9ad7-a2e8a09d622d"
+              },
+              {
+                "uuid": "317d93fa-c1b0-4834-92f5-ded4ecf01769",
+                "name": "Somente 1",
+                "exit_uuid": "71359e9d-0dd9-45a3-bdd9-c490c264585f"
+              },
+              {
+                "uuid": "64b8a5b4-89fd-432a-976c-fa4ccdde2678",
+                "name": "Mais de 1",
+                "exit_uuid": "b2a76f6f-67fe-44d9-a5ba-d2099bb80549"
+              },
+              {
+                "uuid": "f05bc0c0-2b1f-4d38-b2af-d042d640617f",
+                "name": "Other",
+                "exit_uuid": "5b7563bf-608f-487a-bc6e-b8e170ce4596"
+              }
+            ],
+            "cases": [
+              {
+                "arguments": [
+                  "0"
+                ],
+                "type": "has_number_eq",
+                "uuid": "497d6be2-cfa2-4cba-92a7-695639a064ef",
+                "category_uuid": "33bcc8d3-8d95-499b-b0f5-66f584aefad9"
+              },
+              {
+                "arguments": [
+                  "1"
+                ],
+                "type": "has_number_eq",
+                "uuid": "c4fa24a2-57cc-4556-991e-ae2b509b1601",
+                "category_uuid": "317d93fa-c1b0-4834-92f5-ded4ecf01769"
+              },
+              {
+                "arguments": [
+                  "1"
+                ],
+                "type": "has_number_gt",
+                "uuid": "f04dbb0c-ba29-4a7c-a537-b37de4e4febc",
+                "category_uuid": "64b8a5b4-89fd-432a-976c-fa4ccdde2678"
+              }
+            ],
+            "operand": "@webhook.total_de_registros"
+          },
+          "exits": [
+            {
+              "uuid": "268d167c-a7d3-43a9-9ad7-a2e8a09d622d",
+              "destination_uuid": "aaba6a1c-90d9-42b4-98de-e6deeec8b5f3"
+            },
+            {
+              "uuid": "71359e9d-0dd9-45a3-bdd9-c490c264585f",
+              "destination_uuid": "d21a076f-655e-43f5-ba59-862e050bc715"
+            },
+            {
+              "uuid": "b2a76f6f-67fe-44d9-a5ba-d2099bb80549",
+              "destination_uuid": "3156cfb6-f7a4-48ec-8969-140c47f69354"
+            },
+            {
+              "uuid": "5b7563bf-608f-487a-bc6e-b8e170ce4596",
+              "destination_uuid": "aaba6a1c-90d9-42b4-98de-e6deeec8b5f3"
+            }
+          ]
+        },
+        {
+          "uuid": "d21a076f-655e-43f5-ba59-862e050bc715",
+          "actions": [
+            {
+              "type": "set_run_result",
+              "name": "codigo_pedido",
+              "value": "@webhook.pedido_venda_produto.0.cabecalho.codigo_pedido",
+              "category": "",
+              "uuid": "9648339d-f809-4703-8a58-e154977e195f"
+            },
+            {
+              "type": "set_run_result",
+              "name": "numero pedido",
+              "value": "@webhook.pedido_venda_produto.0.cabecalho.numero_pedido",
+              "category": "",
+              "uuid": "eee78e9c-bd59-42e6-88d2-38f107970a4e"
+            },
+            {
+              "type": "set_run_result",
+              "name": "produto",
+              "value": "@webhook.pedido_venda_produto.0.det.0.produto.descricao",
+              "category": "",
+              "uuid": "2339d81f-30d2-4db8-a7cf-23305a5e0345"
+            },
+            {
+              "type": "set_run_result",
+              "name": "valor_total_pedido",
+              "value": "@webhook.pedido_venda_produto.0.total_pedido.valor_total_pedido",
+              "category": "",
+              "uuid": "81ffd10f-dff4-4635-a495-d8d1db949933"
+            },
+            {
+              "type": "set_run_result",
+              "name": "cliente",
+              "value": "@webhook.pedido_venda_produto.0.informacoes_adicionais.contato",
+              "category": "",
+              "uuid": "401844a4-1556-414e-9f24-b1d9c7492d66"
+            },
+            {
+              "attachments": [],
+              "text": "Pedido N\u00ba @results.numero_pedido\n\nProduto: @results.produto\nComprador: @results.cliente\nValor Total: R$ @results.valor_total_pedido \n\nC\u00f3digo do pedido: @results.codigo_pedido",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "76f62fee-8d70-4694-92ba-a4ac48ea5f8b"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "4ff4ef01-ce37-428d-87bd-717ba48ee69e",
+              "destination_uuid": "78796058-5365-4bb9-bae6-f46248923cc7"
+            }
+          ]
+        },
+        {
+          "uuid": "3156cfb6-f7a4-48ec-8969-140c47f69354",
+          "actions": [
+            {
+              "type": "set_run_result",
+              "name": "total de pedidos",
+              "value": "@(count(webhook.pedido_venda_produto))",
+              "category": "",
+              "uuid": "910d8390-9589-4c93-bd10-dd6c984d6403"
+            },
+            {
+              "type": "set_run_result",
+              "name": "contador",
+              "value": "0",
+              "category": "",
+              "uuid": "e60f83c3-1846-4c35-ae86-527e0dfbd12f"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "4795bf4e-a933-400d-bb91-c799cec36973",
+              "destination_uuid": "cc9f6ecf-7388-4155-b058-6c097b43b4b6"
+            }
+          ]
+        },
+        {
+          "uuid": "aaba6a1c-90d9-42b4-98de-e6deeec8b5f3",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "N\u00e3o achei pedidos em seu nome, por favor tente novamente ou entre em contato com nosso setor de Pedidos",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "e4ab8963-ee32-4689-989f-225e860097be"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "7077e730-acd0-42d7-be5a-6807dd76f570",
+              "destination_uuid": null
+            }
+          ]
+        },
+        {
+          "uuid": "29549ee9-1daf-465f-b342-b2162b6ad82c",
+          "actions": [
+            {
+              "uuid": "eb71ebc3-e6a7-42ac-979e-1d3b6d6c3d2b",
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "type": "call_webhook",
+              "url": "https://app.omie.com.br/api/v1/produtos/pedido/",
+              "body": "{\n    \"call\": \"ConsultarPedido\",\n    \"app_key\": \"@globals.appkey\",\n    \"app_secret\": \"@globals.appsecret\",\n    \"param\": [\n        {\n            \"numero_pedido\": @results.numero_pedido\n        }\n    ]\n}",
+              "method": "POST",
+              "result_name": "consultar"
+            }
+          ],
+          "router": {
+            "type": "switch",
+            "operand": "@results.consultar.category",
+            "cases": [
+              {
+                "uuid": "a6996f46-6070-4fe6-ab14-04ec9e37443e",
+                "type": "has_only_text",
+                "arguments": [
+                  "Success"
+                ],
+                "category_uuid": "2243e1ce-ac24-481d-9ece-3cea9afddb34"
+              }
+            ],
+            "categories": [
+              {
+                "uuid": "2243e1ce-ac24-481d-9ece-3cea9afddb34",
+                "name": "Success",
+                "exit_uuid": "baacf978-bd6a-4fb9-881b-f23270db99f4"
+              },
+              {
+                "uuid": "dda3d729-3b71-475e-aa73-7fa3bf7dfcb6",
+                "name": "Failure",
+                "exit_uuid": "4ecf36ee-3dd2-4652-a1e4-c455297c5f60"
+              }
+            ],
+            "default_category_uuid": "dda3d729-3b71-475e-aa73-7fa3bf7dfcb6"
+          },
+          "exits": [
+            {
+              "uuid": "baacf978-bd6a-4fb9-881b-f23270db99f4",
+              "destination_uuid": "6b4c5828-e658-460c-9244-d65357726e51"
+            },
+            {
+              "uuid": "4ecf36ee-3dd2-4652-a1e4-c455297c5f60",
+              "destination_uuid": "99afef5d-b522-462e-847f-6310ef6e0c58"
+            }
+          ]
+        },
+        {
+          "uuid": "99afef5d-b522-462e-847f-6310ef6e0c58",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "N\u00e3o consegui consultar o seu pedido, entre em contato com nosso setor de Vendas",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "fcfa72ad-ed68-405b-851c-5ca890bc4044"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "2d477f4e-7893-443e-b3cb-b621b6811a6d",
+              "destination_uuid": null
+            }
+          ]
+        },
+        {
+          "uuid": "cc9f6ecf-7388-4155-b058-6c097b43b4b6",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "*Pedido N\u00ba @(webhook.pedido_venda_produto[results.contador].cabecalho.numero_pedido)*\n\nProduto: @(webhook.pedido_venda_produto[results.contador].det.0.produto.descricao)\nComprador: @(webhook.pedido_venda_produto[results.contador].informacoes_adicionais.contato)\nValor Total: R$ @(webhook.pedido_venda_produto[results.contador].total_pedido.valor_total_pedido)",
+              "type": "send_msg",
+              "all_urns": false,
+              "quick_replies": [],
+              "uuid": "01e7dd35-32ec-4684-85eb-5366e752adc0"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "8ee75c28-1fa1-4288-8a81-790397d1be05",
+              "destination_uuid": "9318b3cd-1697-41f3-a7b3-440d8c871ef1"
+            }
+          ]
+        },
+        {
+          "uuid": "6b4c5828-e658-460c-9244-d65357726e51",
+          "actions": [],
+          "router": {
+            "type": "switch",
+            "default_category_uuid": "e7feb652-a855-4e44-b0e3-d81d07ee6b1f",
+            "categories": [
+              {
+                "uuid": "e2bd9a64-02ee-4b84-af64-13a723cbffdb",
+                "name": "Tem codigo de pedido",
+                "exit_uuid": "4a182b64-4ae9-4b74-9712-d58293bfdcf6"
+              },
+              {
+                "uuid": "e7feb652-a855-4e44-b0e3-d81d07ee6b1f",
+                "name": "Other",
+                "exit_uuid": "7b6c2bf4-6fc8-4397-90d9-908df424a672"
+              }
+            ],
+            "cases": [
+              {
+                "arguments": [],
+                "type": "has_text",
+                "uuid": "e538abb0-8d9b-4dd9-b669-24ee30392a8f",
+                "category_uuid": "e2bd9a64-02ee-4b84-af64-13a723cbffdb"
+              }
+            ],
+            "operand": "@webhook.pedido_venda_produto.cabecalho.codigo_pedido"
+          },
+          "exits": [
+            {
+              "uuid": "4a182b64-4ae9-4b74-9712-d58293bfdcf6",
+              "destination_uuid": "2c4a9367-b8a9-4bbf-b6a1-4c8de063b100"
+            },
+            {
+              "uuid": "7b6c2bf4-6fc8-4397-90d9-908df424a672",
+              "destination_uuid": "99afef5d-b522-462e-847f-6310ef6e0c58"
+            }
+          ]
+        },
+        {
+          "uuid": "2c4a9367-b8a9-4bbf-b6a1-4c8de063b100",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "Pedido N\u00ba @webhook.pedido_venda_produto.cabecalho.numero_pedido \n\nProduto: @webhook.pedido_venda_produto.det.0.produto.descricao \nComprador: @webhook.pedido_venda_produto.informacoes_adicionais.contato \nValor Total: R$ @webhook.pedido_venda_produto.total_pedido.valor_total_pedido \n\nC\u00f3digo do pedido: @webhook.pedido_venda_produto.cabecalho.codigo_pedido ",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "9147cce3-1e0e-4feb-8ca2-7a43525b287a"
+            },
+            {
+              "type": "set_run_result",
+              "name": "codigo_pedido",
+              "value": "@webhook.pedido_venda_produto.cabecalho.codigo_pedido",
+              "category": "",
+              "uuid": "e06efddf-b2b2-464b-a43e-6a523fafd7d5"
+            },
+            {
+              "type": "set_run_result",
+              "name": "numero_pedido",
+              "value": "@webhook.pedido_venda_produto.cabecalho.numero_pedido",
+              "category": "",
+              "uuid": "622c8650-ed8c-4ead-9389-71b69913511e"
+            },
+            {
+              "type": "set_run_result",
+              "name": "produto",
+              "value": "@webhook.pedido_venda_produto.det.0.produto.descricao",
+              "category": "",
+              "uuid": "57b8bc79-390b-46dc-91f8-13a1823f4624"
+            },
+            {
+              "type": "set_run_result",
+              "name": "cliente",
+              "value": "@webhook.pedido_venda_produto.informacoes_adicionais.contato",
+              "category": "",
+              "uuid": "cb0f63d9-9117-45de-a52a-aa0997fcab5e"
+            },
+            {
+              "type": "set_run_result",
+              "name": "valor_total_pedido",
+              "value": "@webhook.pedido_venda_produto.total_pedido.valor_total_pedido",
+              "category": "",
+              "uuid": "38a3aa07-1232-4af1-8b3e-e4fbe22962ab"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "928f8b97-c3f4-4cc5-a69a-a9f9728090ca",
+              "destination_uuid": "78796058-5365-4bb9-bae6-f46248923cc7"
+            }
+          ]
+        },
+        {
+          "uuid": "9318b3cd-1697-41f3-a7b3-440d8c871ef1",
+          "actions": [],
+          "router": {
+            "type": "switch",
+            "default_category_uuid": "4a274ef3-2ad9-4cbd-bfb4-c78b0fd84dca",
+            "categories": [
+              {
+                "uuid": "64dbe599-ec0f-4bb2-b9d0-64a893b7b0c3",
+                "name": "Fim",
+                "exit_uuid": "8ae64626-c611-4554-89ec-dcb0db0a542a"
+              },
+              {
+                "uuid": "4a274ef3-2ad9-4cbd-bfb4-c78b0fd84dca",
+                "name": "Other",
+                "exit_uuid": "aa96e027-e27c-4c37-bf9a-0859d3aa8c71"
+              }
+            ],
+            "cases": [
+              {
+                "arguments": [
+                  "@(results.total_de_pedidos -1)"
+                ],
+                "type": "has_any_word",
+                "uuid": "f8975b42-dfa3-4bea-a3b3-1f972bf6ddb9",
+                "category_uuid": "64dbe599-ec0f-4bb2-b9d0-64a893b7b0c3"
+              }
+            ],
+            "operand": "@results.contador"
+          },
+          "exits": [
+            {
+              "uuid": "8ae64626-c611-4554-89ec-dcb0db0a542a",
+              "destination_uuid": "2675db7d-1c7f-4bc9-9ccc-fc43ee9b7fc1"
+            },
+            {
+              "uuid": "aa96e027-e27c-4c37-bf9a-0859d3aa8c71",
+              "destination_uuid": "31782ada-1038-49ef-8fa1-3459583ea2ae"
+            }
+          ]
+        },
+        {
+          "uuid": "31782ada-1038-49ef-8fa1-3459583ea2ae",
+          "actions": [
+            {
+              "type": "set_run_result",
+              "name": "contador",
+              "value": "@(results.contador +1)",
+              "category": "",
+              "uuid": "1e533c04-fd90-419c-9050-74102a2b0dd2"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "0b259a9c-6afe-4ff1-a315-3163ff2cde8f",
+              "destination_uuid": "cc9f6ecf-7388-4155-b058-6c097b43b4b6"
+            }
+          ]
+        },
+        {
+          "uuid": "2675db7d-1c7f-4bc9-9ccc-fc43ee9b7fc1",
+          "actions": [],
+          "router": {
+            "type": "switch",
+            "default_category_uuid": "f48dfc2b-2021-498e-ae42-23491933f65a",
+            "categories": [
+              {
+                "uuid": "9f952576-163f-42a4-a98f-ac48c5ed6169",
+                "name": "N\u00e3o tem mais p\u00e1ginas",
+                "exit_uuid": "4713e830-a5a6-4a05-b47c-6e0489b1e779"
+              },
+              {
+                "uuid": "f48dfc2b-2021-498e-ae42-23491933f65a",
+                "name": "Other",
+                "exit_uuid": "afba7782-c3da-4d3f-b7e2-e14f1e1eda20"
+              }
+            ],
+            "cases": [
+              {
+                "arguments": [
+                  "@webhook.total_de_paginas"
+                ],
+                "type": "has_number_eq",
+                "uuid": "96b87347-7f11-480a-ae29-36b5e0826f45",
+                "category_uuid": "9f952576-163f-42a4-a98f-ac48c5ed6169"
+              }
+            ],
+            "operand": "@results.pagina"
+          },
+          "exits": [
+            {
+              "uuid": "4713e830-a5a6-4a05-b47c-6e0489b1e779",
+              "destination_uuid": "34cf3999-b624-42ea-9afe-01976137019e"
+            },
+            {
+              "uuid": "afba7782-c3da-4d3f-b7e2-e14f1e1eda20",
+              "destination_uuid": "fcf5ab1e-94ec-41a3-bd0f-ddba7c387865"
+            }
+          ]
+        },
+        {
+          "uuid": "fcf5ab1e-94ec-41a3-bd0f-ddba7c387865",
+          "actions": [],
+          "router": {
+            "type": "switch",
+            "default_category_uuid": "8d63a56e-af94-4d4f-874b-ad134b22c6d7",
+            "categories": [
+              {
+                "uuid": "71386fd0-505e-4a11-a7e5-49a3876f030d",
+                "name": "Mais de uma vez listado",
+                "exit_uuid": "ac91a8c6-52f0-4942-a019-a47bfe5b736a"
+              },
+              {
+                "uuid": "8d63a56e-af94-4d4f-874b-ad134b22c6d7",
+                "name": "Other",
+                "exit_uuid": "14945541-2eea-4569-af19-7be531169129"
+              }
+            ],
+            "cases": [
+              {
+                "arguments": [
+                  "1"
+                ],
+                "type": "has_number_gt",
+                "uuid": "cd49fd24-2e4f-460f-967b-1b8386db9e2b",
+                "category_uuid": "71386fd0-505e-4a11-a7e5-49a3876f030d"
+              }
+            ],
+            "operand": "@results.rodada"
+          },
+          "exits": [
+            {
+              "uuid": "ac91a8c6-52f0-4942-a019-a47bfe5b736a",
+              "destination_uuid": "9d1da93d-5a03-44a7-a61a-9ff817d3658c"
+            },
+            {
+              "uuid": "14945541-2eea-4569-af19-7be531169129",
+              "destination_uuid": "bb97e1e5-78e6-4ab1-bba9-6a053badeede"
+            }
+          ]
+        },
+        {
+          "uuid": "34cf3999-b624-42ea-9afe-01976137019e",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "Por favor, informe o n\u00famero do pedido que deseja consultar",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "87c93ce7-3e02-4aac-ad20-2d78e8384133"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "0f1e808a-c10a-4dd7-90df-c9c8299261d1",
+              "destination_uuid": "70ae1d2c-37a9-4d98-bc68-c17c957d7812"
+            }
+          ]
+        },
+        {
+          "uuid": "9d1da93d-5a03-44a7-a61a-9ff817d3658c",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "Por favor, informe o n\u00famero do pedido que deseja consultar ou clique em Ver mais",
+              "type": "send_msg",
+              "quick_replies": [
+                "Ver mais",
+                "Listar novamente",
+                "Sair"
+              ],
+              "uuid": "2b29b4ec-7b0d-4925-8331-df618abfa07c"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "be906df1-65b0-4928-8456-43bf554218cc",
+              "destination_uuid": "70ae1d2c-37a9-4d98-bc68-c17c957d7812"
+            }
+          ]
+        },
+        {
+          "uuid": "bb97e1e5-78e6-4ab1-bba9-6a053badeede",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "Por favor, informe o n\u00famero do pedido que deseja consultar ou clique em Ver mais",
+              "type": "send_msg",
+              "quick_replies": [
+                "Ver mais",
+                "Sair"
+              ],
+              "uuid": "2a46d365-c51c-4a6a-99ae-16127845b49e"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "df1c902a-500f-4e11-be3f-120e801ac6a3",
+              "destination_uuid": "70ae1d2c-37a9-4d98-bc68-c17c957d7812"
+            }
+          ]
+        },
+        {
+          "uuid": "bf61efc9-e958-4cad-b0ce-62b37bc9e914",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "Por favor, informe somente o N\u00famero do pedido que deseja consultar",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "53cee170-c276-4230-af63-b77bb5c111ee"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "9dc32a7b-a823-4555-8e7a-e4559e567ef1",
+              "destination_uuid": "34cf3999-b624-42ea-9afe-01976137019e"
+            }
+          ]
+        },
+        {
+          "uuid": "70ae1d2c-37a9-4d98-bc68-c17c957d7812",
+          "actions": [],
+          "router": {
+            "type": "switch",
+            "default_category_uuid": "065e72ee-ab78-46b0-8741-5bb253b374cc",
+            "cases": [
+              {
+                "arguments": [],
+                "type": "has_number",
+                "uuid": "bc0b5acf-f4b8-45f1-b323-7440daf6bb14",
+                "category_uuid": "e90b05aa-d65d-4d8a-8f3b-dc00db569fdb"
+              },
+              {
+                "arguments": [
+                  "ver mais"
+                ],
+                "type": "has_any_word",
+                "uuid": "c661148e-76fd-4dea-a4e8-751feda21908",
+                "category_uuid": "54511c49-1af1-4b14-8764-90a7da50443b"
+              },
+              {
+                "arguments": [
+                  "listar novamente"
+                ],
+                "type": "has_all_words",
+                "uuid": "43c8097c-9562-40ca-88cb-f337adfa6f55",
+                "category_uuid": "cdf3149b-62ae-41f7-b098-ea7781238b0b"
+              }
+            ],
+            "categories": [
+              {
+                "uuid": "e90b05aa-d65d-4d8a-8f3b-dc00db569fdb",
+                "name": "Tem um n\u00famero",
+                "exit_uuid": "10ad15ce-5afc-45f7-a3ea-b43f619c80a2"
+              },
+              {
+                "uuid": "54511c49-1af1-4b14-8764-90a7da50443b",
+                "name": "Ver mais",
+                "exit_uuid": "3856cb72-11d9-44aa-ac09-5b050f4cca6d"
+              },
+              {
+                "uuid": "cdf3149b-62ae-41f7-b098-ea7781238b0b",
+                "name": "Listar novamente",
+                "exit_uuid": "84d99d5e-5550-47fe-afd7-3c2c2b3693f3"
+              },
+              {
+                "uuid": "065e72ee-ab78-46b0-8741-5bb253b374cc",
+                "name": "Other",
+                "exit_uuid": "929e808a-2017-439e-aca8-f36477b2c50a"
+              },
+              {
+                "uuid": "53d10125-7f98-4c70-8e5b-1935f2a6a95f",
+                "name": "No Response",
+                "exit_uuid": "bcf0dea0-4770-4cea-9b92-65ebdacd4160"
+              }
+            ],
+            "operand": "@input.text",
+            "wait": {
+              "type": "msg",
+              "timeout": {
+                "seconds": 3600,
+                "category_uuid": "53d10125-7f98-4c70-8e5b-1935f2a6a95f"
+              }
+            },
+            "result_name": "escolha"
+          },
+          "exits": [
+            {
+              "uuid": "10ad15ce-5afc-45f7-a3ea-b43f619c80a2",
+              "destination_uuid": "9c4d2d39-f5f9-4bf0-9303-e32dd9827221"
+            },
+            {
+              "uuid": "3856cb72-11d9-44aa-ac09-5b050f4cca6d",
+              "destination_uuid": "0aedcaeb-28bc-4a1f-b9f0-669d674e75be"
+            },
+            {
+              "uuid": "84d99d5e-5550-47fe-afd7-3c2c2b3693f3",
+              "destination_uuid": "71c3d314-3e24-4601-93d6-3bd4e89c98da"
+            },
+            {
+              "uuid": "929e808a-2017-439e-aca8-f36477b2c50a",
+              "destination_uuid": "bf61efc9-e958-4cad-b0ce-62b37bc9e914"
+            },
+            {
+              "uuid": "bcf0dea0-4770-4cea-9b92-65ebdacd4160"
+            }
+          ]
+        },
+        {
+          "uuid": "0aedcaeb-28bc-4a1f-b9f0-669d674e75be",
+          "actions": [
+            {
+              "type": "set_run_result",
+              "name": "pagina",
+              "value": "@(results.pagina +1)",
+              "category": "",
+              "uuid": "ca98c241-cf80-4f10-bcb8-5df176d7ee6d"
+            },
+            {
+              "type": "set_run_result",
+              "name": "rodada",
+              "value": "@(results.rodada +1)",
+              "category": "",
+              "uuid": "750972ce-555e-41ef-9ada-d4068becb5bd"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "c77e295e-41e4-4472-9d69-31398d8b5724",
+              "destination_uuid": "8a8bb1c2-c662-4299-8914-677b8b1a864d"
+            }
+          ]
+        },
+        {
+          "uuid": "9c4d2d39-f5f9-4bf0-9303-e32dd9827221",
+          "actions": [
+            {
+              "type": "set_run_result",
+              "name": "pagina",
+              "value": "1",
+              "category": "",
+              "uuid": "2fc7c7c9-6dd1-4676-89bc-3db303c633fa"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "a4d08e83-fbee-4aa6-a04e-bdba79db9941",
+              "destination_uuid": "44e3fc5d-ded5-43a5-a494-a3e6346f6f42"
+            }
+          ]
+        },
+        {
+          "uuid": "44e3fc5d-ded5-43a5-a494-a3e6346f6f42",
+          "actions": [
+            {
+              "uuid": "062525fa-b214-41cd-a226-ead9550d3324",
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "type": "call_webhook",
+              "url": "https://app.omie.com.br/api/v1/produtos/pedido/",
+              "body": "{\n    \"call\": \"ListarPedidos\",\n    \"app_key\": \"@globals.appkey\",\n    \"app_secret\": \"@globals.appsecret\",\n    \"param\": [\n        {\n            \"pagina\": @results.pagina,\n            \"registros_por_pagina\": 5,\n            \"apenas_importado_api\": \"N\",\n            \"filtrar_por_cliente\": @fields.codigo_cliente_omie\n        }\n    ]\n}",
+              "method": "POST",
+              "result_name": "lista_pedido"
+            }
+          ],
+          "router": {
+            "type": "switch",
+            "operand": "@results.lista_pedido.category",
+            "cases": [
+              {
+                "uuid": "9e018180-1648-4c5a-a4f9-f5b6325be1b7",
+                "type": "has_only_text",
+                "arguments": [
+                  "Success"
+                ],
+                "category_uuid": "ac29697b-5c22-46fa-b771-a90de7e53200"
+              }
+            ],
+            "categories": [
+              {
+                "uuid": "ac29697b-5c22-46fa-b771-a90de7e53200",
+                "name": "Success",
+                "exit_uuid": "dd0ec28e-c0c5-4077-a3d7-48efd8169568"
+              },
+              {
+                "uuid": "a740af65-6964-4135-b5b6-05b8f8d63dff",
+                "name": "Failure",
+                "exit_uuid": "10b986ad-acf6-445e-9d25-42c254d169b6"
+              }
+            ],
+            "default_category_uuid": "a740af65-6964-4135-b5b6-05b8f8d63dff"
+          },
+          "exits": [
+            {
+              "uuid": "dd0ec28e-c0c5-4077-a3d7-48efd8169568",
+              "destination_uuid": "fa1ab96a-ff26-4685-8276-92bed570ccfa"
+            },
+            {
+              "uuid": "10b986ad-acf6-445e-9d25-42c254d169b6",
+              "destination_uuid": null
+            }
+          ]
+        },
+        {
+          "uuid": "fa1ab96a-ff26-4685-8276-92bed570ccfa",
+          "actions": [
+            {
+              "type": "set_run_result",
+              "name": "total de pedidos",
+              "value": "@(count(webhook.pedido_venda_produto))",
+              "category": "",
+              "uuid": "f95fb14e-6b2e-460c-83ff-250c131f6788"
+            },
+            {
+              "type": "set_run_result",
+              "name": "contador_escolha",
+              "value": "0",
+              "category": "",
+              "uuid": "b4fd63ad-994a-4d64-af09-76f494eda832"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "b2520ce4-7a02-4042-b605-9a18fcbeb7a5",
+              "destination_uuid": "aef4720a-b33d-4a34-9554-c03a030c1dcc"
+            }
+          ]
+        },
+        {
+          "uuid": "7d87977e-fc4d-4783-86bc-7bd7c86433e1",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "N\u00e3o encontrei um pedido com esse n\u00famero... Entre em contato com o setor de Pedidos",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "231ece35-bd03-4489-a1cf-0f4f97168bc5"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "3f7b1147-f0c1-47f2-99ba-d69af7426840",
+              "destination_uuid": null
+            }
+          ]
+        },
+        {
+          "uuid": "aef4720a-b33d-4a34-9554-c03a030c1dcc",
+          "actions": [],
+          "router": {
+            "type": "switch",
+            "default_category_uuid": "cafaf035-2d40-4091-af07-65c2524c25f6",
+            "categories": [
+              {
+                "uuid": "29db1666-e7a1-4127-becc-b43ab4bd167b",
+                "name": "Encontrado",
+                "exit_uuid": "c0748fe7-ad43-4f7a-9e1f-035c22a06120"
+              },
+              {
+                "uuid": "cafaf035-2d40-4091-af07-65c2524c25f6",
+                "name": "Other",
+                "exit_uuid": "d9e5152b-14d7-40e6-8de2-d11915956f4e"
+              }
+            ],
+            "cases": [
+              {
+                "arguments": [
+                  "@results.escolha"
+                ],
+                "type": "has_number_eq",
+                "uuid": "683f1fdf-45cc-40ff-aae9-c8a3e550779e",
+                "category_uuid": "29db1666-e7a1-4127-becc-b43ab4bd167b"
+              }
+            ],
+            "operand": "@(webhook.pedido_venda_produto[results.contador_escolha].cabecalho.numero_pedido)"
+          },
+          "exits": [
+            {
+              "uuid": "c0748fe7-ad43-4f7a-9e1f-035c22a06120",
+              "destination_uuid": "d2bff284-85a5-4116-8238-ab573137feec"
+            },
+            {
+              "uuid": "d9e5152b-14d7-40e6-8de2-d11915956f4e",
+              "destination_uuid": "816dd7ec-1628-44cc-b87f-02327e00d059"
+            }
+          ]
+        },
+        {
+          "uuid": "816dd7ec-1628-44cc-b87f-02327e00d059",
+          "actions": [],
+          "router": {
+            "type": "switch",
+            "default_category_uuid": "adc22d26-8c65-4c03-83e6-5af35ac99378",
+            "categories": [
+              {
+                "uuid": "380105b6-1b2c-43e9-9be8-ea17b595c418",
+                "name": "Fim",
+                "exit_uuid": "01e9b0f5-2fcd-4f91-aadf-ac534a31bf76"
+              },
+              {
+                "uuid": "adc22d26-8c65-4c03-83e6-5af35ac99378",
+                "name": "Other",
+                "exit_uuid": "91bba60b-8670-41ea-abbf-51a495bfb856"
+              }
+            ],
+            "cases": [
+              {
+                "arguments": [
+                  "@(results.total_de_pedidos -1)"
+                ],
+                "type": "has_any_word",
+                "uuid": "7dc6f635-6d19-46e1-9338-8f6b02fede1a",
+                "category_uuid": "380105b6-1b2c-43e9-9be8-ea17b595c418"
+              }
+            ],
+            "operand": "@results.contador_escolha"
+          },
+          "exits": [
+            {
+              "uuid": "01e9b0f5-2fcd-4f91-aadf-ac534a31bf76",
+              "destination_uuid": "7d87977e-fc4d-4783-86bc-7bd7c86433e1"
+            },
+            {
+              "uuid": "91bba60b-8670-41ea-abbf-51a495bfb856",
+              "destination_uuid": "ff3e81a9-dbb7-4ac5-ba5b-a2ebadb0a016"
+            }
+          ]
+        },
+        {
+          "uuid": "d2bff284-85a5-4116-8238-ab573137feec",
+          "actions": [
+            {
+              "type": "set_run_result",
+              "name": "numero pedido",
+              "value": "@(webhook.pedido_venda_produto[results.contador_escolha].cabecalho.numero_pedido)",
+              "category": "",
+              "uuid": "b4706cd2-03a4-4b3e-91a4-05440a627e09"
+            },
+            {
+              "type": "set_run_result",
+              "name": "codigo_pedido",
+              "value": "@(webhook.pedido_venda_produto[results.contador_escolha].cabecalho.codigo_pedido)",
+              "category": "",
+              "uuid": "bed1296a-bd6f-493f-bdae-1769e1464182"
+            },
+            {
+              "type": "set_run_result",
+              "name": "valor_total_pedido",
+              "value": "@(webhook.pedido_venda_produto[results.contador_escolha].total_pedido.valor_total_pedido)",
+              "category": "",
+              "uuid": "2e330fd4-dcf5-48d4-91ab-b00c34e206e7"
+            },
+            {
+              "type": "set_run_result",
+              "name": "produto",
+              "value": "@(webhook.pedido_venda_produto[results.contador_escolha].det.0.produto.descricao)",
+              "category": "",
+              "uuid": "d44956fe-a07d-46b1-8830-25d5986a445e"
+            },
+            {
+              "type": "set_run_result",
+              "name": "cliente",
+              "value": "@(webhook.pedido_venda_produto[results.contador_escolha].informacoes_adicionais.contato)",
+              "category": "",
+              "uuid": "f8f93e51-52d6-4c75-8791-1cd480403aa2"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "d213ce7f-8ef7-4aa4-b0f9-4e35762c3f50",
+              "destination_uuid": "78796058-5365-4bb9-bae6-f46248923cc7"
+            }
+          ]
+        },
+        {
+          "uuid": "ff3e81a9-dbb7-4ac5-ba5b-a2ebadb0a016",
+          "actions": [
+            {
+              "type": "set_run_result",
+              "name": "contador_escolha",
+              "value": "@(results.contador_escolha +1)",
+              "category": "",
+              "uuid": "0835dcde-c15f-4d59-a0ed-1590892d60db"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "20eeb192-0100-4b20-9c86-0c586d9065a1",
+              "destination_uuid": "aef4720a-b33d-4a34-9554-c03a030c1dcc"
+            }
+          ]
+        },
+        {
+          "uuid": "78796058-5365-4bb9-bae6-f46248923cc7",
+          "actions": [
+            {
+              "uuid": "4955512f-ddc5-4eb0-bfda-0b0572dd04a9",
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "type": "call_webhook",
+              "url": "https://app.omie.com.br/api/v1/produtos/pedido/",
+              "body": "{\n    \"call\": \"StatusPedido\",\n    \"app_key\": \"@globals.appkey\",\n    \"app_secret\": \"@globals.appsecret\",\n    \"param\": [\n        {\n            \"codigo_pedido\": @results.codigo_pedido,\n            \"codigo_pedido_integracao\": \"\"\n        }\n    ]\n}",
+              "method": "POST",
+              "result_name": "status pedido"
+            }
+          ],
+          "router": {
+            "type": "switch",
+            "operand": "@results.status_pedido.category",
+            "cases": [
+              {
+                "uuid": "5e72b420-88fa-4139-a590-d1118f72b48a",
+                "type": "has_only_text",
+                "arguments": [
+                  "Success"
+                ],
+                "category_uuid": "136465f0-f0ba-4a07-b1f3-680c1d883da8"
+              }
+            ],
+            "categories": [
+              {
+                "uuid": "136465f0-f0ba-4a07-b1f3-680c1d883da8",
+                "name": "Success",
+                "exit_uuid": "6b6f6a12-b28b-4dab-8527-a0fdd8b783a0"
+              },
+              {
+                "uuid": "0d248925-30d8-4991-836f-817e6ba2e503",
+                "name": "Failure",
+                "exit_uuid": "4a186cf0-415a-4973-b847-7570397b310f"
+              }
+            ],
+            "default_category_uuid": "0d248925-30d8-4991-836f-817e6ba2e503"
+          },
+          "exits": [
+            {
+              "uuid": "6b6f6a12-b28b-4dab-8527-a0fdd8b783a0",
+              "destination_uuid": "c1c952eb-1d54-461b-a30b-56365bf41820"
+            },
+            {
+              "uuid": "4a186cf0-415a-4973-b847-7570397b310f",
+              "destination_uuid": "821de320-3c97-4002-9b05-91146c9f3f52"
+            }
+          ]
+        },
+        {
+          "uuid": "c1c952eb-1d54-461b-a30b-56365bf41820",
+          "actions": [],
+          "router": {
+            "type": "switch",
+            "default_category_uuid": "58717e2c-b67f-49fc-9b20-1e3dc1c2f9b5",
+            "categories": [
+              {
+                "uuid": "a31cffd1-a31c-40e7-9085-0e5ec0b03e1c",
+                "name": "Tem texto",
+                "exit_uuid": "95cafc58-db2f-45d7-bc0d-1de92ab2c4f2"
+              },
+              {
+                "uuid": "58717e2c-b67f-49fc-9b20-1e3dc1c2f9b5",
+                "name": "Other",
+                "exit_uuid": "426f6521-6bfe-49e8-811b-2d75ed2ece77"
+              }
+            ],
+            "cases": [
+              {
+                "arguments": [],
+                "type": "has_text",
+                "uuid": "0b37f4c4-76c6-4812-a82e-dd7290537f41",
+                "category_uuid": "a31cffd1-a31c-40e7-9085-0e5ec0b03e1c"
+              }
+            ],
+            "operand": "@results.status_pedido.extra.faturada"
+          },
+          "exits": [
+            {
+              "uuid": "95cafc58-db2f-45d7-bc0d-1de92ab2c4f2",
+              "destination_uuid": "db3deac4-25ed-4910-bf44-511c8554e544"
+            },
+            {
+              "uuid": "426f6521-6bfe-49e8-811b-2d75ed2ece77",
+              "destination_uuid": "821de320-3c97-4002-9b05-91146c9f3f52"
+            }
+          ]
+        },
+        {
+          "uuid": "821de320-3c97-4002-9b05-91146c9f3f52",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "N\u00e3o consegui consultar o Status do seu pedido, entre em contato com nosso setor de Vendas",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "d56403c3-1f70-49a2-9670-0888119aa1b6"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "7d53862b-86a4-439a-a674-2c9e465d165f",
+              "destination_uuid": null
+            }
+          ]
+        },
+        {
+          "uuid": "db3deac4-25ed-4910-bf44-511c8554e544",
+          "actions": [],
+          "router": {
+            "type": "switch",
+            "default_category_uuid": "f128133b-45f8-4987-962f-d65c081560aa",
+            "categories": [
+              {
+                "uuid": "6f637a1a-90cf-46b1-8ebd-bfee8144835d",
+                "name": "N\u00e3o Faturado",
+                "exit_uuid": "aa26f197-9c46-464e-90f7-2d9f9ab75119"
+              },
+              {
+                "uuid": "f128133b-45f8-4987-962f-d65c081560aa",
+                "name": "Other",
+                "exit_uuid": "67feb934-9ee5-4747-982d-1a22fd57ec20"
+              }
+            ],
+            "cases": [
+              {
+                "arguments": [
+                  "N"
+                ],
+                "type": "has_any_word",
+                "uuid": "a3aa449f-948a-4dae-8198-97b86267a162",
+                "category_uuid": "6f637a1a-90cf-46b1-8ebd-bfee8144835d"
+              }
+            ],
+            "operand": "@results.status_pedido.extra.faturada"
+          },
+          "exits": [
+            {
+              "uuid": "aa26f197-9c46-464e-90f7-2d9f9ab75119",
+              "destination_uuid": "0ee0caec-d1c1-4151-8a24-030a68828fb2"
+            },
+            {
+              "uuid": "67feb934-9ee5-4747-982d-1a22fd57ec20",
+              "destination_uuid": "1919f619-86bd-42df-b8e8-fb7ad0c20b57"
+            }
+          ]
+        },
+        {
+          "uuid": "1919f619-86bd-42df-b8e8-fb7ad0c20b57",
+          "actions": [],
+          "router": {
+            "type": "switch",
+            "default_category_uuid": "50855ca4-fccd-419e-8889-e2db308ffe59",
+            "categories": [
+              {
+                "uuid": "769cc010-0de4-4353-999b-ba8239e92cf3",
+                "name": "Pedido n\u00e3o cancelado",
+                "exit_uuid": "86d47ff6-f44d-40a5-9699-a614ac3da9c0"
+              },
+              {
+                "uuid": "50855ca4-fccd-419e-8889-e2db308ffe59",
+                "name": "Other",
+                "exit_uuid": "38a7d4f4-5bdb-4a2c-bcf7-68ba47321ff9"
+              }
+            ],
+            "cases": [
+              {
+                "arguments": [
+                  "N"
+                ],
+                "type": "has_any_word",
+                "uuid": "74af2fcb-9fdc-4cb7-abaa-b2ba83a60096",
+                "category_uuid": "769cc010-0de4-4353-999b-ba8239e92cf3"
+              }
+            ],
+            "operand": "@results.status_pedido.extra.cancelada"
+          },
+          "exits": [
+            {
+              "uuid": "86d47ff6-f44d-40a5-9699-a614ac3da9c0",
+              "destination_uuid": "a1814064-79ec-4734-85d0-6d32e16fd4b8"
+            },
+            {
+              "uuid": "38a7d4f4-5bdb-4a2c-bcf7-68ba47321ff9",
+              "destination_uuid": "d1ff59fc-1c51-4db8-825b-1006ecf0176a"
+            }
+          ]
+        },
+        {
+          "uuid": "0ee0caec-d1c1-4151-8a24-030a68828fb2",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "Status do pedido: \n\nSeu pedido ainda n\u00e3o consta como faturado no nosso sistema!\n\nPor favor efetue o pagamento para prosseguir para pr\u00f3ximas etapas",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "26a0c7d6-e301-45d4-a46c-3e46ac495275"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "1f92ce96-189f-4b7e-8a19-53027a5a660c",
+              "destination_uuid": null
+            }
+          ]
+        },
+        {
+          "uuid": "a1814064-79ec-4734-85d0-6d32e16fd4b8",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "Status do pedido: \n\nTudo certo com seu pedido, est\u00e1 faturado!\n\nQualquer d\u00favida entre em contato conosco.",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "5acad2a5-e1cf-48db-bec1-a37bcec721a2"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "e6bc2b23-2269-46b7-a568-24ad00077ed6",
+              "destination_uuid": null
+            }
+          ]
+        },
+        {
+          "uuid": "d1ff59fc-1c51-4db8-825b-1006ecf0176a",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "Seu pedido foi cancelado! Qualquer d\u00favida entre em contato com o setor Financeiro.",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "9df8eb29-3aeb-4d23-9824-5195553f9df0"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "1e58a710-3292-428a-93c4-96b4b0790bbc",
+              "destination_uuid": null
+            }
+          ]
+        }
+      ],
+      "_ui": {
+        "nodes": {
+          "049059ca-f72a-45fd-8e70-6bb7329bcf83": {
+            "position": {
+              "left": 120,
+              "top": 0
+            },
+            "type": "execute_actions"
+          },
+          "5611e07d-2881-44fc-97e8-5ecc4844a00e": {
+            "type": "split_by_subflow",
+            "position": {
+              "left": 120,
+              "top": 240
+            },
+            "config": {}
+          },
+          "58d81164-5552-4f9e-9b1f-327c01cc00cc": {
+            "type": "split_by_groups",
+            "position": {
+              "left": 120,
+              "top": 440
+            },
+            "config": {
+              "cases": {}
+            }
+          },
+          "71c3d314-3e24-4601-93d6-3bd4e89c98da": {
+            "position": {
+              "left": 1060,
+              "top": 460
+            },
+            "type": "execute_actions"
+          },
+          "6d2bc44e-6d94-4e0b-b7c5-9c91c1e558b5": {
+            "position": {
+              "left": 120,
+              "top": 640
+            },
+            "type": "execute_actions"
+          },
+          "8a8bb1c2-c662-4299-8914-677b8b1a864d": {
+            "type": "split_by_webhook",
+            "position": {
+              "left": 1060,
+              "top": 640
+            },
+            "config": {}
+          },
+          "7a4100a5-3fdd-4202-86d6-4bd4e5440f39": {
+            "type": "wait_for_response",
+            "position": {
+              "left": 120,
+              "top": 840
+            },
+            "config": {
+              "cases": {}
+            }
+          },
+          "b10197ac-2f5c-48b7-9984-24acb870536e": {
+            "type": "split_by_expression",
+            "position": {
+              "left": 1060,
+              "top": 860
+            },
+            "config": {
+              "cases": {}
+            }
+          },
+          "d21a076f-655e-43f5-ba59-862e050bc715": {
+            "position": {
+              "left": 1120,
+              "top": 980
+            },
+            "type": "execute_actions"
+          },
+          "3156cfb6-f7a4-48ec-8969-140c47f69354": {
+            "position": {
+              "left": 1440,
+              "top": 980
+            },
+            "type": "execute_actions"
+          },
+          "aaba6a1c-90d9-42b4-98de-e6deeec8b5f3": {
+            "position": {
+              "left": 840,
+              "top": 1020
+            },
+            "type": "execute_actions"
+          },
+          "29549ee9-1daf-465f-b342-b2162b6ad82c": {
+            "type": "split_by_webhook",
+            "position": {
+              "left": 120,
+              "top": 1040
+            },
+            "config": {}
+          },
+          "99afef5d-b522-462e-847f-6310ef6e0c58": {
+            "position": {
+              "left": 440,
+              "top": 1240
+            },
+            "type": "execute_actions"
+          },
+          "cc9f6ecf-7388-4155-b058-6c097b43b4b6": {
+            "position": {
+              "left": 1440,
+              "top": 1240
+            },
+            "type": "execute_actions"
+          },
+          "6b4c5828-e658-460c-9244-d65357726e51": {
+            "type": "split_by_expression",
+            "position": {
+              "left": 120,
+              "top": 1260
+            },
+            "config": {
+              "cases": {}
+            }
+          },
+          "2c4a9367-b8a9-4bbf-b6a1-4c8de063b100": {
+            "position": {
+              "left": 120,
+              "top": 1400
+            },
+            "type": "execute_actions"
+          },
+          "9318b3cd-1697-41f3-a7b3-440d8c871ef1": {
+            "type": "split_by_expression",
+            "position": {
+              "left": 1440,
+              "top": 1700
+            },
+            "config": {
+              "cases": {}
+            }
+          },
+          "31782ada-1038-49ef-8fa1-3459583ea2ae": {
+            "position": {
+              "left": 1800,
+              "top": 1700
+            },
+            "type": "execute_actions"
+          },
+          "2675db7d-1c7f-4bc9-9ccc-fc43ee9b7fc1": {
+            "type": "split_by_run_result",
+            "position": {
+              "left": 1440,
+              "top": 1860
+            },
+            "config": {
+              "operand": {
+                "name": "pagina",
+                "id": "pagina",
+                "type": "result"
+              },
+              "cases": {}
+            }
+          },
+          "fcf5ab1e-94ec-41a3-bd0f-ddba7c387865": {
+            "type": "split_by_run_result",
+            "position": {
+              "left": 1740,
+              "top": 1900
+            },
+            "config": {
+              "operand": {
+                "name": "rodada",
+                "id": "rodada",
+                "type": "result"
+              },
+              "cases": {}
+            }
+          },
+          "34cf3999-b624-42ea-9afe-01976137019e": {
+            "position": {
+              "left": 1360,
+              "top": 2040
+            },
+            "type": "execute_actions"
+          },
+          "9d1da93d-5a03-44a7-a61a-9ff817d3658c": {
+            "position": {
+              "left": 1620,
+              "top": 2040
+            },
+            "type": "execute_actions"
+          },
+          "bb97e1e5-78e6-4ab1-bba9-6a053badeede": {
+            "position": {
+              "left": 1880,
+              "top": 2040
+            },
+            "type": "execute_actions"
+          },
+          "bf61efc9-e958-4cad-b0ce-62b37bc9e914": {
+            "position": {
+              "left": 2040,
+              "top": 2280
+            },
+            "type": "execute_actions"
+          },
+          "70ae1d2c-37a9-4d98-bc68-c17c957d7812": {
+            "type": "wait_for_response",
+            "position": {
+              "left": 1360,
+              "top": 2300
+            },
+            "config": {
+              "cases": {}
+            }
+          },
+          "0aedcaeb-28bc-4a1f-b9f0-669d674e75be": {
+            "position": {
+              "left": 1660,
+              "top": 2480
+            },
+            "type": "execute_actions"
+          },
+          "9c4d2d39-f5f9-4bf0-9303-e32dd9827221": {
+            "position": {
+              "left": 1360,
+              "top": 2520
+            },
+            "type": "execute_actions"
+          },
+          "44e3fc5d-ded5-43a5-a494-a3e6346f6f42": {
+            "type": "split_by_webhook",
+            "position": {
+              "left": 1360,
+              "top": 2640
+            },
+            "config": {}
+          },
+          "fa1ab96a-ff26-4685-8276-92bed570ccfa": {
+            "position": {
+              "left": 1360,
+              "top": 2860
+            },
+            "type": "execute_actions"
+          },
+          "7d87977e-fc4d-4783-86bc-7bd7c86433e1": {
+            "position": {
+              "left": 1980,
+              "top": 2960
+            },
+            "type": "execute_actions"
+          },
+          "aef4720a-b33d-4a34-9554-c03a030c1dcc": {
+            "type": "split_by_expression",
+            "position": {
+              "left": 1360,
+              "top": 3100
+            },
+            "config": {
+              "cases": {}
+            }
+          },
+          "816dd7ec-1628-44cc-b87f-02327e00d059": {
+            "type": "split_by_expression",
+            "position": {
+              "left": 1680,
+              "top": 3140
+            },
+            "config": {
+              "cases": {}
+            }
+          },
+          "d2bff284-85a5-4116-8238-ab573137feec": {
+            "position": {
+              "left": 1360,
+              "top": 3260
+            },
+            "type": "execute_actions"
+          },
+          "ff3e81a9-dbb7-4ac5-ba5b-a2ebadb0a016": {
+            "position": {
+              "left": 1680,
+              "top": 3260
+            },
+            "type": "execute_actions"
+          },
+          "78796058-5365-4bb9-bae6-f46248923cc7": {
+            "type": "split_by_webhook",
+            "position": {
+              "left": 280,
+              "top": 3760
+            },
+            "config": {}
+          },
+          "c1c952eb-1d54-461b-a30b-56365bf41820": {
+            "type": "split_by_expression",
+            "position": {
+              "left": 280,
+              "top": 4020
+            },
+            "config": {
+              "cases": {}
+            }
+          },
+          "821de320-3c97-4002-9b05-91146c9f3f52": {
+            "position": {
+              "left": 900,
+              "top": 4080
+            },
+            "type": "execute_actions"
+          },
+          "db3deac4-25ed-4910-bf44-511c8554e544": {
+            "type": "split_by_expression",
+            "position": {
+              "left": 280,
+              "top": 4140
+            },
+            "config": {
+              "cases": {}
+            }
+          },
+          "1919f619-86bd-42df-b8e8-fb7ad0c20b57": {
+            "type": "split_by_expression",
+            "position": {
+              "left": 600,
+              "top": 4160
+            },
+            "config": {
+              "cases": {}
+            }
+          },
+          "0ee0caec-d1c1-4151-8a24-030a68828fb2": {
+            "position": {
+              "left": 280,
+              "top": 4280
+            },
+            "type": "execute_actions"
+          },
+          "a1814064-79ec-4734-85d0-6d32e16fd4b8": {
+            "position": {
+              "left": 600,
+              "top": 4320
+            },
+            "type": "execute_actions"
+          },
+          "d1ff59fc-1c51-4db8-825b-1006ecf0176a": {
+            "position": {
+              "left": 900,
+              "top": 4320
+            },
+            "type": "execute_actions"
+          }
+        },
+        "stickies": {
+          "5812fcc1-8ab3-4f99-8de8-49a90ee93a91": {
+            "position": {
+              "left": 540,
+              "top": 3780,
+              "right": -160,
+              "bottom": 1480
+            },
+            "title": "Recurso",
+            "body": "https://app.omie.com.br/api/v1/produtos/pedido/#StatusPedido",
+            "color": "purple"
+          },
+          "642edb98-c409-475e-a03e-fabaca26cbd3": {
+            "position": {
+              "left": 380,
+              "top": 1040,
+              "right": -300,
+              "bottom": 20
+            },
+            "title": "Recurso",
+            "body": "https://app.omie.com.br/api/v1/produtos/pedido/#ConsultarPedido",
+            "color": "purple"
+          },
+          "50ae1889-2f91-40fe-8c64-f857b494cce3": {
+            "position": {
+              "left": 380,
+              "top": 640,
+              "right": 80,
+              "bottom": 20
+            },
+            "title": "ATEN\u00c7\u00c3O",
+            "body": "Conecte a categoria Other no cart\u00e3o enviar mensagem \u00e0 esquerda caso queira consultar o status do pedido usando o n\u00famero do pedido, sem fazer a listagem previamente.",
+            "color": "purple"
+          },
+          "60c124bf-608c-40f0-8bc1-8f9983056f88": {
+            "position": {
+              "left": 1340,
+              "top": 680,
+              "right": null,
+              "bottom": null
+            },
+            "title": "Recurso",
+            "body": "https://app.omie.com.br/api/v1/produtos/pedido/#ListarPedidos",
+            "color": "purple"
+          },
+          "c9bf6bee-314f-42d4-89bf-57a83d477c08": {
+            "position": {
+              "left": 1160,
+              "top": 2660,
+              "right": null,
+              "bottom": null
+            },
+            "title": "Recurso",
+            "body": "https://app.omie.com.br/api/v1/produtos/pedido/#ListarPedidos",
+            "color": "purple"
+          }
+        }
+      },
+      "revision": 420,
+      "expire_after_minutes": 10080,
+      "metadata": {
+        "expires": 10080
+      },
+      "localization": {}
+    },
+    {
+      "_ui": {
+        "nodes": {
+          "7168b360-c2b9-477d-bc50-a4698cef5428": {
+            "config": {
+              "cases": {}
+            },
+            "position": {
+              "left": 300,
+              "top": 0
+            },
+            "type": "split_by_expression"
+          },
+          "f983413f-024f-428d-b36f-dddcb13b07e9": {
+            "position": {
+              "left": 180,
+              "top": 120
+            },
+            "type": "execute_actions"
+          },
+          "d757af29-8c2c-4d80-9b67-c4766d8e6f57": {
+            "position": {
+              "left": 420,
+              "top": 120
+            },
+            "type": "execute_actions"
+          },
+          "75db99e8-0f31-4323-9efc-184708ead8cc": {
+            "config": {},
+            "position": {
+              "left": 920,
+              "top": 320
+            },
+            "type": "split_by_intent"
+          },
+          "66133104-beb1-4d71-833f-ee30405524cd": {
+            "position": {
+              "left": 1220,
+              "top": 360
+            },
+            "type": "execute_actions"
+          },
+          "d92f4ceb-e8e6-4f3f-9b3b-891308cc54d0": {
+            "config": {
+              "cases": {}
+            },
+            "position": {
+              "left": 240,
+              "top": 420
+            },
+            "type": "wait_for_response"
+          },
+          "b42019d7-1c4b-4e25-a6f3-8759a7916830": {
+            "position": {
+              "left": 220,
+              "top": 600
+            },
+            "type": "execute_actions"
+          },
+          "3a1c03c6-d615-4785-aa2c-7b3a54dde34b": {
+            "position": {
+              "left": 440,
+              "top": 600
+            },
+            "type": "execute_actions"
+          },
+          "fb3a1d8d-0127-4e7e-ae6d-09bf60751d76": {
+            "position": {
+              "left": 820,
+              "top": 600
+            },
+            "type": "execute_actions"
+          },
+          "8ab4f512-5446-4002-83e8-fcb0c8d23f32": {
+            "position": {
+              "left": 1120,
+              "top": 600
+            },
+            "type": "execute_actions"
+          },
+          "89a9d631-b49e-455f-9d3c-1c54d5479c88": {
+            "type": "split_by_external_service",
+            "position": {
+              "left": 340,
+              "top": 780
+            },
+            "config": {}
+          },
+          "027d65ad-3f93-44d9-916a-a2e50c4f8f3c": {
+            "config": {
+              "cases": {}
+            },
+            "position": {
+              "left": 340,
+              "top": 1000
+            },
+            "type": "split_by_expression"
+          },
+          "54fb73e0-bde7-456e-9b7f-e4988bc34acc": {
+            "config": {
+              "cases": {}
+            },
+            "position": {
+              "left": 660,
+              "top": 1160
+            },
+            "type": "split_by_expression"
+          },
+          "3936af6f-543c-4541-8db1-efad93ccf966": {
+            "config": {
+              "cases": {}
+            },
+            "position": {
+              "left": 340,
+              "top": 1180
+            },
+            "type": "split_by_expression"
+          },
+          "d7a562ab-8266-46ee-981f-2227f8626f65": {
+            "config": {
+              "cases": {}
+            },
+            "position": {
+              "left": 1220,
+              "top": 1180
+            },
+            "type": "split_by_expression"
+          },
+          "a4d34b78-62bf-49d0-9c8d-210d12eab593": {
+            "config": {
+              "cases": {}
+            },
+            "position": {
+              "left": 1540,
+              "top": 1180
+            },
+            "type": "split_by_expression"
+          },
+          "84fddba5-4e54-444d-87bb-6beadf40c344": {
+            "position": {
+              "left": 840,
+              "top": 1300
+            },
+            "type": "execute_actions"
+          },
+          "e6611424-65e9-421e-be30-dfbbbc9c39bd": {
+            "position": {
+              "left": 1220,
+              "top": 1300
+            },
+            "type": "execute_actions"
+          },
+          "afe0416d-7404-40ad-bdcd-d48a6939d8a3": {
+            "position": {
+              "left": 1540,
+              "top": 1300
+            },
+            "type": "execute_actions"
+          },
+          "1753a7f7-19d6-4d8a-9cce-1de1939ac887": {
+            "position": {
+              "left": 1820,
+              "top": 1300
+            },
+            "type": "execute_actions"
+          },
+          "5ce606ba-0a9d-4b30-ace5-9d5198b1010b": {
+            "position": {
+              "left": 340,
+              "top": 1320
+            },
+            "type": "execute_actions"
+          },
+          "33e4f70a-94dd-4ba8-9c90-49f4db88bb49": {
+            "position": {
+              "left": 800,
+              "top": 1460
+            },
+            "type": "execute_actions"
+          },
+          "c0ea50b5-2064-4a1f-bd01-940367897b14": {
+            "type": "split_by_subflow",
+            "position": {
+              "left": 340,
+              "top": 1480
+            },
+            "config": {}
+          },
+          "6f5465bd-b575-4332-996a-0650218c5df8": {
+            "position": {
+              "left": 340,
+              "top": 1660
+            },
+            "type": "execute_actions"
+          },
+          "a9d2514f-42c4-4a0f-88db-0d29eca8cc58": {
+            "position": {
+              "left": 1380,
+              "top": 1680
+            },
+            "type": "execute_actions"
+          },
+          "842c7bf9-a870-47d2-8d50-54e2e19b7539": {
+            "position": {
+              "left": 340,
+              "top": 1820
+            },
+            "type": "execute_actions"
+          },
+          "68558e6d-825d-48e1-b040-54c1bbb819e8": {
+            "position": {
+              "left": 1760,
+              "top": 1800
+            },
+            "type": "execute_actions"
+          },
+          "cc2842aa-9ef6-4e17-beb7-745f80cdbe55": {
+            "position": {
+              "left": 720,
+              "top": 1900
+            },
+            "type": "execute_actions"
+          },
+          "f46c2839-7a44-4753-9313-c36340607ac2": {
+            "config": {
+              "cases": {}
+            },
+            "position": {
+              "left": 1360,
+              "top": 1920
+            },
+            "type": "wait_for_response"
+          },
+          "0134f704-b690-4093-aeb6-66c4a3224ae2": {
+            "config": {
+              "cases": {}
+            },
+            "position": {
+              "left": 340,
+              "top": 2100
+            },
+            "type": "wait_for_response"
+          },
+          "fff27aea-0bcd-4374-a8fc-031a79ee55bb": {
+            "position": {
+              "left": 1160,
+              "top": 2120
+            },
+            "type": "execute_actions"
+          },
+          "e7513253-739d-4b4c-bbff-3f28c120c7c6": {
+            "position": {
+              "left": 1440,
+              "top": 2120
+            },
+            "type": "execute_actions"
+          },
+          "c6855744-bf94-419c-9bc1-58489bd171ee": {
+            "position": {
+              "left": 1760,
+              "top": 2160
+            },
+            "type": "execute_actions"
+          },
+          "b8d12e5f-3505-48d7-b7bc-c4b298f70f95": {
+            "position": {
+              "left": 720,
+              "top": 2220
+            },
+            "type": "execute_actions"
+          },
+          "f6bb23f9-cba8-4b8b-b94a-c7e95ab1c0ca": {
+            "position": {
+              "left": 100,
+              "top": 2280
+            },
+            "type": "execute_actions"
+          },
+          "d07bbe5c-3fdd-45fa-84a8-ae92d526a05f": {
+            "position": {
+              "left": 400,
+              "top": 2280
+            },
+            "type": "execute_actions"
+          },
+          "2d69bc02-4e03-4ccd-aee2-052a10561b12": {
+            "position": {
+              "left": 1160,
+              "top": 2300
+            },
+            "type": "execute_actions"
+          },
+          "a3c06375-b0cf-4290-a94a-0ffd088b3e6e": {
+            "config": {
+              "cases": {}
+            },
+            "position": {
+              "left": 1440,
+              "top": 2320
+            },
+            "type": "wait_for_response"
+          },
+          "67f89a88-5b2a-487a-905f-7050a91262d0": {
+            "position": {
+              "left": 100,
+              "top": 2440
+            },
+            "type": "execute_actions"
+          },
+          "20fda7ed-123b-4e27-9699-e20e89f6333a": {
+            "config": {
+              "cases": {}
+            },
+            "position": {
+              "left": 400,
+              "top": 2460
+            },
+            "type": "wait_for_response"
+          },
+          "59643cc9-51ab-4bf3-bf32-b2c76bf5d88a": {
+            "position": {
+              "left": 1440,
+              "top": 2500
+            },
+            "type": "execute_actions"
+          },
+          "e0fb4342-e538-4efe-ac54-4a7b5c60a02d": {
+            "position": {
+              "left": 1700,
+              "top": 2500
+            },
+            "type": "execute_actions"
+          },
+          "a1418c9b-052b-4b12-aa8b-66028e40da0f": {
+            "position": {
+              "left": 1160,
+              "top": 2620
+            },
+            "type": "execute_actions"
+          },
+          "6d5c77de-f6da-468b-9a8b-859737b6b870": {
+            "position": {
+              "left": 400,
+              "top": 2640
+            },
+            "type": "execute_actions"
+          },
+          "efe6bdaa-2d40-4444-acbe-b1b7cdc4de25": {
+            "position": {
+              "left": 660,
+              "top": 2640
+            },
+            "type": "execute_actions"
+          },
+          "0600d02e-3202-4296-9cf6-549c6490ce12": {
+            "position": {
+              "left": 100,
+              "top": 2760
+            },
+            "type": "execute_actions"
+          }
+        },
+        "stickies": {
+          "2ebe0f99-def2-4f77-a4c0-5a6f189085ee": {
+            "body": "Aqui verificamos se existe email no cadastro, para que o cliente valide e consiga prosseguir com seu acesso.\n\nCaso n\u00e3o exista email, verificamos se existe telefone, para fazer verifica\u00e7\u00e3o por numero de telefone.",
+            "color": "purple",
+            "position": {
+              "bottom": null,
+              "left": 1220,
+              "right": null,
+              "top": 900
+            },
+            "title": "Telefone1"
+          },
+          "38a26dba-80fe-49ac-926b-d04f71acb17a": {
+            "body": "Substitua pelo seu fluxo de atendimento humano",
+            "color": "purple",
+            "position": {
+              "left": 1440,
+              "top": 2780,
+              "right": null,
+              "bottom": null
+            },
+            "title": "Atendimento Humano"
+          },
+          "4da2d98e-eda2-43ab-a21d-0f9325ee0a45": {
+            "body": "Aqui verificamos se existe telefone2 no cadastro, para que o cliente valide e consiga prosseguir com seu acesso.\n\nCaso n\u00e3o exista, informamos ao usu\u00e1rio. Aqui \u00e9 poss\u00edvel conectar o atendimento humano, se seu projeto tiver esse servi\u00e7o no contrato com a Weni.",
+            "color": "purple",
+            "position": {
+              "left": 2080,
+              "top": 1260
+            },
+            "title": "Telefone2"
+          },
+          "d715e4b8-ed5a-4354-854a-80b1d06e6d41": {
+            "body": "Aqui consultamos o CPF/CNPJ para salvar o codigo_cliente usando o recurso Clientes do M\u00f3dulo geral",
+            "color": "purple",
+            "position": {
+              "bottom": 200,
+              "left": 80,
+              "right": 0,
+              "top": 780
+            },
+            "title": "Webhook"
+          },
+          "efb19a26-e4f1-4582-a060-6e5a7f3ddf80": {
+            "body": "Aqui verificamos se existe email no cadastro, para que o cliente valide e consiga prosseguir com seu acesso.\n\nCaso n\u00e3o exista email, verificamos se existe telefone, para fazer verifica\u00e7\u00e3o por numero de telefone.",
+            "color": "purple",
+            "position": {
+              "bottom": -1000,
+              "left": 100,
+              "right": 0,
+              "top": 1160
+            },
+            "title": "Email"
+          }
+        }
+      },
+      "expire_after_minutes": 10080,
+      "language": "base",
+      "localization": {},
+      "metadata": {
+        "expires": 10080
+      },
+      "name": "Vendas - Credenciamento",
+      "nodes": [
+        {
+          "actions": [],
+          "exits": [
+            {
+              "destination_uuid": "f983413f-024f-428d-b36f-dddcb13b07e9",
+              "uuid": "df226059-92b0-49b0-8ae1-88389c3a29d1"
+            },
+            {
+              "destination_uuid": "d757af29-8c2c-4d80-9b67-c4766d8e6f57",
+              "uuid": "22be73c2-903f-48ad-8278-2f88bc5087d4"
+            }
+          ],
+          "router": {
+            "cases": [
+              {
+                "arguments": [
+                  "whatsapp"
+                ],
+                "category_uuid": "370bd236-ac04-492b-a147-2bc9f329de0c",
+                "type": "has_any_word",
+                "uuid": "87f66ce9-bbc4-421d-862e-1af4837d6a8d"
+              }
+            ],
+            "categories": [
+              {
+                "exit_uuid": "df226059-92b0-49b0-8ae1-88389c3a29d1",
+                "name": "Whatsapp",
+                "uuid": "370bd236-ac04-492b-a147-2bc9f329de0c"
+              },
+              {
+                "exit_uuid": "22be73c2-903f-48ad-8278-2f88bc5087d4",
+                "name": "Other",
+                "uuid": "81678326-0ed1-4c6a-9631-185285f9b68c"
+              }
+            ],
+            "default_category_uuid": "81678326-0ed1-4c6a-9631-185285f9b68c",
+            "operand": "@contact.urns",
+            "type": "switch"
+          },
+          "uuid": "7168b360-c2b9-477d-bc50-a4698cef5428"
+        },
+        {
+          "actions": [
+            {
+              "attachments": [],
+              "text": "\ud83d\udd12 Para liberar acesso \u00e0s informa\u00e7\u00f5es do seu pedido, por favor informe o *CPF ou CNPJ* que foi feita a compra.\n\n_\u2022\tFormato para CPF: 000.000.000-00_\n_\u2022\tFormato para CNPJ: 00.000.000/0000-00_",
+              "type": "send_msg",
+              "quick_replies": [
+                "Encerrar conversa"
+              ],
+              "uuid": "65c82b02-b01a-483f-87ad-58863042c5a5"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "d92f4ceb-e8e6-4f3f-9b3b-891308cc54d0",
+              "uuid": "08486980-9324-46cb-9230-a035669b88d1"
+            }
+          ],
+          "uuid": "f983413f-024f-428d-b36f-dddcb13b07e9"
+        },
+        {
+          "actions": [
+            {
+              "attachments": [],
+              "text": "\ud83d\udd12 Para liberar acesso \u00e0s informa\u00e7\u00f5es do seu pedido, por favor informe o CPF ou CNPJ que foi feita a compra.\n\n\u2022\tFormato para CPF: 000.000.000-00;\n\u2022\tFormato para CNPJ: 00.000.000/0000-00.",
+              "type": "send_msg",
+              "quick_replies": [
+                "Encerrar conversa"
+              ],
+              "uuid": "de92df4c-3bbc-40ac-9638-de11d9e7cdcf"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "d92f4ceb-e8e6-4f3f-9b3b-891308cc54d0",
+              "uuid": "5a7d80cd-113f-410f-b79e-1a54fc3361ac"
+            }
+          ],
+          "uuid": "d757af29-8c2c-4d80-9b67-c4766d8e6f57"
+        },
+        {
+          "actions": [
+            {
+              "classifier": {
+                "name": "Cristal",
+                "uuid": "ffa6e4db-51a8-4f03-93c0-e79584e9a5c8"
+              },
+              "input": "@input.text",
+              "result_name": "_Result Classification",
+              "type": "call_classifier",
+              "uuid": "e14d2049-98a3-4a45-8f51-d61d48db8e67"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "fb3a1d8d-0127-4e7e-ae6d-09bf60751d76",
+              "uuid": "510bf2f0-785e-4ad7-95aa-01536cc861c3"
+            },
+            {
+              "destination_uuid": "66133104-beb1-4d71-833f-ee30405524cd",
+              "uuid": "9002cbe3-835d-4abf-847a-c910c344830d"
+            },
+            {
+              "destination_uuid": "66133104-beb1-4d71-833f-ee30405524cd",
+              "uuid": "ff8fb6ce-6d7f-4267-a02b-d9c46b9be5ac"
+            }
+          ],
+          "router": {
+            "cases": [
+              {
+                "arguments": [
+                  "encerrar",
+                  ".9"
+                ],
+                "category_uuid": "7a0fa01c-a385-4243-accc-ccccbd40dbe7",
+                "type": "has_top_intent",
+                "uuid": "3e68316a-cf98-42ef-ad21-0fd819075b0c"
+              },
+              {
+                "arguments": [
+                  "Success",
+                  "Skipped"
+                ],
+                "category_uuid": "3f760ab4-d9e4-4257-9779-f50fc6840ec7",
+                "type": "has_category",
+                "uuid": "ebf4bf66-f832-4bca-a64b-05552bc5da28"
+              }
+            ],
+            "categories": [
+              {
+                "exit_uuid": "510bf2f0-785e-4ad7-95aa-01536cc861c3",
+                "name": "Encerrar",
+                "uuid": "7a0fa01c-a385-4243-accc-ccccbd40dbe7"
+              },
+              {
+                "exit_uuid": "ff8fb6ce-6d7f-4267-a02b-d9c46b9be5ac",
+                "name": "Failure",
+                "uuid": "e11edbd4-f952-44fc-abdd-76645f35c9bc"
+              },
+              {
+                "exit_uuid": "9002cbe3-835d-4abf-847a-c910c344830d",
+                "name": "Other",
+                "uuid": "3f760ab4-d9e4-4257-9779-f50fc6840ec7"
+              }
+            ],
+            "default_category_uuid": "e11edbd4-f952-44fc-abdd-76645f35c9bc",
+            "operand": "@results._result_classification",
+            "result_name": "Result",
+            "type": "switch"
+          },
+          "uuid": "75db99e8-0f31-4323-9efc-184708ead8cc"
+        },
+        {
+          "actions": [
+            {
+              "attachments": [],
+              "quick_replies": [],
+              "text": "Por favor, digite seu CPF ou CNPJ seguindo a formata\u00e7\u00e3o:\n\n_\u2022\tPara CPF: 000.000.000-00_\n_\u2022\tPara CNPJ: 00.000.000/0000-00_",
+              "type": "send_msg",
+              "uuid": "2de31950-1bda-47b1-9162-199b26f51738"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "d92f4ceb-e8e6-4f3f-9b3b-891308cc54d0",
+              "uuid": "8cab8cf7-57f5-42cd-bb36-3326a55700e7"
+            }
+          ],
+          "uuid": "66133104-beb1-4d71-833f-ee30405524cd"
+        },
+        {
+          "actions": [],
+          "exits": [
+            {
+              "destination_uuid": "33e4f70a-94dd-4ba8-9c90-49f4db88bb49",
+              "uuid": "591dc51a-9eac-43e3-b031-7cf537d76194"
+            },
+            {
+              "destination_uuid": "b42019d7-1c4b-4e25-a6f3-8759a7916830",
+              "uuid": "3ce3bfb6-bc4b-4286-9816-e90e2c803a50"
+            },
+            {
+              "destination_uuid": "3a1c03c6-d615-4785-aa2c-7b3a54dde34b",
+              "uuid": "4edd409f-97c8-47c8-8344-d0b325b9e575"
+            },
+            {
+              "destination_uuid": "fb3a1d8d-0127-4e7e-ae6d-09bf60751d76",
+              "uuid": "4ae67b8a-a240-4637-b65c-c76bbcc0e663"
+            },
+            {
+              "destination_uuid": "75db99e8-0f31-4323-9efc-184708ead8cc",
+              "uuid": "cebb647a-9c18-40ae-9a80-f01ab927b997"
+            },
+            {
+              "destination_uuid": "8ab4f512-5446-4002-83e8-fcb0c8d23f32",
+              "uuid": "382b5711-aff1-4554-a4d4-457b1404dbf2"
+            }
+          ],
+          "router": {
+            "cases": [
+              {
+                "arguments": [
+                  "00.000.000/0000-00"
+                ],
+                "category_uuid": "5e5065f9-1ff7-437f-9134-5b46d60d324f",
+                "type": "has_only_phrase",
+                "uuid": "304aa67a-962e-49af-8697-c99a83c9e618"
+              },
+              {
+                "arguments": [
+                  "000.000.000-00"
+                ],
+                "category_uuid": "5e5065f9-1ff7-437f-9134-5b46d60d324f",
+                "type": "has_only_phrase",
+                "uuid": "d16a0827-376c-435a-a84e-6881fbca3307"
+              },
+              {
+                "arguments": [
+                  "[0-9]{2}\\.[0-9]{3}\\.[0-9]{3}\\/[0-9]{4}\\-[0-9]{2}"
+                ],
+                "category_uuid": "1deba971-1a68-46be-b22b-02913453e706",
+                "type": "has_pattern",
+                "uuid": "5b7e1cb8-5cda-4c82-b141-afca76a3e55e"
+              },
+              {
+                "arguments": [
+                  "[0-9]{3}\\.?[0-9]{3}\\.?[0-9]{3}\\-?[0-9]{2}"
+                ],
+                "category_uuid": "8bf4129c-cd86-42f0-bcf9-1d83086dd051",
+                "type": "has_pattern",
+                "uuid": "c5514a0c-5ebb-442d-ad71-ac7502ed3cd3"
+              },
+              {
+                "arguments": [
+                  "[0-9]{3}\\.?[0-9]{3}\\.?[0-9]{3}\\.?[0-9]{2}"
+                ],
+                "category_uuid": "8bf4129c-cd86-42f0-bcf9-1d83086dd051",
+                "type": "has_pattern",
+                "uuid": "fc64767d-0e6a-44b9-9b58-bf7f367d0264"
+              },
+              {
+                "arguments": [
+                  "encerrar"
+                ],
+                "category_uuid": "77f3a1e4-7ebd-4b48-b2d9-fb5b4c1a37fe",
+                "type": "has_any_word",
+                "uuid": "600925c8-4e18-45fe-be86-24f4d16a2f31"
+              }
+            ],
+            "categories": [
+              {
+                "exit_uuid": "591dc51a-9eac-43e3-b031-7cf537d76194",
+                "name": "ZERO",
+                "uuid": "5e5065f9-1ff7-437f-9134-5b46d60d324f"
+              },
+              {
+                "exit_uuid": "3ce3bfb6-bc4b-4286-9816-e90e2c803a50",
+                "name": "CNPJ",
+                "uuid": "1deba971-1a68-46be-b22b-02913453e706"
+              },
+              {
+                "exit_uuid": "4edd409f-97c8-47c8-8344-d0b325b9e575",
+                "name": "CPF",
+                "uuid": "8bf4129c-cd86-42f0-bcf9-1d83086dd051"
+              },
+              {
+                "exit_uuid": "4ae67b8a-a240-4637-b65c-c76bbcc0e663",
+                "name": "Encerrar",
+                "uuid": "77f3a1e4-7ebd-4b48-b2d9-fb5b4c1a37fe"
+              },
+              {
+                "exit_uuid": "cebb647a-9c18-40ae-9a80-f01ab927b997",
+                "name": "Other",
+                "uuid": "5bd291b9-da2e-436e-a514-b06f9e17107e"
+              },
+              {
+                "exit_uuid": "382b5711-aff1-4554-a4d4-457b1404dbf2",
+                "name": "No Response",
+                "uuid": "dfb4e30f-77a0-4f5b-b219-0138fd2f1e55"
+              }
+            ],
+            "default_category_uuid": "5bd291b9-da2e-436e-a514-b06f9e17107e",
+            "operand": "@input.text",
+            "result_name": "documento",
+            "type": "switch",
+            "wait": {
+              "timeout": {
+                "category_uuid": "dfb4e30f-77a0-4f5b-b219-0138fd2f1e55",
+                "seconds": 3600
+              },
+              "type": "msg"
+            }
+          },
+          "uuid": "d92f4ceb-e8e6-4f3f-9b3b-891308cc54d0"
+        },
+        {
+          "actions": [
+            {
+              "category": "",
+              "name": "documento",
+              "type": "set_run_result",
+              "uuid": "f36647a7-b37e-455e-9f4c-41a5726c8bd1",
+              "value": "@(replace(replace(replace(results.documento.value, \".\", \"\"), \"-\", \"\"), \"/\", \"\"))"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "89a9d631-b49e-455f-9d3c-1c54d5479c88",
+              "uuid": "93d00928-6edc-4040-8a73-2b6e9f096d21"
+            }
+          ],
+          "uuid": "b42019d7-1c4b-4e25-a6f3-8759a7916830"
+        },
+        {
+          "actions": [
+            {
+              "category": "",
+              "name": "documento",
+              "type": "set_run_result",
+              "uuid": "51dfc47f-3b50-4abb-a9c6-9803bb741cbc",
+              "value": "@(replace(replace(replace(results.documento.value, \".\", \"\"), \"-\", \"\"), \"/\", \"\"))"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "89a9d631-b49e-455f-9d3c-1c54d5479c88",
+              "uuid": "5c57a047-98bb-4252-9490-634ed7678bb0"
+            }
+          ],
+          "uuid": "3a1c03c6-d615-4785-aa2c-7b3a54dde34b"
+        },
+        {
+          "actions": [
+            {
+              "attachments": [],
+              "quick_replies": [],
+              "text": "A @globals.nome_da_empresa agradece seu contato \ud83d\udc4b",
+              "type": "send_msg",
+              "uuid": "f918b285-c315-4e93-b992-35c9adbc3fc6"
+            },
+            {
+              "groups": [
+                {
+                  "count": 0,
+                  "name": "Satisfeito",
+                  "query": null,
+                  "status": "ready",
+                  "uuid": "b7d9b65d-7f1f-4a0f-8b03-75e7d6ed0e6c"
+                }
+              ],
+              "type": "add_contact_groups",
+              "uuid": "4a90f33b-f77e-415b-bbdc-5c3d7644219a"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": null,
+              "uuid": "a4d415d7-1ed4-4d0a-94e1-0fedbca0d333"
+            }
+          ],
+          "uuid": "fb3a1d8d-0127-4e7e-ae6d-09bf60751d76"
+        },
+        {
+          "actions": [
+            {
+              "attachments": [],
+              "quick_replies": [],
+              "text": "Por falta de resposta, estou encerrando nossa conversa. Quando quiser, \u00e9 s\u00f3 falar comigo novamente",
+              "type": "send_msg",
+              "uuid": "91122f3c-059c-4d8c-b29a-7ddef46edce3"
+            },
+            {
+              "groups": [
+                {
+                  "count": 0,
+                  "name": "Satisfeito",
+                  "query": null,
+                  "status": "ready",
+                  "uuid": "b7d9b65d-7f1f-4a0f-8b03-75e7d6ed0e6c"
+                }
+              ],
+              "type": "add_contact_groups",
+              "uuid": "eaf4d07a-7f85-488a-aa01-d9cc93c7c159"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": null,
+              "uuid": "de4a0b48-b0f2-4573-814a-d5b932ed5a82"
+            }
+          ],
+          "uuid": "8ab4f512-5446-4002-83e8-fcb0c8d23f32"
+        },
+        {
+          "uuid": "89a9d631-b49e-455f-9d3c-1c54d5479c88",
+          "actions": [
+            {
+              "uuid": "39ed0180-2a83-492c-85cf-f0d7f3ea5f6a",
+              "type": "call_external_service",
+              "external_service": {
+                "uuid": "cc314e09-64de-40e2-83f0-c31ae6728b5e",
+                "name": "Leads - App Weni",
+                "external_service_type": "omie"
+              },
+              "call": {
+                "name": "ListarClientes",
+                "params": [
+                  {
+                    "paramType": "integer",
+                    "type": "pagina",
+                    "verboseName": "N\u00famero da p\u00e1gina retornada"
+                  },
+                  {
+                    "paramType": "integer",
+                    "type": "registros_por_pagina",
+                    "verboseName": "N\u00famero de registros retornados na p\u00e1gina"
+                  },
+                  {
+                    "maxLength": 1,
+                    "paramType": "string",
+                    "type": "apenas_importado_api",
+                    "verboseName": "Exibir apenas os registros gerados pela API"
+                  },
+                  {
+                    "maxLength": 100,
+                    "paramType": "string",
+                    "type": "ordenar_por",
+                    "verboseName": "Ordem de exibi\u00e7\u00e3o dos dados"
+                  },
+                  {
+                    "maxLength": 1,
+                    "paramType": "string",
+                    "type": "ordem_decrescente",
+                    "verboseName": "Se a lista ser\u00e1 apresentada em ordem decrescente"
+                  },
+                  {
+                    "maxLength": 10,
+                    "paramType": "string",
+                    "type": "filtrar_por_data_de",
+                    "verboseName": "Filtrar os registros a partir de uma data"
+                  },
+                  {
+                    "maxLength": 10,
+                    "paramType": "string",
+                    "type": "filtrar_por_data_ate",
+                    "verboseName": "Filtrar os registros at\u00e9 uma data"
+                  },
+                  {
+                    "maxLength": 8,
+                    "paramType": "string",
+                    "type": "filtrar_por_hora_de",
+                    "verboseName": "Filtro por hora a apartir de"
+                  },
+                  {
+                    "maxLength": 8,
+                    "paramType": "string",
+                    "type": "filtrar_por_hora_ate",
+                    "verboseName": "Filtro por hora at\u00e9"
+                  },
+                  {
+                    "maxLength": 1,
+                    "paramType": "string",
+                    "type": "filtrar_apenas_inclusao",
+                    "verboseName": "Filtrar apenas os registros inclu\u00eddos"
+                  },
+                  {
+                    "maxLength": 1,
+                    "paramType": "string",
+                    "type": "filtrar_apenas_alteracao",
+                    "verboseName": "Filtrar apenas os registros alterados"
+                  },
+                  {
+                    "filters": [
+                      {
+                        "name": "codigo_cliente_omie",
+                        "type": "integer",
+                        "verboseName": "C\u00f3digo de Cliente / Fornecedor"
+                      },
+                      {
+                        "maxLength": 60,
+                        "name": "codigo_cliente_integracao",
+                        "type": "string",
+                        "verboseName": "C\u00f3digo de Integra\u00e7\u00e3o com sistemas legados."
+                      },
+                      {
+                        "maxLength": 20,
+                        "name": "cnpj_cpf",
+                        "type": "string",
+                        "verboseName": "CNPJ / CPF"
+                      },
+                      {
+                        "maxLength": 60,
+                        "name": "razao_social",
+                        "type": "string",
+                        "verboseName": "Raz\u00e3o Social"
+                      },
+                      {
+                        "maxLength": 100,
+                        "name": "nome_fantasia",
+                        "type": "string",
+                        "verboseName": "Nome Fantasia"
+                      },
+                      {
+                        "maxLength": 60,
+                        "name": "endereco",
+                        "type": "string",
+                        "verboseName": "Endere\u00e7o"
+                      },
+                      {
+                        "maxLength": 60,
+                        "name": "bairro",
+                        "type": "string",
+                        "verboseName": "Bairro"
+                      },
+                      {
+                        "maxLength": 40,
+                        "name": "cidade",
+                        "type": "string",
+                        "verboseName": "C\u00f3digo da Cidade"
+                      },
+                      {
+                        "maxLength": 2,
+                        "name": "estado",
+                        "type": "string",
+                        "verboseName": "Sigla do Estado"
+                      },
+                      {
+                        "maxLength": 10,
+                        "name": "cep",
+                        "type": "string",
+                        "verboseName": "CEP"
+                      },
+                      {
+                        "maxLength": 100,
+                        "name": "contato",
+                        "type": "string",
+                        "verboseName": "Nome para contato"
+                      },
+                      {
+                        "maxLength": 500,
+                        "name": "email",
+                        "type": "string",
+                        "verboseName": "E-Mail"
+                      },
+                      {
+                        "maxLength": 100,
+                        "name": "homepage",
+                        "type": "string",
+                        "verboseName": "WebSite"
+                      },
+                      {
+                        "maxLength": 20,
+                        "name": "inscricao_municipal",
+                        "type": "string",
+                        "verboseName": "Inscri\u00e7\u00e3o Municipal"
+                      },
+                      {
+                        "maxLength": 20,
+                        "name": "inscricao_estadual",
+                        "type": "string",
+                        "verboseName": "Inscri\u00e7\u00e3o Estadual"
+                      },
+                      {
+                        "maxLength": 20,
+                        "name": "inscricao_suframa",
+                        "type": "string",
+                        "verboseName": "Inscri\u00e7\u00e3o Suframa"
+                      },
+                      {
+                        "maxLength": 1,
+                        "name": "pessoa_fisica",
+                        "type": "string",
+                        "verboseName": "Pessoa F\u00edsica"
+                      },
+                      {
+                        "maxLength": 1,
+                        "name": "optante_simples_nacional",
+                        "type": "string",
+                        "verboseName": "Indica se o Cliente / Fornecedor \u00e9 Optante do Simples Nacional"
+                      },
+                      {
+                        "maxLength": 1,
+                        "name": "inativo",
+                        "type": "string",
+                        "verboseName": "Indica se o cliente est\u00e1 inativo"
+                      }
+                    ],
+                    "type": "clientesFiltro",
+                    "verboseName": "Filtrar cadastro de clientes"
+                  },
+                  {
+                    "type": "clientesPorCodigo",
+                    "verboseName": "Lista de C\u00f3digos para filtro de cliente"
+                  },
+                  {
+                    "maxLength": 1,
+                    "paramType": "string",
+                    "type": "exibir_caracteristicas",
+                    "verboseName": "Exibe as caracteristicas do cliente"
+                  }
+                ],
+                "value": "ListarClientes",
+                "verboseName": "Listar Clientes"
+              },
+              "params": [
+                {
+                  "uuid": "a952ee2e-e2f8-4818-8911-884323afea37",
+                  "type": "pagina",
+                  "verboseName": "N\u00famero da p\u00e1gina retornada",
+                  "filter": {
+                    "value": null
+                  },
+                  "data": {
+                    "value": "1",
+                    "validationFailures": []
+                  },
+                  "valid": true
+                },
+                {
+                  "uuid": "79376aab-3fd0-4dfd-a82d-b3f9f1e7cef3",
+                  "type": "registros_por_pagina",
+                  "verboseName": "N\u00famero de registros retornados na p\u00e1gina",
+                  "filter": {
+                    "value": null
+                  },
+                  "data": {
+                    "value": "5",
+                    "validationFailures": []
+                  },
+                  "valid": true
+                },
+                {
+                  "uuid": "2dd780f5-5dec-4991-80d6-61ea49c5cd98",
+                  "type": "clientesFiltro",
+                  "verboseName": "Filtrar cadastro de clientes",
+                  "filters": [
+                    {
+                      "name": "codigo_cliente_omie",
+                      "type": "integer",
+                      "verboseName": "C\u00f3digo de Cliente / Fornecedor"
+                    },
+                    {
+                      "maxLength": 60,
+                      "name": "codigo_cliente_integracao",
+                      "type": "string",
+                      "verboseName": "C\u00f3digo de Integra\u00e7\u00e3o com sistemas legados."
+                    },
+                    {
+                      "maxLength": 20,
+                      "name": "cnpj_cpf",
+                      "type": "string",
+                      "verboseName": "CNPJ / CPF"
+                    },
+                    {
+                      "maxLength": 60,
+                      "name": "razao_social",
+                      "type": "string",
+                      "verboseName": "Raz\u00e3o Social"
+                    },
+                    {
+                      "maxLength": 100,
+                      "name": "nome_fantasia",
+                      "type": "string",
+                      "verboseName": "Nome Fantasia"
+                    },
+                    {
+                      "maxLength": 60,
+                      "name": "endereco",
+                      "type": "string",
+                      "verboseName": "Endere\u00e7o"
+                    },
+                    {
+                      "maxLength": 60,
+                      "name": "bairro",
+                      "type": "string",
+                      "verboseName": "Bairro"
+                    },
+                    {
+                      "maxLength": 40,
+                      "name": "cidade",
+                      "type": "string",
+                      "verboseName": "C\u00f3digo da Cidade"
+                    },
+                    {
+                      "maxLength": 2,
+                      "name": "estado",
+                      "type": "string",
+                      "verboseName": "Sigla do Estado"
+                    },
+                    {
+                      "maxLength": 10,
+                      "name": "cep",
+                      "type": "string",
+                      "verboseName": "CEP"
+                    },
+                    {
+                      "maxLength": 100,
+                      "name": "contato",
+                      "type": "string",
+                      "verboseName": "Nome para contato"
+                    },
+                    {
+                      "maxLength": 500,
+                      "name": "email",
+                      "type": "string",
+                      "verboseName": "E-Mail"
+                    },
+                    {
+                      "maxLength": 100,
+                      "name": "homepage",
+                      "type": "string",
+                      "verboseName": "WebSite"
+                    },
+                    {
+                      "maxLength": 20,
+                      "name": "inscricao_municipal",
+                      "type": "string",
+                      "verboseName": "Inscri\u00e7\u00e3o Municipal"
+                    },
+                    {
+                      "maxLength": 20,
+                      "name": "inscricao_estadual",
+                      "type": "string",
+                      "verboseName": "Inscri\u00e7\u00e3o Estadual"
+                    },
+                    {
+                      "maxLength": 20,
+                      "name": "inscricao_suframa",
+                      "type": "string",
+                      "verboseName": "Inscri\u00e7\u00e3o Suframa"
+                    },
+                    {
+                      "maxLength": 1,
+                      "name": "pessoa_fisica",
+                      "type": "string",
+                      "verboseName": "Pessoa F\u00edsica"
+                    },
+                    {
+                      "maxLength": 1,
+                      "name": "optante_simples_nacional",
+                      "type": "string",
+                      "verboseName": "Indica se o Cliente / Fornecedor \u00e9 Optante do Simples Nacional"
+                    },
+                    {
+                      "maxLength": 1,
+                      "name": "inativo",
+                      "type": "string",
+                      "verboseName": "Indica se o cliente est\u00e1 inativo"
+                    }
+                  ],
+                  "filter": {
+                    "value": {
+                      "maxLength": 20,
+                      "name": "cnpj_cpf",
+                      "type": "string",
+                      "verboseName": "CNPJ / CPF"
+                    }
+                  },
+                  "data": {
+                    "value": "@results.documento",
+                    "validationFailures": []
+                  },
+                  "valid": true
+                },
+                {
+                  "uuid": "89f02755-b9d9-44dc-a427-7014759ace30",
+                  "type": "apenas_importado_api",
+                  "verboseName": "Exibir apenas os registros gerados pela API",
+                  "filter": {
+                    "value": null
+                  },
+                  "data": {
+                    "value": "N",
+                    "validationFailures": []
+                  },
+                  "valid": true
+                }
+              ],
+              "result_name": "cliente"
+            }
+          ],
+          "router": {
+            "type": "switch",
+            "operand": "@results.cliente",
+            "cases": [
+              {
+                "arguments": [
+                  "Success"
+                ],
+                "category_uuid": "70f1024c-478a-4168-863a-c2b648f52fe1",
+                "type": "has_category",
+                "uuid": "ff0fd905-5950-437f-9579-b606894b3e4c"
+              }
+            ],
+            "categories": [
+              {
+                "exit_uuid": "23b4568e-311e-4112-a67f-2536da9d0025",
+                "name": "Success",
+                "uuid": "70f1024c-478a-4168-863a-c2b648f52fe1"
+              },
+              {
+                "exit_uuid": "0eede9a5-76e2-49b4-875c-3a28e9a7b8d0",
+                "name": "Failure",
+                "uuid": "050e84a0-f44c-4635-9fee-85ecc813a57c"
+              }
+            ],
+            "default_category_uuid": "050e84a0-f44c-4635-9fee-85ecc813a57c"
+          },
+          "exits": [
+            {
+              "destination_uuid": "027d65ad-3f93-44d9-916a-a2e50c4f8f3c",
+              "uuid": "23b4568e-311e-4112-a67f-2536da9d0025"
+            },
+            {
+              "destination_uuid": "54fb73e0-bde7-456e-9b7f-e4988bc34acc",
+              "uuid": "0eede9a5-76e2-49b4-875c-3a28e9a7b8d0"
+            }
+          ]
+        },
+        {
+          "actions": [],
+          "exits": [
+            {
+              "destination_uuid": "3936af6f-543c-4541-8db1-efad93ccf966",
+              "uuid": "ab5675cd-742f-4831-a21e-ec7bdf8c72dc"
+            },
+            {
+              "destination_uuid": "d7a562ab-8266-46ee-981f-2227f8626f65",
+              "uuid": "3c8a2563-fc79-420c-8cd7-456ba3cc683c"
+            },
+            {
+              "destination_uuid": "3936af6f-543c-4541-8db1-efad93ccf966",
+              "uuid": "b4629bcf-7560-4e48-8613-6d8648f5f9f0"
+            }
+          ],
+          "router": {
+            "cases": [
+              {
+                "arguments": [
+                  "email"
+                ],
+                "category_uuid": "ef17c308-550d-42a6-83e9-413dfd6ce989",
+                "type": "has_any_word",
+                "uuid": "09489dfd-a394-4d7a-912d-9346ff713942"
+              },
+              {
+                "arguments": [
+                  "telefone"
+                ],
+                "category_uuid": "33fc3970-c65b-4048-a987-f4872aea3561",
+                "type": "has_any_word",
+                "uuid": "c46d7f27-68b4-438e-945f-288ebfbf92b9"
+              }
+            ],
+            "categories": [
+              {
+                "exit_uuid": "ab5675cd-742f-4831-a21e-ec7bdf8c72dc",
+                "name": "Email",
+                "uuid": "ef17c308-550d-42a6-83e9-413dfd6ce989"
+              },
+              {
+                "exit_uuid": "3c8a2563-fc79-420c-8cd7-456ba3cc683c",
+                "name": "Telefone",
+                "uuid": "33fc3970-c65b-4048-a987-f4872aea3561"
+              },
+              {
+                "exit_uuid": "b4629bcf-7560-4e48-8613-6d8648f5f9f0",
+                "name": "Other",
+                "uuid": "f611a38f-cf9b-41bd-9f7b-0d7d2085f3e4"
+              }
+            ],
+            "default_category_uuid": "f611a38f-cf9b-41bd-9f7b-0d7d2085f3e4",
+            "operand": "@globals.tipo_credenciamento",
+            "type": "switch"
+          },
+          "uuid": "027d65ad-3f93-44d9-916a-a2e50c4f8f3c"
+        },
+        {
+          "actions": [],
+          "exits": [
+            {
+              "destination_uuid": "33e4f70a-94dd-4ba8-9c90-49f4db88bb49",
+              "uuid": "440330f2-ef7f-437f-ad36-47db2b037097"
+            },
+            {
+              "destination_uuid": "84fddba5-4e54-444d-87bb-6beadf40c344",
+              "uuid": "9a3d8efd-df82-4a14-8ea1-36f456d2fa5b"
+            }
+          ],
+          "router": {
+            "cases": [
+              {
+                "arguments": [
+                  "N\\u00e3o existem registros para a p\\u00e1gina"
+                ],
+                "category_uuid": "b53f2e47-cc86-4572-9fad-b010faf67bfb",
+                "type": "has_all_words",
+                "uuid": "f5191f8b-27e8-4eb7-853c-b592c2608ea4"
+              },
+              {
+                "arguments": [
+                  "Nao existem registros para a pagina"
+                ],
+                "category_uuid": "b53f2e47-cc86-4572-9fad-b010faf67bfb",
+                "type": "has_all_words",
+                "uuid": "3b333c1e-8604-459c-9203-85641a0540c0"
+              },
+              {
+                "arguments": [
+                  "N\u00e3o existem registros para a pagina"
+                ],
+                "category_uuid": "b53f2e47-cc86-4572-9fad-b010faf67bfb",
+                "type": "has_all_words",
+                "uuid": "30c49c09-930d-4ac7-910c-72daa3235cb7"
+              },
+              {
+                "arguments": [
+                  "N\u00e3o existem registros para a p\u00e1gina"
+                ],
+                "category_uuid": "b53f2e47-cc86-4572-9fad-b010faf67bfb",
+                "type": "has_all_words",
+                "uuid": "d483923e-9ded-4aba-ba04-78016fa094c9"
+              }
+            ],
+            "categories": [
+              {
+                "exit_uuid": "440330f2-ef7f-437f-ad36-47db2b037097",
+                "name": "Sem registro",
+                "uuid": "b53f2e47-cc86-4572-9fad-b010faf67bfb"
+              },
+              {
+                "exit_uuid": "9a3d8efd-df82-4a14-8ea1-36f456d2fa5b",
+                "name": "Other",
+                "uuid": "c721d36e-a5d6-47bf-a9d1-c6c268ff608a"
+              }
+            ],
+            "default_category_uuid": "c721d36e-a5d6-47bf-a9d1-c6c268ff608a",
+            "operand": "@results.cliente.value",
+            "type": "switch"
+          },
+          "uuid": "54fb73e0-bde7-456e-9b7f-e4988bc34acc"
+        },
+        {
+          "actions": [],
+          "exits": [
+            {
+              "destination_uuid": "5ce606ba-0a9d-4b30-ace5-9d5198b1010b",
+              "uuid": "4377b285-93a7-4e75-b956-bf5a5f3f0cd3"
+            },
+            {
+              "destination_uuid": "d7a562ab-8266-46ee-981f-2227f8626f65",
+              "uuid": "aee747fa-6ee9-48c6-901e-95a31cf68e67"
+            }
+          ],
+          "router": {
+            "cases": [
+              {
+                "arguments": [],
+                "category_uuid": "2c46d011-6db0-4a11-af4c-4e9e178a9406",
+                "type": "has_email",
+                "uuid": "4877f49e-224d-4332-8a9d-f03cf749e1f2"
+              }
+            ],
+            "categories": [
+              {
+                "exit_uuid": "4377b285-93a7-4e75-b956-bf5a5f3f0cd3",
+                "name": "Tem Email",
+                "uuid": "2c46d011-6db0-4a11-af4c-4e9e178a9406"
+              },
+              {
+                "exit_uuid": "aee747fa-6ee9-48c6-901e-95a31cf68e67",
+                "name": "Other",
+                "uuid": "7dbc49bf-edf0-4141-8f06-bd44124f79d9"
+              }
+            ],
+            "default_category_uuid": "7dbc49bf-edf0-4141-8f06-bd44124f79d9",
+            "operand": "@results.cliente.extra.clientes_cadastro.0.email",
+            "type": "switch"
+          },
+          "uuid": "3936af6f-543c-4541-8db1-efad93ccf966"
+        },
+        {
+          "actions": [],
+          "exits": [
+            {
+              "destination_uuid": "e6611424-65e9-421e-be30-dfbbbc9c39bd",
+              "uuid": "731b7bec-673f-43f0-967e-85a7ebc6a799"
+            },
+            {
+              "destination_uuid": "a4d34b78-62bf-49d0-9c8d-210d12eab593",
+              "uuid": "776f768e-cfdf-4ab4-8a98-33d71178f8f8"
+            }
+          ],
+          "router": {
+            "cases": [
+              {
+                "arguments": [],
+                "category_uuid": "835a7817-1fc0-4e77-a767-04e9046af501",
+                "type": "has_text",
+                "uuid": "040d3bd7-39e9-4aa3-9b34-7a31b2ef56f3"
+              }
+            ],
+            "categories": [
+              {
+                "exit_uuid": "731b7bec-673f-43f0-967e-85a7ebc6a799",
+                "name": "Tem telefone 1",
+                "uuid": "835a7817-1fc0-4e77-a767-04e9046af501"
+              },
+              {
+                "exit_uuid": "776f768e-cfdf-4ab4-8a98-33d71178f8f8",
+                "name": "Other",
+                "uuid": "7054a54b-7a66-45b2-ba40-7875eba502f1"
+              }
+            ],
+            "default_category_uuid": "7054a54b-7a66-45b2-ba40-7875eba502f1",
+            "operand": "@results.cliente.extra.clientes_cadastro.0.telefone1_numero",
+            "type": "switch"
+          },
+          "uuid": "d7a562ab-8266-46ee-981f-2227f8626f65"
+        },
+        {
+          "actions": [],
+          "exits": [
+            {
+              "destination_uuid": "afe0416d-7404-40ad-bdcd-d48a6939d8a3",
+              "uuid": "0d082104-74fa-4cfe-bd5e-c01431623888"
+            },
+            {
+              "destination_uuid": "1753a7f7-19d6-4d8a-9cce-1de1939ac887",
+              "uuid": "721440dc-a5c3-47aa-a242-a704970989ec"
+            }
+          ],
+          "router": {
+            "cases": [
+              {
+                "arguments": [],
+                "category_uuid": "99aee3ff-969f-44cb-bff8-cbafbe91cf9b",
+                "type": "has_text",
+                "uuid": "1cebe0ab-5def-47ea-9209-764cd1984bca"
+              }
+            ],
+            "categories": [
+              {
+                "exit_uuid": "0d082104-74fa-4cfe-bd5e-c01431623888",
+                "name": "Tem telefone 2",
+                "uuid": "99aee3ff-969f-44cb-bff8-cbafbe91cf9b"
+              },
+              {
+                "exit_uuid": "721440dc-a5c3-47aa-a242-a704970989ec",
+                "name": "Other",
+                "uuid": "e0a12bd0-a767-4a47-bd26-b5c45ca116e4"
+              }
+            ],
+            "default_category_uuid": "e0a12bd0-a767-4a47-bd26-b5c45ca116e4",
+            "operand": "@results.cliente.extra.clientes_cadastro.0.telefone2_numero",
+            "type": "switch"
+          },
+          "uuid": "a4d34b78-62bf-49d0-9c8d-210d12eab593"
+        },
+        {
+          "actions": [
+            {
+              "addresses": [
+                "sarah.pinheiro@weni.ai"
+              ],
+              "body": "Documento testado: @results.documento\n\n",
+              "subject": "Erro Credenciamento OMIE Template cristal",
+              "type": "send_email",
+              "uuid": "bc247273-ac91-43fb-9ea7-a2311c36f776"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "33e4f70a-94dd-4ba8-9c90-49f4db88bb49",
+              "uuid": "ee25e7c5-2ff8-432b-b5e0-3a76309a8f46"
+            }
+          ],
+          "uuid": "84fddba5-4e54-444d-87bb-6beadf40c344"
+        },
+        {
+          "actions": [
+            {
+              "category": "",
+              "name": "Telefone",
+              "type": "set_run_result",
+              "uuid": "ee0f25b3-d818-479d-a34c-c9f804c5227b",
+              "value": "@results.cliente.extra.clientes_cadastro.0.telefone1_numero"
+            },
+            {
+              "category": "",
+              "name": "Telefone",
+              "type": "set_run_result",
+              "uuid": "9ecce492-088f-4f90-9f5f-2689baa7387c",
+              "value": "@(replace(results.telefone, \"-\", \"\"))"
+            },
+            {
+              "category": "",
+              "name": "Telefone",
+              "type": "set_run_result",
+              "uuid": "3cecc70f-f688-4926-9738-04ccbf921fbe",
+              "value": "@(replace(results.telefone, \" \", \"\"))"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "a9d2514f-42c4-4a0f-88db-0d29eca8cc58",
+              "uuid": "bc81e744-e04a-44b8-9242-5f12ca945f00"
+            }
+          ],
+          "uuid": "e6611424-65e9-421e-be30-dfbbbc9c39bd"
+        },
+        {
+          "actions": [
+            {
+              "category": "",
+              "name": "Telefone",
+              "type": "set_run_result",
+              "uuid": "1685cf31-b141-4ac4-8a8d-cb9cb7d852c7",
+              "value": "@results.cliente.extra.clientes_cadastro.0.telefone2_numero"
+            },
+            {
+              "category": "",
+              "name": "Telefone",
+              "type": "set_run_result",
+              "uuid": "9ecb9cea-f5e0-4025-850a-22084627051c",
+              "value": "@(replace(results.telefone, \"-\", \"\"))"
+            },
+            {
+              "category": "",
+              "name": "Telefone",
+              "type": "set_run_result",
+              "uuid": "3d513160-2ed4-4484-a59e-2bbd44cecb26",
+              "value": "@(replace(results.telefone, \" \", \"\"))"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "a9d2514f-42c4-4a0f-88db-0d29eca8cc58",
+              "uuid": "95f60021-96cf-4a2b-ad96-6ea85f1ea2b7"
+            }
+          ],
+          "uuid": "afe0416d-7404-40ad-bdcd-d48a6939d8a3"
+        },
+        {
+          "actions": [
+            {
+              "attachments": [],
+              "quick_replies": [],
+              "text": "\ud83d\udcde Vi que voc\u00ea n\u00e3o possui telefone cadastrado no sistema, entre em contato com o Financeiro para fazer essa atualiza\u00e7\u00e3o de dados.\n\nN\u00e3o se preocupe, quando seus dados estiverem atualizados, voc\u00ea conseguir\u00e1 utilizar as funcionalidades desse canal.",
+              "type": "send_msg",
+              "uuid": "cc5c6af4-1588-4d76-bcfa-f2319c3a22f8"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": null,
+              "uuid": "0153ebb1-895a-418f-8f69-6d2298304073"
+            }
+          ],
+          "uuid": "1753a7f7-19d6-4d8a-9cce-1de1939ac887"
+        },
+        {
+          "actions": [
+            {
+              "category": "",
+              "name": "email",
+              "type": "set_run_result",
+              "uuid": "450521b0-8998-4411-a0dc-61c3cda9c163",
+              "value": "@results.cliente.extra.clientes_cadastro.0.email"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "c0ea50b5-2064-4a1f-bd01-940367897b14",
+              "uuid": "ac36b906-e9df-4031-a311-8f609c62473e"
+            }
+          ],
+          "uuid": "5ce606ba-0a9d-4b30-ace5-9d5198b1010b"
+        },
+        {
+          "actions": [
+            {
+              "attachments": [],
+              "quick_replies": [],
+              "text": "N\u00e3o achei seu cadastro como um Cliente, Fornecedor ou Transportadora no nosso Sistema...",
+              "type": "send_msg",
+              "uuid": "3ddaf90b-261c-4cda-b7c0-00a499c24a86"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "7168b360-c2b9-477d-bc50-a4698cef5428",
+              "uuid": "4355ed46-7545-49fc-a1d8-b84414e98109"
+            }
+          ],
+          "uuid": "33e4f70a-94dd-4ba8-9c90-49f4db88bb49"
+        },
+        {
+          "uuid": "c0ea50b5-2064-4a1f-bd01-940367897b14",
+          "actions": [
+            {
+              "uuid": "b83701aa-f51b-41d0-9896-233f50d675cd",
+              "type": "enter_flow",
+              "flow": {
+                "uuid": "ebe8a770-1018-4066-b46f-b932b46c9655",
+                "name": "Censurador de E-mail"
+              }
+            }
+          ],
+          "router": {
+            "type": "switch",
+            "operand": "@child.status",
+            "cases": [
+              {
+                "arguments": [
+                  "completed"
+                ],
+                "category_uuid": "8df9217a-26db-433c-b70f-79c01288389f",
+                "type": "has_only_text",
+                "uuid": "bbf48bd3-5a6a-4a32-9c69-12600d9cd201"
+              },
+              {
+                "arguments": [
+                  "expired"
+                ],
+                "category_uuid": "e0d0b841-2bc8-4fab-b42a-6001fb1c9be5",
+                "type": "has_only_text",
+                "uuid": "eea871d4-9f43-4bf9-9c87-56100549884d"
+              }
+            ],
+            "categories": [
+              {
+                "exit_uuid": "e80df1e8-5f1a-4654-8337-c8b5bccfba5b",
+                "name": "Complete",
+                "uuid": "8df9217a-26db-433c-b70f-79c01288389f"
+              },
+              {
+                "exit_uuid": "83d89ffb-091c-46ee-b020-20ab669945da",
+                "name": "Expired",
+                "uuid": "e0d0b841-2bc8-4fab-b42a-6001fb1c9be5"
+              }
+            ],
+            "default_category_uuid": "e0d0b841-2bc8-4fab-b42a-6001fb1c9be5"
+          },
+          "exits": [
+            {
+              "destination_uuid": "6f5465bd-b575-4332-996a-0650218c5df8",
+              "uuid": "e80df1e8-5f1a-4654-8337-c8b5bccfba5b"
+            },
+            {
+              "destination_uuid": null,
+              "uuid": "83d89ffb-091c-46ee-b020-20ab669945da"
+            }
+          ]
+        },
+        {
+          "actions": [
+            {
+              "category": "",
+              "name": "email_censurado",
+              "type": "set_run_result",
+              "uuid": "0d9811a5-26f9-4667-8178-a3dd5150118d",
+              "value": "@child.results.email_censurado"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "842c7bf9-a870-47d2-8d50-54e2e19b7539",
+              "uuid": "302791d6-9e75-4d90-aa8b-f5d68d91f0f5"
+            }
+          ],
+          "uuid": "6f5465bd-b575-4332-996a-0650218c5df8"
+        },
+        {
+          "actions": [
+            {
+              "attachments": [],
+              "text": "Para liberar seu acesso, confirme os 4 \u00faltimos d\u00edgitos do telefone que termina com * * * @(text_slice(results.telefone,(text_length(results.telefone) -1))).",
+              "type": "send_msg",
+              "all_urns": false,
+              "quick_replies": [],
+              "uuid": "ef966c20-3a37-4d1e-9764-a7054a80c49b"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "f46c2839-7a44-4753-9313-c36340607ac2",
+              "uuid": "5bb48e06-476a-41d7-b5c8-4a4be7710f54"
+            }
+          ],
+          "uuid": "a9d2514f-42c4-4a0f-88db-0d29eca8cc58"
+        },
+        {
+          "actions": [
+            {
+              "attachments": [],
+              "quick_replies": [],
+              "text": "Por falta de resposta, estou encerrando nossa conversa. Quando quiser, \u00e9 s\u00f3 falar comigo novamente",
+              "type": "send_msg",
+              "uuid": "16e56358-1df5-4f1b-9424-a693f7a57115"
+            },
+            {
+              "groups": [
+                {
+                  "count": 0,
+                  "name": "Satisfeito",
+                  "query": null,
+                  "status": "ready",
+                  "uuid": "b7d9b65d-7f1f-4a0f-8b03-75e7d6ed0e6c"
+                }
+              ],
+              "type": "add_contact_groups",
+              "uuid": "45ace824-bf70-486b-bfef-9370fa5b026d"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": null,
+              "uuid": "7c9f2964-4016-4362-ba51-bbc3943b69f7"
+            }
+          ],
+          "uuid": "68558e6d-825d-48e1-b040-54c1bbb819e8"
+        },
+        {
+          "actions": [
+            {
+              "attachments": [],
+              "text": "Para liberar seu acesso, confirme o email abaixo que consta no seu cadastro: \n\n\ud83d\udce7 @results.email_censurado \n\n_\u00c9 s\u00f3 escrever o email completo_",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "cf374992-6d46-40c1-a177-4d07fd127d64"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "0134f704-b690-4093-aeb6-66c4a3224ae2",
+              "uuid": "60a63fba-b38a-42ca-8e59-ef1799749de5"
+            }
+          ],
+          "uuid": "842c7bf9-a870-47d2-8d50-54e2e19b7539"
+        },
+        {
+          "actions": [
+            {
+              "attachments": [],
+              "quick_replies": [],
+              "text": "Por falta de resposta, estou encerrando nossa conversa. Quando quiser, \u00e9 s\u00f3 falar comigo novamente",
+              "type": "send_msg",
+              "uuid": "3b67b80e-c9a4-4feb-ad5a-2f8e428251b0"
+            },
+            {
+              "groups": [
+                {
+                  "count": 0,
+                  "name": "Satisfeito",
+                  "query": null,
+                  "status": "ready",
+                  "uuid": "b7d9b65d-7f1f-4a0f-8b03-75e7d6ed0e6c"
+                }
+              ],
+              "type": "add_contact_groups",
+              "uuid": "4ea285db-f3c8-4342-a916-396ca0f50136"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": null,
+              "uuid": "b2851d07-bf10-4631-8d8e-c1d52c246478"
+            }
+          ],
+          "uuid": "cc2842aa-9ef6-4e17-beb7-745f80cdbe55"
+        },
+        {
+          "actions": [],
+          "exits": [
+            {
+              "destination_uuid": "fff27aea-0bcd-4374-a8fc-031a79ee55bb",
+              "uuid": "0f7a4e6f-64aa-418f-b840-47332f27eb26"
+            },
+            {
+              "destination_uuid": "e7513253-739d-4b4c-bbff-3f28c120c7c6",
+              "uuid": "8a50c346-0b17-4fae-a5a0-3329d5cdf284"
+            },
+            {
+              "destination_uuid": "68558e6d-825d-48e1-b040-54c1bbb819e8",
+              "uuid": "1a5fa2eb-7c5a-4a3a-8d88-a1f35afc5965"
+            }
+          ],
+          "router": {
+            "cases": [
+              {
+                "arguments": [
+                  "@(text_slice(results.telefone ,(text_length(results.telefone) -4 )))"
+                ],
+                "category_uuid": "9f9bf364-694f-472e-95a3-149c86970756",
+                "type": "has_number_eq",
+                "uuid": "9f2e0e3f-2792-4ad1-883b-4db391dd2008"
+              }
+            ],
+            "categories": [
+              {
+                "exit_uuid": "0f7a4e6f-64aa-418f-b840-47332f27eb26",
+                "name": "Validado",
+                "uuid": "9f9bf364-694f-472e-95a3-149c86970756"
+              },
+              {
+                "exit_uuid": "8a50c346-0b17-4fae-a5a0-3329d5cdf284",
+                "name": "Other",
+                "uuid": "01db7750-8828-45dc-9f05-fe695069366b"
+              },
+              {
+                "exit_uuid": "1a5fa2eb-7c5a-4a3a-8d88-a1f35afc5965",
+                "name": "No Response",
+                "uuid": "1a8b99ce-bc7b-446d-89f9-a4911993e894"
+              }
+            ],
+            "default_category_uuid": "01db7750-8828-45dc-9f05-fe695069366b",
+            "operand": "@input.text",
+            "result_name": "validacao",
+            "type": "switch",
+            "wait": {
+              "timeout": {
+                "category_uuid": "1a8b99ce-bc7b-446d-89f9-a4911993e894",
+                "seconds": 3600
+              },
+              "type": "msg"
+            }
+          },
+          "uuid": "f46c2839-7a44-4753-9313-c36340607ac2"
+        },
+        {
+          "actions": [],
+          "exits": [
+            {
+              "destination_uuid": "f6bb23f9-cba8-4b8b-b94a-c7e95ab1c0ca",
+              "uuid": "411e5ced-660f-4316-b5f9-60836d8c976a"
+            },
+            {
+              "destination_uuid": "d07bbe5c-3fdd-45fa-84a8-ae92d526a05f",
+              "uuid": "5d9fb149-556b-4487-a452-a8a6e4be4316"
+            },
+            {
+              "destination_uuid": "cc2842aa-9ef6-4e17-beb7-745f80cdbe55",
+              "uuid": "33088a1b-1b6f-4d54-a1e5-7a7657df19f7"
+            }
+          ],
+          "router": {
+            "cases": [
+              {
+                "arguments": [
+                  "@results.email"
+                ],
+                "category_uuid": "1f932510-9657-4413-a6c0-866b97187d30",
+                "type": "has_only_phrase",
+                "uuid": "526a6809-91b8-4067-b8fe-80810102c173"
+              }
+            ],
+            "categories": [
+              {
+                "exit_uuid": "411e5ced-660f-4316-b5f9-60836d8c976a",
+                "name": "Validado",
+                "uuid": "1f932510-9657-4413-a6c0-866b97187d30"
+              },
+              {
+                "exit_uuid": "5d9fb149-556b-4487-a452-a8a6e4be4316",
+                "name": "Other",
+                "uuid": "5677be20-42a8-4e80-8e28-fae7dc48e51b"
+              },
+              {
+                "exit_uuid": "33088a1b-1b6f-4d54-a1e5-7a7657df19f7",
+                "name": "No Response",
+                "uuid": "4d65b37b-c223-49ca-88e7-b79588535b66"
+              }
+            ],
+            "default_category_uuid": "5677be20-42a8-4e80-8e28-fae7dc48e51b",
+            "operand": "@input.text",
+            "result_name": "validacao",
+            "type": "switch",
+            "wait": {
+              "timeout": {
+                "category_uuid": "4d65b37b-c223-49ca-88e7-b79588535b66",
+                "seconds": 3600
+              },
+              "type": "msg"
+            }
+          },
+          "uuid": "0134f704-b690-4093-aeb6-66c4a3224ae2"
+        },
+        {
+          "actions": [
+            {
+              "attachments": [],
+              "quick_replies": [],
+              "text": "\ud83d\udd13 Seu acesso financeiro foi liberado.",
+              "type": "send_msg",
+              "uuid": "20e4036a-8c1b-453b-90b6-2495a729d24b"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "2d69bc02-4e03-4ccd-aee2-052a10561b12",
+              "uuid": "7e79d5dd-d98d-4d8b-90e1-7640d452b3e2"
+            }
+          ],
+          "uuid": "fff27aea-0bcd-4374-a8fc-031a79ee55bb"
+        },
+        {
+          "actions": [
+            {
+              "attachments": [],
+              "quick_replies": [
+                "Est\u00e1 desatualizado",
+                "N\u00e3o \u00e9 meu",
+                "Est\u00e1 certo"
+              ],
+              "text": "\ud83d\udcde Esse n\u00famero de telefone ainda \u00e9 seu? ",
+              "type": "send_msg",
+              "uuid": "1a3dcfc8-651f-45b0-beb9-8b4133fc5cdf"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "a3c06375-b0cf-4290-a94a-0ffd088b3e6e",
+              "uuid": "508c6409-e320-4b6f-97b0-c2aa32fda2aa"
+            }
+          ],
+          "uuid": "e7513253-739d-4b4c-bbff-3f28c120c7c6"
+        },
+        {
+          "actions": [
+            {
+              "attachments": [],
+              "quick_replies": [],
+              "text": "Esse n\u00e3o \u00e9 o n\u00famero que consta no seu cadastro aqui pra mim...\n\n_Digita somente os 4 \u00faltimos d\u00edgitos_",
+              "type": "send_msg",
+              "uuid": "87c807b4-4827-4825-9b0e-756ab507a003"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "a9d2514f-42c4-4a0f-88db-0d29eca8cc58",
+              "uuid": "2db2d95e-c4f1-4200-ad3d-0c1d6c34acc9"
+            }
+          ],
+          "uuid": "c6855744-bf94-419c-9bc1-58489bd171ee"
+        },
+        {
+          "actions": [
+            {
+              "attachments": [],
+              "quick_replies": [],
+              "text": "Certo, se este email \u00e9 seu e est\u00e1 atualizado, por favor digite-o por completo para confirmar sua identidade:\n\n\ud83d\udce7 @results.email_censurado \n\n_\u00c9 s\u00f3 escrever o email completo_",
+              "type": "send_msg",
+              "uuid": "87f569dd-7c1b-4564-b1aa-8e8e024e90da"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "0134f704-b690-4093-aeb6-66c4a3224ae2",
+              "uuid": "a905cafe-0f55-4331-ada7-e0adf19f0a76"
+            }
+          ],
+          "uuid": "b8d12e5f-3505-48d7-b7bc-c4b298f70f95"
+        },
+        {
+          "actions": [
+            {
+              "attachments": [],
+              "text": "\ud83d\udd13 Seu acesso foi liberado.",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "c30bf17c-2be2-4fbb-9e0c-a16e23ea7b59"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "67f89a88-5b2a-487a-905f-7050a91262d0",
+              "uuid": "6e1bccd8-e1ce-4314-9b9e-54b3867a6e86"
+            }
+          ],
+          "uuid": "f6bb23f9-cba8-4b8b-b94a-c7e95ab1c0ca"
+        },
+        {
+          "actions": [
+            {
+              "attachments": [],
+              "quick_replies": [
+                "Est\u00e1 desatualizado",
+                "N\u00e3o \u00e9 meu",
+                "Est\u00e1 certo"
+              ],
+              "text": "\ud83d\udce7 Esse email ainda \u00e9 seu?",
+              "type": "send_msg",
+              "uuid": "56bde154-ffb2-44c6-b97d-06d82ed2993b"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "20fda7ed-123b-4e27-9699-e20e89f6333a",
+              "uuid": "6900a400-f194-4e90-8a3a-6fd8b0398466"
+            }
+          ],
+          "uuid": "d07bbe5c-3fdd-45fa-84a8-ae92d526a05f"
+        },
+        {
+          "actions": [
+            {
+              "field": {
+                "key": "email",
+                "name": "Email"
+              },
+              "type": "set_contact_field",
+              "uuid": "be170159-dabd-4b5a-a066-a3e473488776",
+              "value": "@results.cliente.extra.clientes_cadastro.0.email"
+            },
+            {
+              "name": "@results.cliente.extra.clientes_cadastro.0.nome_fantasia",
+              "type": "set_contact_name",
+              "uuid": "168eaaa5-a34e-4699-abe4-c6f9077ed7e3"
+            },
+            {
+              "field": {
+                "key": "codigo_cliente_omie",
+                "name": "Codigo Cliente Omie"
+              },
+              "type": "set_contact_field",
+              "uuid": "1b08d5ab-cc04-42f4-8f47-8907582b23f5",
+              "value": "@results.cliente.extra.clientes_cadastro.0.codigo_cliente_omie"
+            },
+            {
+              "field": {
+                "key": "documento",
+                "name": "Documento"
+              },
+              "type": "set_contact_field",
+              "uuid": "7d80bdc4-9484-4d7c-8363-14e075485c81",
+              "value": "@results.cliente.extra.clientes_cadastro.0.cnpj_cpf"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "a1418c9b-052b-4b12-aa8b-66028e40da0f",
+              "uuid": "887a263a-87e8-4e04-b638-74978110ffd7"
+            }
+          ],
+          "uuid": "2d69bc02-4e03-4ccd-aee2-052a10561b12"
+        },
+        {
+          "actions": [],
+          "exits": [
+            {
+              "destination_uuid": "59643cc9-51ab-4bf3-bf32-b2c76bf5d88a",
+              "uuid": "4820c962-6d84-43ed-8bcc-14af2f6aca63"
+            },
+            {
+              "destination_uuid": "c6855744-bf94-419c-9bc1-58489bd171ee",
+              "uuid": "a81075f6-d56b-414c-85e0-9caf24568379"
+            },
+            {
+              "destination_uuid": "e0fb4342-e538-4efe-ac54-4a7b5c60a02d",
+              "uuid": "97a0d8cd-baf3-4976-86e7-c1572514e4cd"
+            }
+          ],
+          "router": {
+            "cases": [
+              {
+                "arguments": [
+                  "N\u00e3o nao n nop nau"
+                ],
+                "category_uuid": "2aa90622-77ff-4dad-8c27-852e8a650ca3",
+                "type": "has_any_word",
+                "uuid": "42e7ebd6-3a01-4e57-876e-6894c3f5021b"
+              },
+              {
+                "arguments": [
+                  "desatualizado desatualisado"
+                ],
+                "category_uuid": "2aa90622-77ff-4dad-8c27-852e8a650ca3",
+                "type": "has_any_word",
+                "uuid": "5be9782e-437c-41bf-a6f7-099f3327ee1d"
+              }
+            ],
+            "categories": [
+              {
+                "exit_uuid": "4820c962-6d84-43ed-8bcc-14af2f6aca63",
+                "name": "Desatualizado",
+                "uuid": "2aa90622-77ff-4dad-8c27-852e8a650ca3"
+              },
+              {
+                "exit_uuid": "a81075f6-d56b-414c-85e0-9caf24568379",
+                "name": "Other",
+                "uuid": "5df13bc3-657f-473a-acea-67dce3db1d50"
+              },
+              {
+                "exit_uuid": "97a0d8cd-baf3-4976-86e7-c1572514e4cd",
+                "name": "No Response",
+                "uuid": "c3e500c4-fc40-4e10-b543-e7215e03eb0c"
+              }
+            ],
+            "default_category_uuid": "5df13bc3-657f-473a-acea-67dce3db1d50",
+            "operand": "@input.text",
+            "result_name": "checagem",
+            "type": "switch",
+            "wait": {
+              "timeout": {
+                "category_uuid": "c3e500c4-fc40-4e10-b543-e7215e03eb0c",
+                "seconds": 3600
+              },
+              "type": "msg"
+            }
+          },
+          "uuid": "a3c06375-b0cf-4290-a94a-0ffd088b3e6e"
+        },
+        {
+          "actions": [
+            {
+              "field": {
+                "key": "email",
+                "name": "Email"
+              },
+              "type": "set_contact_field",
+              "uuid": "d30f1bc5-e018-4e93-a52f-f6b54959cf51",
+              "value": "@results.cliente.extra.clientes_cadastro.0.email"
+            },
+            {
+              "name": "@results.cliente.extra.clientes_cadastro.0.nome_fantasia",
+              "type": "set_contact_name",
+              "uuid": "26d0fc94-1987-455c-90f4-e4feb0e98731"
+            },
+            {
+              "field": {
+                "key": "codigo_cliente_omie",
+                "name": "Codigo Cliente Omie"
+              },
+              "type": "set_contact_field",
+              "uuid": "f0d979b7-bd04-45d1-98fc-d1c6a2d8ef1c",
+              "value": "@results.cliente.extra.clientes_cadastro.0.codigo_cliente_omie"
+            },
+            {
+              "field": {
+                "key": "documento",
+                "name": "Documento"
+              },
+              "type": "set_contact_field",
+              "uuid": "7b2654b8-ceda-4ce9-8846-0562ea30b0bf",
+              "value": "@results.cliente.extra.clientes_cadastro.0.cnpj_cpf"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "0600d02e-3202-4296-9cf6-549c6490ce12",
+              "uuid": "023d1f89-89ff-4ab2-ad9d-3025a8b4bee7"
+            }
+          ],
+          "uuid": "67f89a88-5b2a-487a-905f-7050a91262d0"
+        },
+        {
+          "actions": [],
+          "exits": [
+            {
+              "destination_uuid": "6d5c77de-f6da-468b-9a8b-859737b6b870",
+              "uuid": "b02f74e0-06d4-44cc-91cc-b12dec5f00a8"
+            },
+            {
+              "destination_uuid": "b8d12e5f-3505-48d7-b7bc-c4b298f70f95",
+              "uuid": "c1f3b873-496a-4a67-87da-01707eb55be8"
+            },
+            {
+              "destination_uuid": "efe6bdaa-2d40-4444-acbe-b1b7cdc4de25",
+              "uuid": "457db860-d583-4d7f-9da5-c40e516f237c"
+            }
+          ],
+          "router": {
+            "cases": [
+              {
+                "arguments": [
+                  "n\u00e3o n no nau nao"
+                ],
+                "category_uuid": "8fe0f7e0-de3e-4742-a072-2304f520ae9b",
+                "type": "has_any_word",
+                "uuid": "0fdb4e0d-e773-4003-89e6-2d44b69a6ad6"
+              },
+              {
+                "arguments": [
+                  "desatualizado"
+                ],
+                "category_uuid": "8fe0f7e0-de3e-4742-a072-2304f520ae9b",
+                "type": "has_any_word",
+                "uuid": "01665916-59a3-4fbf-9af6-ebdee211de84"
+              },
+              {
+                "arguments": [
+                  "N\u00e3o est\u00e1 atualizado"
+                ],
+                "category_uuid": "8fe0f7e0-de3e-4742-a072-2304f520ae9b",
+                "type": "has_all_words",
+                "uuid": "98558c35-67c7-4784-af6f-97d42f642aae"
+              }
+            ],
+            "categories": [
+              {
+                "exit_uuid": "b02f74e0-06d4-44cc-91cc-b12dec5f00a8",
+                "name": "Desatualizado",
+                "uuid": "8fe0f7e0-de3e-4742-a072-2304f520ae9b"
+              },
+              {
+                "exit_uuid": "c1f3b873-496a-4a67-87da-01707eb55be8",
+                "name": "Other",
+                "uuid": "ea0ec303-670a-4954-afb3-e20115407ad0"
+              },
+              {
+                "exit_uuid": "457db860-d583-4d7f-9da5-c40e516f237c",
+                "name": "No Response",
+                "uuid": "267481e6-bbd0-4594-8782-ffbed83c9cec"
+              }
+            ],
+            "default_category_uuid": "ea0ec303-670a-4954-afb3-e20115407ad0",
+            "operand": "@input.text",
+            "result_name": "checagem",
+            "type": "switch",
+            "wait": {
+              "timeout": {
+                "category_uuid": "267481e6-bbd0-4594-8782-ffbed83c9cec",
+                "seconds": 3600
+              },
+              "type": "msg"
+            }
+          },
+          "uuid": "20fda7ed-123b-4e27-9699-e20e89f6333a"
+        },
+        {
+          "actions": [
+            {
+              "attachments": [],
+              "text": "\ud83d\udcde Entendi, como seu telefone est\u00e1 desatualizado, entre em contato com o setor Financeiro para fazer essa atualiza\u00e7\u00e3o de dados.\n\nN\u00e3o se preocupe, quando seus dados estiverem atualizados, voc\u00ea conseguir\u00e1 utilizar as funcionalidades desse canal.",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "1779ad4d-1246-4137-a18b-ab7fd7c3fa8d"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": null,
+              "uuid": "ee96d1e3-2db9-4e3b-a03e-7da1d28eca41"
+            }
+          ],
+          "uuid": "59643cc9-51ab-4bf3-bf32-b2c76bf5d88a"
+        },
+        {
+          "actions": [
+            {
+              "attachments": [],
+              "quick_replies": [],
+              "text": "Por falta de resposta, estou encerrando nossa conversa. Quando quiser, \u00e9 s\u00f3 falar comigo novamente",
+              "type": "send_msg",
+              "uuid": "2cd47790-0905-4246-ab29-f6c2281510bf"
+            },
+            {
+              "groups": [
+                {
+                  "count": 0,
+                  "name": "Satisfeito",
+                  "query": null,
+                  "status": "ready",
+                  "uuid": "b7d9b65d-7f1f-4a0f-8b03-75e7d6ed0e6c"
+                }
+              ],
+              "type": "add_contact_groups",
+              "uuid": "2d9ef1b7-181e-448c-b058-2a77d34c597a"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": null,
+              "uuid": "7d44e508-b500-4822-a47f-1f0f7e53a2d2"
+            }
+          ],
+          "uuid": "e0fb4342-e538-4efe-ac54-4a7b5c60a02d"
+        },
+        {
+          "actions": [
+            {
+              "all_groups": false,
+              "groups": [
+                {
+                  "name": "Satisfeito",
+                  "uuid": "b7d9b65d-7f1f-4a0f-8b03-75e7d6ed0e6c"
+                }
+              ],
+              "type": "remove_contact_groups",
+              "uuid": "4f4a7578-ab83-4a8e-bf96-b9e225d1cab8"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": null,
+              "uuid": "61998ba7-df92-49a9-98e9-6206b5ab325a"
+            }
+          ],
+          "uuid": "a1418c9b-052b-4b12-aa8b-66028e40da0f"
+        },
+        {
+          "actions": [
+            {
+              "attachments": [],
+              "quick_replies": [],
+              "text": "Ent\u00e3o vamos tentar fazer uma valida\u00e7\u00e3o pelo seu n\u00famero de telefone cadastrado",
+              "type": "send_msg",
+              "uuid": "b07a907d-13f1-4f7b-9159-d00d1b8e2991"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "d7a562ab-8266-46ee-981f-2227f8626f65",
+              "uuid": "7e5331aa-b366-4e01-a825-2f1e4b4c7442"
+            }
+          ],
+          "uuid": "6d5c77de-f6da-468b-9a8b-859737b6b870"
+        },
+        {
+          "actions": [
+            {
+              "attachments": [],
+              "quick_replies": [],
+              "text": "Por falta de resposta, estou encerrando nossa conversa. Quando quiser, \u00e9 s\u00f3 falar comigo novamente",
+              "type": "send_msg",
+              "uuid": "db79bdc1-3044-462d-8f64-dd827e56dbf5"
+            },
+            {
+              "groups": [
+                {
+                  "count": 0,
+                  "name": "Satisfeito",
+                  "query": null,
+                  "status": "ready",
+                  "uuid": "b7d9b65d-7f1f-4a0f-8b03-75e7d6ed0e6c"
+                }
+              ],
+              "type": "add_contact_groups",
+              "uuid": "28b9bfc6-caad-4e1a-9a32-add23a28ae98"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": null,
+              "uuid": "69f78022-d5b5-4e3f-acaf-9dab3549b959"
+            }
+          ],
+          "uuid": "efe6bdaa-2d40-4444-acbe-b1b7cdc4de25"
+        },
+        {
+          "actions": [
+            {
+              "all_groups": false,
+              "groups": [
+                {
+                  "name": "Satisfeito",
+                  "uuid": "b7d9b65d-7f1f-4a0f-8b03-75e7d6ed0e6c"
+                }
+              ],
+              "type": "remove_contact_groups",
+              "uuid": "14566f13-e069-424e-98d7-36aa0d61f593"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": null,
+              "uuid": "7075968e-528e-4131-affd-693a90865e35"
+            }
+          ],
+          "uuid": "0600d02e-3202-4296-9cf6-549c6490ce12"
+        }
+      ],
+      "spec_version": "13.1.0",
+      "type": "messaging",
+      "uuid": "ded9c184-8c33-41f0-a00c-4f2fc7a1cb59",
+      "revision": 24
+    }
+  ],
+  "campaigns": [],
+  "triggers": [
+    {
+      "trigger_type": "K",
+      "flow": {
+        "uuid": "482970e6-177a-44eb-bea4-d865431ba7b4",
+        "name": "Consulta Status do Pedido de Venda Omie"
+      },
+      "groups": [],
+      "exclude_groups": [],
+      "keyword": "testepedido"
+    }
+  ],
+  "fields": [
+    {
+      "key": "codigo_cliente_omie",
+      "name": "Codigo Cliente Omie",
+      "type": "text"
+    },
+    {
+      "key": "documento",
+      "name": "Documento",
+      "type": "text"
+    },
+    {
+      "key": "email",
+      "name": "Email",
+      "type": "text"
+    }
+  ],
+  "groups": [
+    {
+      "uuid": "b7d9b65d-7f1f-4a0f-8b03-75e7d6ed0e6c",
+      "name": "Satisfeito",
+      "query": null
+    }
+  ]
+}
