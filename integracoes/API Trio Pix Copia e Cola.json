@@ -1,0 +1,485 @@
+{
+  "version": "13",
+  "site": "https://flows.weni.ai",
+  "flows": [
+    {
+      "name": "Gerador de Pix",
+      "uuid": "ad2798d1-ebbf-440c-b234-9e42221079e1",
+      "spec_version": "13.1.0",
+      "language": "base",
+      "type": "messaging",
+      "nodes": [
+        {
+          "uuid": "3dda576d-cba0-4cad-906e-7a70f138f2f4",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "Seja bem-vindo a nossa central de Finan\u00e7as!",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "10948470-d557-4d1b-8ac0-e4af005609b1"
+            },
+            {
+              "attachments": [],
+              "text": "Qual valor deseja pagar?",
+              "type": "send_msg",
+              "quick_replies": [
+                "R$ 10",
+                "R$ 20",
+                "R$ 50"
+              ],
+              "uuid": "a6142aef-4523-4ae3-94d3-36cebff88f53"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "28800718-686d-45ae-bd87-d563e47f0842",
+              "destination_uuid": "b16de34d-bed0-4de2-9bdd-fecedd79729d"
+            }
+          ]
+        },
+        {
+          "uuid": "f0f5b234-d900-4b75-b62b-a88e69ea1a22",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "Preciso que envie somente o n\u00famero referente ao valor que deseja pagar.",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "b6fb8b79-a462-4538-8e7b-31f602d23b0b"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "a069ad68-fa7d-4d4c-84c8-e5b7ec2c247c",
+              "destination_uuid": "b16de34d-bed0-4de2-9bdd-fecedd79729d"
+            }
+          ]
+        },
+        {
+          "uuid": "b16de34d-bed0-4de2-9bdd-fecedd79729d",
+          "actions": [],
+          "router": {
+            "type": "switch",
+            "default_category_uuid": "be059e73-2114-4441-a021-1d1512cc1e95",
+            "cases": [
+              {
+                "arguments": [],
+                "type": "has_number",
+                "uuid": "fc0576f0-bd53-4734-aed8-f784795a99c3",
+                "category_uuid": "e6e843cc-7765-43a5-82c3-9716e0b88337"
+              },
+              {
+                "arguments": [
+                  "R$"
+                ],
+                "type": "has_beginning",
+                "uuid": "b1601fbb-43a4-4954-b601-65fbb739fd09",
+                "category_uuid": "c8b24d68-49a9-4091-84d4-80d3b038a569"
+              },
+              {
+                "arguments": [
+                  "10"
+                ],
+                "type": "has_any_word",
+                "uuid": "9f128db6-74e6-464f-a05c-65912b456cdb",
+                "category_uuid": "d9e3dad1-906e-454c-9831-63454fb52098"
+              },
+              {
+                "arguments": [
+                  "20"
+                ],
+                "type": "has_any_word",
+                "uuid": "116ee028-3599-43fc-8fbc-076f304ad7c2",
+                "category_uuid": "c969daf1-8252-4bf8-b99a-c8539b1c37b2"
+              },
+              {
+                "arguments": [
+                  "50"
+                ],
+                "type": "has_any_word",
+                "uuid": "3f9d31e5-3ef5-432c-ba82-a964062aa0f3",
+                "category_uuid": "6de5fc66-dbde-4a27-8f9d-f6b2c10732ed"
+              }
+            ],
+            "categories": [
+              {
+                "uuid": "e6e843cc-7765-43a5-82c3-9716e0b88337",
+                "name": "Tem n\u00famero",
+                "exit_uuid": "fa8007fc-e117-40b4-8192-3366210d424a"
+              },
+              {
+                "uuid": "c8b24d68-49a9-4091-84d4-80d3b038a569",
+                "name": "R$",
+                "exit_uuid": "429c93de-6905-4b13-9d92-530952cede52"
+              },
+              {
+                "uuid": "d9e3dad1-906e-454c-9831-63454fb52098",
+                "name": "10",
+                "exit_uuid": "6ea5b092-b476-4f4c-88f7-7c80e0fab953"
+              },
+              {
+                "uuid": "c969daf1-8252-4bf8-b99a-c8539b1c37b2",
+                "name": "20",
+                "exit_uuid": "324a3b48-b6fc-4f9d-879f-e7922d381bd3"
+              },
+              {
+                "uuid": "6de5fc66-dbde-4a27-8f9d-f6b2c10732ed",
+                "name": "50",
+                "exit_uuid": "88972859-d895-42c1-bb23-a2ead6ab3955"
+              },
+              {
+                "uuid": "be059e73-2114-4441-a021-1d1512cc1e95",
+                "name": "Other",
+                "exit_uuid": "642b5c69-824b-46b8-9ce5-6665c3ed7650"
+              },
+              {
+                "uuid": "2eba02c5-1b31-4fe9-a574-04e25e3b62eb",
+                "name": "No Response",
+                "exit_uuid": "515e8065-b419-474e-8fcd-ecfa06d21ee7"
+              }
+            ],
+            "operand": "@input.text",
+            "wait": {
+              "type": "msg",
+              "timeout": {
+                "seconds": 900,
+                "category_uuid": "2eba02c5-1b31-4fe9-a574-04e25e3b62eb"
+              }
+            },
+            "result_name": "valor"
+          },
+          "exits": [
+            {
+              "uuid": "fa8007fc-e117-40b4-8192-3366210d424a",
+              "destination_uuid": "ead81636-0cae-464f-8666-4ed13c3f38cf"
+            },
+            {
+              "uuid": "429c93de-6905-4b13-9d92-530952cede52",
+              "destination_uuid": "ead81636-0cae-464f-8666-4ed13c3f38cf"
+            },
+            {
+              "uuid": "6ea5b092-b476-4f4c-88f7-7c80e0fab953",
+              "destination_uuid": "ba39bcba-edf9-4d4f-b411-c751c840d0db"
+            },
+            {
+              "uuid": "324a3b48-b6fc-4f9d-879f-e7922d381bd3",
+              "destination_uuid": "ba39bcba-edf9-4d4f-b411-c751c840d0db"
+            },
+            {
+              "uuid": "88972859-d895-42c1-bb23-a2ead6ab3955",
+              "destination_uuid": "ba39bcba-edf9-4d4f-b411-c751c840d0db"
+            },
+            {
+              "uuid": "642b5c69-824b-46b8-9ce5-6665c3ed7650",
+              "destination_uuid": "f0f5b234-d900-4b75-b62b-a88e69ea1a22"
+            },
+            {
+              "uuid": "515e8065-b419-474e-8fcd-ecfa06d21ee7",
+              "destination_uuid": null
+            }
+          ]
+        },
+        {
+          "uuid": "ead81636-0cae-464f-8666-4ed13c3f38cf",
+          "actions": [
+            {
+              "type": "set_run_result",
+              "name": "valor",
+              "value": "@(replace(results.valor, \"R$\", \"\"))",
+              "category": "",
+              "uuid": "eefb6ef1-aa95-4c40-a732-0ddb901dc371"
+            },
+            {
+              "type": "set_run_result",
+              "name": "valor",
+              "value": "@(replace(results.valor, \",\", \"\"))",
+              "category": "",
+              "uuid": "a0583624-8f42-468e-844b-640a5486708c"
+            },
+            {
+              "type": "set_run_result",
+              "name": "valor",
+              "value": "@(replace(results.valor, \" \", \"\"))",
+              "category": "",
+              "uuid": "d42e4a91-8df3-47ae-bfa8-d432321f7da5"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "598e317a-6e43-4b53-ae17-98f1442591c6",
+              "destination_uuid": "8b2b7a76-fbf2-413c-90b8-3bd9fb236ec8"
+            }
+          ]
+        },
+        {
+          "uuid": "ba39bcba-edf9-4d4f-b411-c751c840d0db",
+          "actions": [
+            {
+              "type": "set_run_result",
+              "name": "valor",
+              "value": "@results.valor.category",
+              "category": "",
+              "uuid": "2de49643-7b89-4b18-8552-172525114e68"
+            },
+            {
+              "type": "set_run_result",
+              "name": "valor",
+              "value": "@(replace(results.valor, \",\", \"\"))",
+              "category": "",
+              "uuid": "67a03c04-d704-461b-b88b-ebe7999f7563"
+            },
+            {
+              "type": "set_run_result",
+              "name": "valor",
+              "value": "@(replace(results.valor, \" \", \"\"))",
+              "category": "",
+              "uuid": "69411a90-0aa5-4236-b369-5fef68cc22b8"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "d3e95d96-56c2-4998-b7de-5bcd37d99532",
+              "destination_uuid": "8b2b7a76-fbf2-413c-90b8-3bd9fb236ec8"
+            }
+          ]
+        },
+        {
+          "uuid": "8b2b7a76-fbf2-413c-90b8-3bd9fb236ec8",
+          "actions": [
+            {
+              "uuid": "db0f35cc-46e4-4310-bdf6-67054e500543",
+              "headers": {
+                "Authorization": "@globals.token_authorization",
+                "Content-Type": "application/json"
+              },
+              "type": "call_webhook",
+              "url": "https://sandbox.trio.com.br/banking/cashin/pix/qrcodes",
+              "body": "{\n    \"counterparty\": {\n        \"tax_number\": \"16755375000100\",\n        \"name\": \"Weni\"\n    },\n    \"options\": {\n        \"allow_change_the_amount_on_payment\": @globals.permitir_alteracao_do_valor,\n        \"show_qrcode_image\": false\n    },\n    \"amount\": @results.valor,\n    \"pix_key_id\": \"@globals.pix_key_id\",\n    \"virtual_account_id\": \"@globals.virtual_account_id\"\n}",
+              "method": "POST",
+              "result_name": "qrcodes"
+            }
+          ],
+          "router": {
+            "type": "switch",
+            "operand": "@results.qrcodes.category",
+            "cases": [
+              {
+                "uuid": "292ab3c3-15a0-45ef-aec7-64bf6ef68028",
+                "type": "has_only_text",
+                "arguments": [
+                  "Success"
+                ],
+                "category_uuid": "e7bcb642-508a-4e13-9c96-21799cc27fc2"
+              }
+            ],
+            "categories": [
+              {
+                "uuid": "e7bcb642-508a-4e13-9c96-21799cc27fc2",
+                "name": "Success",
+                "exit_uuid": "f48c5387-0730-43c0-9f81-27c3660565d0"
+              },
+              {
+                "uuid": "245083b7-b0c2-4ab2-a125-0a32429e2bff",
+                "name": "Failure",
+                "exit_uuid": "c5813ae7-38ef-4ab8-b062-17d60dcefb0b"
+              }
+            ],
+            "default_category_uuid": "245083b7-b0c2-4ab2-a125-0a32429e2bff"
+          },
+          "exits": [
+            {
+              "uuid": "f48c5387-0730-43c0-9f81-27c3660565d0",
+              "destination_uuid": "c60b7311-2f85-425c-8aa7-252535a12f66"
+            },
+            {
+              "uuid": "c5813ae7-38ef-4ab8-b062-17d60dcefb0b",
+              "destination_uuid": "d7654f56-da5b-4135-afad-070d07524f23"
+            }
+          ]
+        },
+        {
+          "uuid": "c60b7311-2f85-425c-8aa7-252535a12f66",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "Aqui est\u00e1 seu Pix Copia e Cola \ud83d\udc47",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "8f0b5be1-20be-4d32-b28b-0b452182182e"
+            },
+            {
+              "attachments": [],
+              "text": "@webhook.data.hash",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "c6539c9e-a61a-49f0-93f6-a56068c1cbb3"
+            },
+            {
+              "attachments": [],
+              "text": "_*Aten\u00e7\u00e3o*: Realize o pagamento em at\u00e9 24 horas! Ap\u00f3s esse per\u00edodo voc\u00ea deve solicitar um novo c\u00f3digo._",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "66d77005-24ef-44ca-a2ee-68ca9b9b7c00"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "645b9cc2-96f6-4395-ad0b-11b24ef27ed9",
+              "destination_uuid": null
+            }
+          ]
+        },
+        {
+          "uuid": "d7654f56-da5b-4135-afad-070d07524f23",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "Tivemos um problema ao gerar seu QR code, por favor entre em contato com nosso setor Financeiro.",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "c0ade49b-db2e-4499-80f0-061fbf721386"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "c5e12e9c-5e76-4e31-80a6-78f1106caa62",
+              "destination_uuid": null
+            }
+          ]
+        }
+      ],
+      "_ui": {
+        "nodes": {
+          "3dda576d-cba0-4cad-906e-7a70f138f2f4": {
+            "position": {
+              "left": 280,
+              "top": 0
+            },
+            "type": "execute_actions"
+          },
+          "f0f5b234-d900-4b75-b62b-a88e69ea1a22": {
+            "position": {
+              "left": 780,
+              "top": 240
+            },
+            "type": "execute_actions"
+          },
+          "b16de34d-bed0-4de2-9bdd-fecedd79729d": {
+            "type": "wait_for_response",
+            "position": {
+              "left": 220,
+              "top": 280
+            },
+            "config": {
+              "cases": {}
+            }
+          },
+          "ead81636-0cae-464f-8666-4ed13c3f38cf": {
+            "position": {
+              "left": 240,
+              "top": 500
+            },
+            "type": "execute_actions"
+          },
+          "ba39bcba-edf9-4d4f-b411-c751c840d0db": {
+            "position": {
+              "left": 500,
+              "top": 500
+            },
+            "type": "execute_actions"
+          },
+          "8b2b7a76-fbf2-413c-90b8-3bd9fb236ec8": {
+            "type": "split_by_webhook",
+            "position": {
+              "left": 360,
+              "top": 840
+            },
+            "config": {}
+          },
+          "c60b7311-2f85-425c-8aa7-252535a12f66": {
+            "position": {
+              "left": 360,
+              "top": 1100
+            },
+            "type": "execute_actions"
+          },
+          "d7654f56-da5b-4135-afad-070d07524f23": {
+            "position": {
+              "left": 660,
+              "top": 1100
+            },
+            "type": "execute_actions"
+          }
+        },
+        "stickies": {
+          "70e5aed9-eb31-4afa-8572-ebd2983ae0a9": {
+            "position": {
+              "left": 520,
+              "top": 100,
+              "right": -100,
+              "bottom": -20
+            },
+            "title": "Aten\u00e7\u00e3o",
+            "body": "Use somente numeros. O par\u00e2metro amount envia o valor que deve ser gerado o c\u00f3digo copia e cola do Pix, esse par\u00e3metro exige numeros inteiros, sem v\u00edrgulas e pontos",
+            "color": "purple"
+          },
+          "f31ce6db-6f61-49cd-993b-6282fb123b47": {
+            "position": {
+              "left": 140,
+              "top": 840,
+              "right": null,
+              "bottom": null
+            },
+            "title": "ATEN\u00c7A\u00d5",
+            "body": "tax_number: \u00e9 o CPF ou CNPJ da conta do seu cliente. Pode ser visualizado na tela de Contrapartidas da Trio.\n\nname: Nome do seu cliente\n\nEsses dois par\u00e2metros s\u00e3o obrigat\u00f3rios para gerar uma cobran\u00e7a pix, caso tenha d\u00favidas, acesse a documenta\u00e7\u00e3o da API ou entre em contato com o suporte da Trio.\n\nCaso queira popular sua base de Contrapartidas com os dados reais de seus clientes, substitua no cart\u00e3o webhook as vari\u00e1veis de CPF/CPNJ do seu cliente e o nome do contato.\n",
+            "color": "purple"
+          },
+          "9e3d47a9-2b31-454a-9a78-88884784021f": {
+            "position": {
+              "left": 20,
+              "top": 520,
+              "right": 0,
+              "bottom": 0
+            },
+            "title": "Formata\u00e7\u00e3o dos valores",
+            "body": "Aqui formatamos os valores para retirar cifr\u00e3o, espa\u00e7o e v\u00edrgula.",
+            "color": "purple"
+          },
+          "0c7bb5ab-921a-4bb1-9dee-8085b8d40e9e": {
+            "position": {
+              "left": 40,
+              "top": 0,
+              "right": null,
+              "bottom": null
+            },
+            "title": "DOCUMENTA\u00c7\u00c3O",
+            "body": "Acesse a documenta\u00e7\u00e3o da API em https://developers.trio.com.br/reference/introduction\n\nSe voc\u00ea deseja suporte t\u00e9cnico acesse https://support.trio.com.br/pt-BR/",
+            "color": "purple"
+          }
+        }
+      },
+      "revision": 160,
+      "expire_after_minutes": 10080,
+      "metadata": {
+        "expires": 10080
+      },
+      "localization": {}
+    }
+  ],
+  "campaigns": [],
+  "triggers": [
+    {
+      "trigger_type": "K",
+      "flow": {
+        "uuid": "ad2798d1-ebbf-440c-b234-9e42221079e1",
+        "name": "Gerador de Pix"
+      },
+      "groups": [],
+      "exclude_groups": [],
+      "keyword": "testepix"
+    }
+  ],
+  "fields": [],
+  "groups": []
+}
