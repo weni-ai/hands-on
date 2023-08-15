@@ -1,0 +1,1177 @@
+{
+  "version": "13",
+  "site": "https://flows.weni.ai",
+  "flows": [
+    {
+      "_ui": {
+        "nodes": {
+          "617097aa-d136-4d11-b10d-d42be74dc313": {
+            "type": "split_by_groups",
+            "position": {
+              "left": 300,
+              "top": 0
+            },
+            "config": {
+              "cases": {}
+            }
+          },
+          "d1652a1b-5634-41cb-a23f-7891e4f5719d": {
+            "type": "split_by_groups",
+            "position": {
+              "left": 300,
+              "top": 140
+            },
+            "config": {
+              "cases": {}
+            }
+          },
+          "b14a4010-fb67-42ba-8d17-13964bb7d71b": {
+            "position": {
+              "left": 520,
+              "top": 260
+            },
+            "type": "execute_actions"
+          }
+        },
+        "stickies": {
+          "a63e1442-289e-4378-a1f3-ca28b54b4d73": {
+            "position": {
+              "left": 80,
+              "top": 0
+            },
+            "title": "MODELO DE MENSAGEM",
+            "body": "Adicione aqui seu modelo de mensagem pr\u00e9 aprovado pelo Meta",
+            "color": "purple"
+          }
+        }
+      },
+      "expire_after_minutes": 10080,
+      "language": "base",
+      "localization": {},
+      "metadata": {
+        "expires": 10080
+      },
+      "name": "Disparo de mensagens promocionais",
+      "nodes": [
+        {
+          "uuid": "617097aa-d136-4d11-b10d-d42be74dc313",
+          "actions": [],
+          "router": {
+            "type": "switch",
+            "cases": [
+              {
+                "uuid": "b2822501-720f-44d7-9888-5afd03a5fd6a",
+                "type": "has_group",
+                "arguments": [
+                  "02e73677-3ec4-4353-90ea-c529645cf887",
+                  "N\u00e3o enviar mensagens ativas"
+                ],
+                "category_uuid": "a3355f45-2612-467c-b8a1-b655829bd0cc"
+              }
+            ],
+            "categories": [
+              {
+                "uuid": "a3355f45-2612-467c-b8a1-b655829bd0cc",
+                "name": "N\u00e3o enviar mensagens ativas",
+                "exit_uuid": "7ccf2e01-1347-414b-b482-28e42c7e61c2"
+              },
+              {
+                "uuid": "11fbc9e4-7225-4386-b969-7e7c55413132",
+                "name": "Other",
+                "exit_uuid": "f713e67a-33b4-4118-a8f7-5f2c778e31a6"
+              }
+            ],
+            "default_category_uuid": "11fbc9e4-7225-4386-b969-7e7c55413132",
+            "operand": "@contact.groups",
+            "result_name": ""
+          },
+          "exits": [
+            {
+              "uuid": "7ccf2e01-1347-414b-b482-28e42c7e61c2"
+            },
+            {
+              "uuid": "f713e67a-33b4-4118-a8f7-5f2c778e31a6",
+              "destination_uuid": "d1652a1b-5634-41cb-a23f-7891e4f5719d"
+            }
+          ]
+        },
+        {
+          "uuid": "d1652a1b-5634-41cb-a23f-7891e4f5719d",
+          "actions": [],
+          "router": {
+            "type": "switch",
+            "cases": [
+              {
+                "uuid": "73ed0ad6-2eac-4690-a633-577c95de36fb",
+                "type": "has_group",
+                "arguments": [
+                  "871e3b92-73db-48df-beeb-022129b0af97",
+                  "N\u00e3o enviar promo\u00e7\u00f5es"
+                ],
+                "category_uuid": "0c24c5f5-4fb5-4e7a-857b-1d61b6a90503"
+              }
+            ],
+            "categories": [
+              {
+                "uuid": "0c24c5f5-4fb5-4e7a-857b-1d61b6a90503",
+                "name": "N\u00e3o enviar promo\u00e7\u00f5es",
+                "exit_uuid": "f39dbc6b-0649-4301-a827-b501e592a1c9"
+              },
+              {
+                "uuid": "829aa523-ea1b-490d-a76d-6e64c77a1a80",
+                "name": "Other",
+                "exit_uuid": "7ae79bbf-1ac6-4c41-80d5-e5f536769f2f"
+              }
+            ],
+            "default_category_uuid": "829aa523-ea1b-490d-a76d-6e64c77a1a80",
+            "operand": "@contact.groups",
+            "result_name": ""
+          },
+          "exits": [
+            {
+              "uuid": "f39dbc6b-0649-4301-a827-b501e592a1c9"
+            },
+            {
+              "uuid": "7ae79bbf-1ac6-4c41-80d5-e5f536769f2f",
+              "destination_uuid": "b14a4010-fb67-42ba-8d17-13964bb7d71b"
+            }
+          ]
+        },
+        {
+          "actions": [
+            {
+              "attachments": [],
+              "text": "\ud83e\udd29 Nossas promo\u00e7\u00f5es come\u00e7am em 2 horas! Voc\u00ea est\u00e1 pronto? \n\nAcesse nosso site agora e prepare-se para as melhores ofertas: [URL] \n\n_Envie PARAR para deixar de receber mensagens_",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "8dc2c4ab-feb6-4158-a20b-d253af55c23c"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": null,
+              "uuid": "5e376ee7-5954-42ac-891e-99dbe5250a4a"
+            }
+          ],
+          "uuid": "b14a4010-fb67-42ba-8d17-13964bb7d71b"
+        }
+      ],
+      "spec_version": "13.1.0",
+      "type": "messaging",
+      "uuid": "fb8a8cf7-9ab6-4157-a340-1ec8382f3f0a",
+      "revision": 27
+    },
+    {
+      "_ui": {
+        "nodes": {
+          "19555306-f352-4e94-bfa0-68848118040e": {
+            "position": {
+              "left": 300,
+              "top": 0
+            },
+            "type": "execute_actions"
+          },
+          "b119326e-c543-4ea6-84b5-f62d34742b9d": {
+            "position": {
+              "left": 300,
+              "top": 260
+            },
+            "type": "execute_actions"
+          },
+          "bd800b29-a452-425e-ac7c-b6c23a25e80a": {
+            "position": {
+              "left": 620,
+              "top": 260
+            },
+            "type": "execute_actions"
+          },
+          "f2009a97-a5f4-4fad-a27e-86fdde2977e4": {
+            "config": {
+              "cases": {}
+            },
+            "position": {
+              "left": 300,
+              "top": 560
+            },
+            "type": "wait_for_response"
+          },
+          "aea20f31-c4ed-41cb-bf45-c247ecbcc443": {
+            "position": {
+              "left": 600,
+              "top": 720
+            },
+            "type": "execute_actions"
+          },
+          "4f8bea17-063a-483b-bd18-c970e363e4d9": {
+            "position": {
+              "left": 140,
+              "top": 760
+            },
+            "type": "execute_actions"
+          },
+          "13072c13-cb92-467a-9bba-5cb360c084c3": {
+            "type": "wait_for_response",
+            "position": {
+              "left": 140,
+              "top": 920
+            },
+            "config": {
+              "cases": {}
+            }
+          },
+          "6cac4854-2320-45ea-a27a-2bd4415d1cde": {
+            "position": {
+              "left": 140,
+              "top": 1100
+            },
+            "type": "execute_actions"
+          },
+          "eb6f844c-656d-4089-b44a-e89a41073fee": {
+            "position": {
+              "left": 460,
+              "top": 1200
+            },
+            "type": "execute_actions"
+          },
+          "6edd932e-02c1-47c7-bbe2-742ce10dba62": {
+            "type": "wait_for_response",
+            "position": {
+              "left": 140,
+              "top": 1260
+            },
+            "config": {
+              "cases": {}
+            }
+          },
+          "b874ac58-fd34-4911-a992-3b7e5e401434": {
+            "position": {
+              "left": 140,
+              "top": 1480
+            },
+            "type": "execute_actions"
+          }
+        }
+      },
+      "expire_after_minutes": 10080,
+      "language": "base",
+      "localization": {},
+      "metadata": {
+        "expires": 10080
+      },
+      "name": "Coleta de dados LGPD",
+      "nodes": [
+        {
+          "actions": [
+            {
+              "attachments": [],
+              "text": "Ol\u00e1, somos da Weni Tecnologia! Estamos muito felizes em te ter por aqui \ud83d\ude00\n\nAqui est\u00e1 nossa pol\u00edtica de privacidade: http://bit.ly/3DW2nNH",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "4c2cc547-6fdb-424e-9d74-7098c885485f"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "b119326e-c543-4ea6-84b5-f62d34742b9d",
+              "uuid": "c58db0df-b90d-43ed-a50a-9468f8365b0f"
+            }
+          ],
+          "uuid": "19555306-f352-4e94-bfa0-68848118040e"
+        },
+        {
+          "actions": [
+            {
+              "attachments": [],
+              "text": "Para te cadastrar no nosso sistema, precisamos coletar alguns dados pessoais seus.\n\nN\u00e3o se preocupe pois seus dados s\u00e3o tratados com seguran\u00e7a \ud83d\udd10 \n\nPodemos come\u00e7ar?",
+              "type": "send_msg",
+              "all_urns": false,
+              "quick_replies": [
+                "Sim",
+                "N\u00e3o"
+              ],
+              "uuid": "10dc5c8f-06b2-43d4-a13e-a00e01df95dc"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "f2009a97-a5f4-4fad-a27e-86fdde2977e4",
+              "uuid": "e201fc28-b554-4271-9545-509d5e3433b1"
+            }
+          ],
+          "uuid": "b119326e-c543-4ea6-84b5-f62d34742b9d"
+        },
+        {
+          "actions": [
+            {
+              "attachments": [],
+              "quick_replies": [],
+              "text": "Antes de continuar, preciso que escolha uma das op\u00e7\u00f5es abaixo",
+              "type": "send_msg",
+              "uuid": "9f97ce5d-bc8c-40ff-ab7d-2569b94aa8e4"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "b119326e-c543-4ea6-84b5-f62d34742b9d",
+              "uuid": "6eb5bb29-9ae8-4d85-9d05-fca2867edcbb"
+            }
+          ],
+          "uuid": "bd800b29-a452-425e-ac7c-b6c23a25e80a"
+        },
+        {
+          "actions": [],
+          "exits": [
+            {
+              "destination_uuid": "4f8bea17-063a-483b-bd18-c970e363e4d9",
+              "uuid": "8e21c949-d223-4da9-82a0-e297950cb077"
+            },
+            {
+              "destination_uuid": "aea20f31-c4ed-41cb-bf45-c247ecbcc443",
+              "uuid": "630040c7-36d8-4381-9de9-b68a64ea96be"
+            },
+            {
+              "destination_uuid": "bd800b29-a452-425e-ac7c-b6c23a25e80a",
+              "uuid": "0a8c4bc8-334b-46f8-aa05-0e2cbdbd0ad2"
+            }
+          ],
+          "router": {
+            "cases": [
+              {
+                "arguments": [
+                  "sim"
+                ],
+                "category_uuid": "4cd2eb59-ff6d-49db-b4c8-c16316994668",
+                "type": "has_any_word",
+                "uuid": "088ea629-d5d0-4fa5-826b-0c7c632731bb"
+              },
+              {
+                "arguments": [
+                  "n\u00e3o nao"
+                ],
+                "category_uuid": "d7927b84-27a4-4e8a-b1f3-5113185528a0",
+                "type": "has_any_word",
+                "uuid": "c4203c31-fdd8-4dc1-8658-9032ff1c7cff"
+              }
+            ],
+            "categories": [
+              {
+                "exit_uuid": "8e21c949-d223-4da9-82a0-e297950cb077",
+                "name": "Sim",
+                "uuid": "4cd2eb59-ff6d-49db-b4c8-c16316994668"
+              },
+              {
+                "exit_uuid": "630040c7-36d8-4381-9de9-b68a64ea96be",
+                "name": "N\u00e3o",
+                "uuid": "d7927b84-27a4-4e8a-b1f3-5113185528a0"
+              },
+              {
+                "exit_uuid": "0a8c4bc8-334b-46f8-aa05-0e2cbdbd0ad2",
+                "name": "Other",
+                "uuid": "36cd4e31-6a6a-40d5-80b1-c10675f85dc9"
+              }
+            ],
+            "default_category_uuid": "36cd4e31-6a6a-40d5-80b1-c10675f85dc9",
+            "operand": "@input.text",
+            "result_name": "Result 1",
+            "type": "switch",
+            "wait": {
+              "type": "msg"
+            }
+          },
+          "uuid": "f2009a97-a5f4-4fad-a27e-86fdde2977e4"
+        },
+        {
+          "actions": [
+            {
+              "attachments": [],
+              "quick_replies": [],
+              "text": "Tudo bem, caso mude de ideia \u00e9 s\u00f3 retomar o contato conosco que ficaremos muito felizes em te atender!",
+              "type": "send_msg",
+              "uuid": "7f473197-961a-446e-8852-585872c59439"
+            },
+            {
+              "groups": [
+                {
+                  "count": 0,
+                  "name": "N\u00e3o enviar mensagens ativas",
+                  "query": null,
+                  "status": "ready",
+                  "uuid": "02e73677-3ec4-4353-90ea-c529645cf887"
+                }
+              ],
+              "type": "add_contact_groups",
+              "uuid": "ec6fad4c-0828-4da0-955e-f9ef0abb164f"
+            },
+            {
+              "groups": [
+                {
+                  "count": 0,
+                  "name": "N\u00e3o enviar promo\u00e7\u00f5es",
+                  "query": null,
+                  "status": "ready",
+                  "uuid": "871e3b92-73db-48df-beeb-022129b0af97"
+                }
+              ],
+              "type": "add_contact_groups",
+              "uuid": "d1afcac2-08ef-4e79-9460-e4300bcf6320"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": null,
+              "uuid": "97be9458-b04f-4b28-8f67-7d0f43b3f329"
+            }
+          ],
+          "uuid": "aea20f31-c4ed-41cb-bf45-c247ecbcc443"
+        },
+        {
+          "actions": [
+            {
+              "attachments": [],
+              "text": "Qual seu nome completo?",
+              "type": "send_msg",
+              "quick_replies": [
+                "Sim",
+                "N\u00e3o"
+              ],
+              "uuid": "ce68bf27-d185-4cd6-98d8-67d478aabcef"
+            }
+          ],
+          "exits": [
+            {
+              "destination_uuid": "13072c13-cb92-467a-9bba-5cb360c084c3",
+              "uuid": "1dac5049-a852-4dde-aa46-2bbb19091f48"
+            }
+          ],
+          "uuid": "4f8bea17-063a-483b-bd18-c970e363e4d9"
+        },
+        {
+          "uuid": "13072c13-cb92-467a-9bba-5cb360c084c3",
+          "actions": [],
+          "router": {
+            "type": "switch",
+            "default_category_uuid": "8f6fe7e6-b9ca-4c61-bca9-fa6c5d999ca5",
+            "cases": [],
+            "categories": [
+              {
+                "exit_uuid": "7001d01e-921c-4238-80c1-4b26c5e2a060",
+                "name": "All Responses",
+                "uuid": "8f6fe7e6-b9ca-4c61-bca9-fa6c5d999ca5"
+              }
+            ],
+            "operand": "@input.text",
+            "wait": {
+              "type": "msg"
+            },
+            "result_name": "nome"
+          },
+          "exits": [
+            {
+              "destination_uuid": "6cac4854-2320-45ea-a27a-2bd4415d1cde",
+              "uuid": "7001d01e-921c-4238-80c1-4b26c5e2a060"
+            }
+          ]
+        },
+        {
+          "uuid": "6cac4854-2320-45ea-a27a-2bd4415d1cde",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "Qual sua data de nascimento?",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "be20a93f-cfce-4faa-8c2d-ed3746d4eda2"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "fedfb034-7f46-42fb-8bb9-f72472383863",
+              "destination_uuid": "6edd932e-02c1-47c7-bbe2-742ce10dba62"
+            }
+          ]
+        },
+        {
+          "uuid": "eb6f844c-656d-4089-b44a-e89a41073fee",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "preciso que informe uma data no formato DD-MM-YYYY",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "95e1d9e4-d30a-4e15-9682-848aabd59b34"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "8f608f35-4877-4dc2-9b42-0c4e26ad2fbe",
+              "destination_uuid": "6cac4854-2320-45ea-a27a-2bd4415d1cde"
+            }
+          ]
+        },
+        {
+          "uuid": "6edd932e-02c1-47c7-bbe2-742ce10dba62",
+          "actions": [],
+          "router": {
+            "type": "switch",
+            "default_category_uuid": "21db9ca0-6954-4320-8c7e-34f96c6af9d3",
+            "cases": [
+              {
+                "arguments": [],
+                "type": "has_date",
+                "uuid": "0901d14a-53d1-448f-a9f7-e6e2c5ac4fdf",
+                "category_uuid": "bb450684-00e8-4b58-ad3e-403842e63188"
+              }
+            ],
+            "categories": [
+              {
+                "uuid": "bb450684-00e8-4b58-ad3e-403842e63188",
+                "name": "Tem Data",
+                "exit_uuid": "d7780d7b-a323-411d-9079-4823a587002e"
+              },
+              {
+                "uuid": "21db9ca0-6954-4320-8c7e-34f96c6af9d3",
+                "name": "Other",
+                "exit_uuid": "fe7dd9c4-2990-4954-869e-7687b9b72311"
+              }
+            ],
+            "operand": "@input.text",
+            "wait": {
+              "type": "msg"
+            },
+            "result_name": "nascimento"
+          },
+          "exits": [
+            {
+              "uuid": "d7780d7b-a323-411d-9079-4823a587002e",
+              "destination_uuid": "b874ac58-fd34-4911-a992-3b7e5e401434"
+            },
+            {
+              "uuid": "fe7dd9c4-2990-4954-869e-7687b9b72311",
+              "destination_uuid": "eb6f844c-656d-4089-b44a-e89a41073fee"
+            }
+          ]
+        },
+        {
+          "uuid": "b874ac58-fd34-4911-a992-3b7e5e401434",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "Muito obrigada pelas informa\u00e7\u00f5es! Seu cadastro foi realizado",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "534446e3-12f0-47f9-a1fe-257a6122e8d4"
+            },
+            {
+              "attachments": [],
+              "text": "Caso queira alterar ou consultar algum dado, escolha a op\u00e7\u00e3o \"Ver meu perfil\"",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "ae26136d-ec12-45b5-a37e-0420df31573b"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "28c82768-a7a5-4f24-bb13-e5fc300d6447",
+              "destination_uuid": null
+            }
+          ]
+        }
+      ],
+      "spec_version": "13.1.0",
+      "type": "messaging",
+      "uuid": "2a21b841-c3bc-4942-85c4-6dea6d408972",
+      "revision": 50
+    },
+    {
+      "name": "Opt-in",
+      "uuid": "f0826f30-e058-4548-af5f-5f5fe6e475da",
+      "spec_version": "13.1.0",
+      "language": "base",
+      "type": "messaging",
+      "nodes": [
+        {
+          "uuid": "b46e8970-68d3-4a19-b651-c3525288b9e7",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "Ol\u00e1, sou assistente da Weni Tecnologia! Estou muito feliz em te ter por aqui \ud83d\ude00",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "5f596b3a-a444-4036-a31a-a554651c6aa3"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "495846c5-5f3a-4c8d-b78f-6b37132bac06",
+              "destination_uuid": "f8a96e0f-3463-4084-abbb-bf6bf83a50bd"
+            }
+          ]
+        },
+        {
+          "uuid": "f8a96e0f-3463-4084-abbb-bf6bf83a50bd",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "Voc\u00ea autoriza o envio de mensagens da Weni Tecnologia para voc\u00ea pelo WhatsApp?",
+              "type": "send_msg",
+              "all_urns": false,
+              "quick_replies": [
+                "Sim",
+                "N\u00e3o"
+              ],
+              "uuid": "7738271e-7c2d-40fb-b794-6b4e202ac31c"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "b708bbc4-5bea-48b9-8106-a27f848a514f",
+              "destination_uuid": "0becc6a5-3ddd-4715-b34b-8b0421fed676"
+            }
+          ]
+        },
+        {
+          "uuid": "5d2b3e32-7bd1-4acd-9626-d8823042e570",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "Antes de continuar, preciso que escolha uma das op\u00e7\u00f5es abaixo",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "490b1b0a-fa0d-4882-be63-1e1b4c329d3b"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "ecb8313d-a898-4bae-b3d3-808a485a94d0",
+              "destination_uuid": "f8a96e0f-3463-4084-abbb-bf6bf83a50bd"
+            }
+          ]
+        },
+        {
+          "uuid": "0becc6a5-3ddd-4715-b34b-8b0421fed676",
+          "actions": [],
+          "router": {
+            "type": "switch",
+            "default_category_uuid": "ab60172e-6336-480f-b68a-139947303d08",
+            "cases": [
+              {
+                "arguments": [
+                  "sim"
+                ],
+                "type": "has_any_word",
+                "uuid": "4036e412-568f-415e-b62f-10a848da40dd",
+                "category_uuid": "55cfad57-25b7-4049-9112-0b22133bab34"
+              },
+              {
+                "arguments": [
+                  "n\u00e3o nao"
+                ],
+                "type": "has_any_word",
+                "uuid": "3754db80-4bea-4796-ac4b-ce85326ab801",
+                "category_uuid": "09852dfe-8023-4f6b-b9ba-a924df995fbb"
+              }
+            ],
+            "categories": [
+              {
+                "uuid": "55cfad57-25b7-4049-9112-0b22133bab34",
+                "name": "Sim",
+                "exit_uuid": "aeb86b82-65c2-4619-bb72-081689459ce2"
+              },
+              {
+                "uuid": "09852dfe-8023-4f6b-b9ba-a924df995fbb",
+                "name": "N\u00e3o",
+                "exit_uuid": "ad738318-fca6-482c-9bb4-9cf5a3b90d10"
+              },
+              {
+                "uuid": "ab60172e-6336-480f-b68a-139947303d08",
+                "name": "Other",
+                "exit_uuid": "983c1b01-4361-497b-92d9-dfc38fa086c3"
+              },
+              {
+                "uuid": "d913ea48-2c80-435a-bb0c-c3dc13e6d1dd",
+                "name": "No Response",
+                "exit_uuid": "076c112f-80fd-45c9-9986-f359ace52e6f"
+              }
+            ],
+            "operand": "@input.text",
+            "wait": {
+              "type": "msg",
+              "timeout": {
+                "seconds": 21600,
+                "category_uuid": "d913ea48-2c80-435a-bb0c-c3dc13e6d1dd"
+              }
+            },
+            "result_name": "autorizacao"
+          },
+          "exits": [
+            {
+              "uuid": "aeb86b82-65c2-4619-bb72-081689459ce2",
+              "destination_uuid": "34e12ec0-00ee-4ba7-aaac-6e4897a8e095"
+            },
+            {
+              "uuid": "ad738318-fca6-482c-9bb4-9cf5a3b90d10",
+              "destination_uuid": "98f5bd6b-95c8-4a06-b5e3-ee2c93d54955"
+            },
+            {
+              "uuid": "983c1b01-4361-497b-92d9-dfc38fa086c3",
+              "destination_uuid": "5d2b3e32-7bd1-4acd-9626-d8823042e570"
+            },
+            {
+              "uuid": "076c112f-80fd-45c9-9986-f359ace52e6f"
+            }
+          ]
+        },
+        {
+          "uuid": "34e12ec0-00ee-4ba7-aaac-6e4897a8e095",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "Al\u00e9m de nossas comunica\u00e7\u00f5es, voc\u00ea aceita receber nossas ofertas e promo\u00e7\u00f5es pelo WhatsApp?",
+              "type": "send_msg",
+              "quick_replies": [
+                "Sim",
+                "N\u00e3o"
+              ],
+              "uuid": "3b6cf814-d329-4bc6-8a55-c6b92714a668"
+            },
+            {
+              "type": "remove_contact_groups",
+              "groups": [
+                {
+                  "uuid": "02e73677-3ec4-4353-90ea-c529645cf887",
+                  "name": "N\u00e3o enviar mensagens ativas"
+                }
+              ],
+              "all_groups": false,
+              "uuid": "8bec925e-273d-4b5a-b457-9239edac96b0"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "18b90aec-e0d4-403d-a4b6-ea7f23dfadf2",
+              "destination_uuid": "70f831e8-e4b8-4761-99c4-6476d6fa752f"
+            }
+          ]
+        },
+        {
+          "uuid": "98f5bd6b-95c8-4a06-b5e3-ee2c93d54955",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "Tudo bem, caso mude de ideia \u00e9 s\u00f3 retomar o contato conosco que ficaremos muito felizes em te atender!",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "57dd244f-9a30-434f-b3f6-8d4e1ea94aeb"
+            },
+            {
+              "type": "add_contact_groups",
+              "groups": [
+                {
+                  "uuid": "02e73677-3ec4-4353-90ea-c529645cf887",
+                  "name": "N\u00e3o enviar mensagens ativas",
+                  "query": null,
+                  "status": "ready",
+                  "count": 0
+                }
+              ],
+              "uuid": "2feab040-86bf-42b3-9c05-7cd5074916be"
+            },
+            {
+              "type": "add_contact_groups",
+              "groups": [
+                {
+                  "uuid": "871e3b92-73db-48df-beeb-022129b0af97",
+                  "name": "N\u00e3o enviar promo\u00e7\u00f5es",
+                  "query": null,
+                  "status": "ready",
+                  "count": 0
+                }
+              ],
+              "uuid": "1375e6cf-c1a8-4a85-9f9e-073d993a8fb4"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "75343834-3880-482e-83c0-f9de10502739",
+              "destination_uuid": null
+            }
+          ]
+        },
+        {
+          "uuid": "70f831e8-e4b8-4761-99c4-6476d6fa752f",
+          "actions": [],
+          "router": {
+            "type": "switch",
+            "default_category_uuid": "94598abe-7928-499e-86f3-7b196e5f0d9a",
+            "cases": [
+              {
+                "arguments": [
+                  "sim"
+                ],
+                "type": "has_any_word",
+                "uuid": "8b67b966-6f39-4c3a-a11f-02620229f196",
+                "category_uuid": "a7d57b82-af36-4618-a28d-2d41cb0a74fe"
+              },
+              {
+                "arguments": [
+                  "n\u00e3o nao"
+                ],
+                "type": "has_any_word",
+                "uuid": "2b514060-b3b3-4a36-bf67-c198ada95205",
+                "category_uuid": "14c288c3-668b-45ca-9bec-c031cefbde05"
+              }
+            ],
+            "categories": [
+              {
+                "uuid": "a7d57b82-af36-4618-a28d-2d41cb0a74fe",
+                "name": "Sim",
+                "exit_uuid": "07409f71-c7d1-4f45-bbb1-7e9537eb1f84"
+              },
+              {
+                "uuid": "14c288c3-668b-45ca-9bec-c031cefbde05",
+                "name": "N\u00e3o",
+                "exit_uuid": "d0f4ff34-579f-4da8-8c85-f7a3247e6396"
+              },
+              {
+                "uuid": "94598abe-7928-499e-86f3-7b196e5f0d9a",
+                "name": "Other",
+                "exit_uuid": "e8e4e494-4d73-4438-b81a-2504bf5434d8"
+              },
+              {
+                "uuid": "48555de7-e659-4416-9173-99184a5e48df",
+                "name": "No Response",
+                "exit_uuid": "56cf64f1-189b-4aa4-b6f4-2015cebfb485"
+              }
+            ],
+            "operand": "@input.text",
+            "wait": {
+              "type": "msg",
+              "timeout": {
+                "seconds": 21600,
+                "category_uuid": "48555de7-e659-4416-9173-99184a5e48df"
+              }
+            },
+            "result_name": "ofertas"
+          },
+          "exits": [
+            {
+              "uuid": "07409f71-c7d1-4f45-bbb1-7e9537eb1f84",
+              "destination_uuid": "0405af21-cb4c-47f2-bfcc-882164749061"
+            },
+            {
+              "uuid": "d0f4ff34-579f-4da8-8c85-f7a3247e6396",
+              "destination_uuid": "81493f4e-af3a-46ae-9cf6-0c24630c8f6a"
+            },
+            {
+              "uuid": "e8e4e494-4d73-4438-b81a-2504bf5434d8",
+              "destination_uuid": "58e084b5-941f-4869-ae4e-9865fd15460f"
+            },
+            {
+              "uuid": "56cf64f1-189b-4aa4-b6f4-2015cebfb485"
+            }
+          ]
+        },
+        {
+          "uuid": "58e084b5-941f-4869-ae4e-9865fd15460f",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "N\u00e3o entendi...",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "d5087c58-f386-4468-9afc-584175912f74"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "07387c12-d4af-4701-aaf3-bda97f213e14",
+              "destination_uuid": "34e12ec0-00ee-4ba7-aaac-6e4897a8e095"
+            }
+          ]
+        },
+        {
+          "uuid": "0405af21-cb4c-47f2-bfcc-882164749061",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "Perfeito, obrigada por responder!",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "79dce68e-7578-44f8-9f6e-5a80feadf70a"
+            },
+            {
+              "type": "remove_contact_groups",
+              "groups": [
+                {
+                  "uuid": "871e3b92-73db-48df-beeb-022129b0af97",
+                  "name": "N\u00e3o enviar promo\u00e7\u00f5es"
+                }
+              ],
+              "all_groups": false,
+              "uuid": "479e8757-c08b-46fc-a679-875d82c9f836"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "afa90ce2-fc36-4c29-9703-df84359edb74",
+              "destination_uuid": "c8dc9461-675e-4786-a551-afea0bf5dbe3"
+            }
+          ]
+        },
+        {
+          "uuid": "81493f4e-af3a-46ae-9cf6-0c24630c8f6a",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "Tudo bem, n\u00e3o enviaremos mensagens promocionais para voc\u00ea",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "45059317-4d57-4422-a824-5f7db2dd9e7e"
+            },
+            {
+              "type": "add_contact_groups",
+              "groups": [
+                {
+                  "uuid": "871e3b92-73db-48df-beeb-022129b0af97",
+                  "name": "N\u00e3o enviar promo\u00e7\u00f5es",
+                  "query": null,
+                  "status": "ready",
+                  "count": 0
+                }
+              ],
+              "uuid": "0a57136b-42ae-4321-a34c-01dc4a84ddc2"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "7b06dfc6-de88-47bc-82fb-257e018b9076",
+              "destination_uuid": null
+            }
+          ]
+        },
+        {
+          "uuid": "c8dc9461-675e-4786-a551-afea0bf5dbe3",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "Caso queira parar de receber nossas mensagens, basta digitar a qualquer momento a palavra \"Parar\"",
+              "type": "send_msg",
+              "all_urns": false,
+              "quick_replies": [],
+              "uuid": "9c283645-d7ce-42e9-885e-8d9a8b3e793b"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "71531d47-ed6d-4603-bd95-c9323b07059d",
+              "destination_uuid": null
+            }
+          ]
+        }
+      ],
+      "_ui": {
+        "nodes": {
+          "b46e8970-68d3-4a19-b651-c3525288b9e7": {
+            "position": {
+              "left": 300,
+              "top": 0
+            },
+            "type": "execute_actions"
+          },
+          "f8a96e0f-3463-4084-abbb-bf6bf83a50bd": {
+            "position": {
+              "left": 300,
+              "top": 160
+            },
+            "type": "execute_actions"
+          },
+          "5d2b3e32-7bd1-4acd-9626-d8823042e570": {
+            "position": {
+              "left": 620,
+              "top": 200
+            },
+            "type": "execute_actions"
+          },
+          "0becc6a5-3ddd-4715-b34b-8b0421fed676": {
+            "type": "wait_for_response",
+            "position": {
+              "left": 300,
+              "top": 340
+            },
+            "config": {
+              "cases": {}
+            }
+          },
+          "34e12ec0-00ee-4ba7-aaac-6e4897a8e095": {
+            "position": {
+              "left": 140,
+              "top": 560
+            },
+            "type": "execute_actions"
+          },
+          "98f5bd6b-95c8-4a06-b5e3-ee2c93d54955": {
+            "position": {
+              "left": 520,
+              "top": 560
+            },
+            "type": "execute_actions"
+          },
+          "70f831e8-e4b8-4761-99c4-6476d6fa752f": {
+            "type": "wait_for_response",
+            "position": {
+              "left": 140,
+              "top": 860
+            },
+            "config": {
+              "cases": {}
+            }
+          },
+          "58e084b5-941f-4869-ae4e-9865fd15460f": {
+            "position": {
+              "left": 520,
+              "top": 880
+            },
+            "type": "execute_actions"
+          },
+          "0405af21-cb4c-47f2-bfcc-882164749061": {
+            "position": {
+              "left": 80,
+              "top": 1080
+            },
+            "type": "execute_actions"
+          },
+          "81493f4e-af3a-46ae-9cf6-0c24630c8f6a": {
+            "position": {
+              "left": 340,
+              "top": 1080
+            },
+            "type": "execute_actions"
+          },
+          "c8dc9461-675e-4786-a551-afea0bf5dbe3": {
+            "position": {
+              "left": 80,
+              "top": 1300
+            },
+            "type": "execute_actions"
+          }
+        }
+      },
+      "revision": 74,
+      "expire_after_minutes": 10080,
+      "metadata": {
+        "expires": 10080
+      },
+      "localization": {}
+    },
+    {
+      "name": "Opt-out",
+      "uuid": "f812cbae-05fa-4d9d-b71a-2c1d848b2b9b",
+      "spec_version": "13.1.0",
+      "language": "base",
+      "type": "messaging",
+      "nodes": [
+        {
+          "uuid": "cf12104a-6fb3-447d-9e1e-753afe69fd7c",
+          "actions": [
+            {
+              "attachments": [],
+              "text": "\ud83d\ude2a Entendi que voc\u00ea n\u00e3o quer mais receber nossas mensagens. Caso queira voltar a receber, \u00e9 s\u00f3 iniciar uma conversa e permitir o envio.\n\nAt\u00e9 mais",
+              "type": "send_msg",
+              "quick_replies": [],
+              "uuid": "13dd6929-13b8-4c64-80af-8922d3c481ff"
+            },
+            {
+              "type": "add_contact_groups",
+              "groups": [
+                {
+                  "uuid": "871e3b92-73db-48df-beeb-022129b0af97",
+                  "name": "N\u00e3o enviar promo\u00e7\u00f5es",
+                  "query": null,
+                  "status": "ready",
+                  "count": 0
+                },
+                {
+                  "uuid": "02e73677-3ec4-4353-90ea-c529645cf887",
+                  "name": "N\u00e3o enviar mensagens ativas",
+                  "query": null,
+                  "status": "ready",
+                  "count": 0
+                }
+              ],
+              "uuid": "b7b12ac2-03a7-478b-b6c2-0c9539c01fbc"
+            }
+          ],
+          "exits": [
+            {
+              "uuid": "1c43b19e-f427-4219-bdcb-08273db8240d",
+              "destination_uuid": null
+            }
+          ]
+        }
+      ],
+      "_ui": {
+        "nodes": {
+          "cf12104a-6fb3-447d-9e1e-753afe69fd7c": {
+            "position": {
+              "left": 200,
+              "top": 0
+            },
+            "type": "execute_actions"
+          }
+        }
+      },
+      "revision": 7,
+      "expire_after_minutes": 10080,
+      "metadata": {
+        "expires": 10080
+      },
+      "localization": {}
+    }
+  ],
+  "campaigns": [],
+  "triggers": [
+    {
+      "trigger_type": "K",
+      "flow": {
+        "uuid": "f812cbae-05fa-4d9d-b71a-2c1d848b2b9b",
+        "name": "Opt-out"
+      },
+      "groups": [],
+      "exclude_groups": [],
+      "keyword": "parar"
+    },
+    {
+      "trigger_type": "K",
+      "flow": {
+        "uuid": "f0826f30-e058-4548-af5f-5f5fe6e475da",
+        "name": "Opt-in"
+      },
+      "groups": [],
+      "exclude_groups": [],
+      "keyword": "optin"
+    },
+    {
+      "trigger_type": "K",
+      "flow": {
+        "uuid": "2a21b841-c3bc-4942-85c4-6dea6d408972",
+        "name": "Coleta de dados LGPD"
+      },
+      "groups": [],
+      "exclude_groups": [],
+      "keyword": "lgpd"
+    }
+  ],
+  "fields": [],
+  "groups": [
+    {
+      "uuid": "02e73677-3ec4-4353-90ea-c529645cf887",
+      "name": "N\u00e3o enviar mensagens ativas",
+      "query": null
+    },
+    {
+      "uuid": "871e3b92-73db-48df-beeb-022129b0af97",
+      "name": "N\u00e3o enviar promo\u00e7\u00f5es",
+      "query": null
+    }
+  ]
+}
